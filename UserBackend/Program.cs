@@ -1,2 +1,22 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿namespace EFCoreStarter
+{
+    class Program 
+    {
+        public static void Seed(){
+            //using (var db = new MyDbContext())
+            {
+                
+                
+            }
+        }
+
+        static void Main()
+        {
+            //using (var db = new MyDbContext())
+            {
+                
+            }
+        }
+    }
+}
+    
