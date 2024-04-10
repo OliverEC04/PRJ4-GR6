@@ -3,47 +3,47 @@ using Microsoft.AspNetCore.Mvc;
 using UserBackend.Data.Models;
 using UserBackend.Data;
 
-namespace UserBackend.Controllers
+namespace AppUserBackend.Controllers
 {
     [Route("[controller]")]
     [ApiController]
     [Produces("application/json")]
-    public class UserController : ControllerBase
+    public class AppUserController : ControllerBase
     {
         private readonly MyDbContext db;
 
-        public UserController(MyDbContext context)
+        public AppUserController(MyDbContext context)
         {
             db = context;
         }
 
         // GET: /YourControllerName
-        [HttpGet("GetUsers")]
+        [HttpGet("GetAppUsers")]
         public IActionResult Get()
         {
-            var users = db.Users.ToList();
-            return Ok(users);
+            var AppUsers = db.Users.ToList();
+            return Ok(AppUsers);
         }
 
         // POST: /YourControllerName
-        [HttpPost("AddUser")]
-        public IActionResult AddUser([FromBody] User UserModel)
+        /*[HttpPost("AddAppUser")]
+        public IActionResult AddAppUser([FromBody] AppUser AppUserModel)
         {
-            User newUser = new User
+            AppUser newAppUser = new AppUser
             {
-                Name = UserModel.Name,
-                Email = UserModel.Email,
-                DateOfBirth = UserModel.DateOfBirth,
-                Password = UserModel.Password
+                FullName = AppUserModel.FullName,
+                Email = AppUserModel.Email,
+                DateOfBirth = AppUserModel.DateOfBirth,
+                Password = AppUserModel.Password
             };
-            db.Users.Add(newUser);
+            db.Users.Add(newAppUser);
             db.SaveChanges();
-            return Ok("Created user with data: " + newUser.ToString());
-        }
+            return Ok("Created AppAppUser with data: " + newAppUser.ToString());
+        }*/
 
         // PUT: /YourControllerName/{id}
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] User UserModel)
+        public IActionResult Put(int id, [FromBody] AppUser AppUserModel)
         {
             // Your code here
             return NoContent();
