@@ -1,5 +1,7 @@
+using System.Data.Common;
 using Microsoft.AspNetCore.Mvc;
 using UserBackend.Data.Models;
+using UserBackend.Data;
 
 namespace UserBackend.Controllers
 {
@@ -8,12 +10,19 @@ namespace UserBackend.Controllers
     [Produces("application/json")]
     public class UserController : ControllerBase
     {
+        private readonly MyDbContext db;
+
+        public UserController(MyDbContext context)
+        {
+            db = context;
+        }
+
         // GET: /YourControllerName
-        [HttpGet]
+        [HttpGet("GetUsers")]
         public IActionResult Get()
         {
-            // Your code here
-            return Ok("Hello, World!");
+            var users = db.Users.ToList();
+            return Ok(users);
         }
 
         // POST: /YourControllerName
@@ -27,8 +36,9 @@ namespace UserBackend.Controllers
                 DateOfBirth = UserModel.DateOfBirth,
                 Password = UserModel.Password
             };
-            // Your code here
-            return Ok("Created user with data: " + newUser);
+            db.Users.Add(newUser);
+            db.SaveChanges();
+            return Ok("Created user with data: " + newUser.ToString());
         }
 
         // PUT: /YourControllerName/{id}

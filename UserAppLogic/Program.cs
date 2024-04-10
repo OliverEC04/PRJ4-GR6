@@ -1,17 +1,22 @@
+using UserBackend.Data;
 using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+    
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Add DbContext to the services
-builder.Services.AddDbContext<MyDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Data Source=localhost;Initial Catalog=UserDatabase;User ID=SA;Password=Sherlock123!.;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False")));
-
-// Add MVC services to the DI container
-builder.Services.AddControllers(); // Add this line
+builder.Services.AddDbContext<MyDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
@@ -24,11 +29,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Use routing and endpoints
-app.UseRouting(); // Add this line
-app.UseEndpoints(endpoints =>
-{
-    _ = endpoints.MapControllers(); // Add this line
-});
+app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();

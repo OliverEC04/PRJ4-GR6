@@ -8,5 +8,9 @@ namespace UserBackend.Data.Models
         public DateOnly DateOfBirth { get; set; }
         public string Password { get; set; }
 
+        public override string ToString()
+        {
+            return "UserId: " + UserId + ", Name: " + Name + ", Email: " + Email + ", DateOfBirth: " + DateOfBirth + ", Password: " + Password;
+        }
     }
 }
