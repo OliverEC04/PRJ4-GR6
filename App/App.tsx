@@ -1,13 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Test from './components/test';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Button, StatusBar } from 'react-native';
+import Scanner from './components/Scanner'; // Assuming Scanner is in the components folder
 
 export default function App() {
+  const [showScanner, setShowScanner] = useState(false);
+
+  if (showScanner) {
+    return <Scanner />;
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your gay app!</Text>
-      <Test></Test>
-      <StatusBar style="auto" />
+      <Text>Open up App.tsx to start working on your app!</Text>
+      <Button
+        title="Go to Scanner"
+        onPress={() => setShowScanner(true)}
+      />
+      <StatusBar />
     </View>
   );
 }
