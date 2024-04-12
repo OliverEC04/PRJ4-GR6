@@ -3,12 +3,13 @@ import { View, Text, TextInput, Image, Button } from "react-native";
 import style from "./infoStyle";
 
 export default function Home() {
-  const [isEditing, setIsEditing] = useState(false); // edit stuff, still prototype
+  const [isEditing, setIsEditing] = useState(false); // edit stuff
   const [height, setHeight] = useState("170");
   const [currentWeight, setCurrentWeight] = useState("79");
   const [targetWeight, setTargetWeight] = useState("100");
   const [burnedCalories, setBurnedCalories] = useState("1000");
 
+  // just mock data
   const userName = "Albert Einstein";
   const userGoal = "Gain Weight";
   const profilePicture =
