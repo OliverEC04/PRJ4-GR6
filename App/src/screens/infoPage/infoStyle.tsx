@@ -51,9 +51,11 @@ const style = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "#333",
-    borderBottomWidth: 1,
-    minWidth: 60,
     textAlign: "right",
+  },
+  units: {
+    fontSize: 18,
+    color: "#666",
   },
 });
 

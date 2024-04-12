@@ -19,7 +19,12 @@ export default function Home() {
   };
 
   // editing here:
-  const renderEditableField = (label: any, value: any, setValue: any) => (
+  const renderEditableField = (
+    label: any,
+    value: any,
+    setValue: any,
+    units: any
+  ) => (
     <View style={style.entry}>
       <Text style={style.label}>{label}:</Text>
       <TextInput
@@ -28,7 +33,9 @@ export default function Home() {
         value={value}
         editable={isEditing}
         keyboardType="numeric"
+        underlineColorAndroid="transparent" // remove the ugly lines under eww
       />
+      <Text style={style.units}>{units}</Text>
     </View>
   );
 
@@ -38,10 +45,25 @@ export default function Home() {
       <Text style={style.userName}>{userName}</Text>
       <Text style={style.goalType}>Goal: {userGoal}</Text>
 
-      {renderEditableField("Height", height, setHeight)}
-      {renderEditableField("Current Weight", currentWeight, setCurrentWeight)}
-      {renderEditableField("Target Weight", targetWeight, setTargetWeight)}
-      {renderEditableField("Burned Today", burnedCalories, setBurnedCalories)}
+      {renderEditableField("Height", height, setHeight, "cm")}
+      {renderEditableField(
+        "Current Weight",
+        currentWeight,
+        setCurrentWeight,
+        "kg"
+      )}
+      {renderEditableField(
+        "Target Weight",
+        targetWeight,
+        setTargetWeight,
+        "kg"
+      )}
+      {renderEditableField(
+        "Burned Today",
+        burnedCalories,
+        setBurnedCalories,
+        "kcal"
+      )}
 
       <Button
         title={isEditing ? "Save" : "Edit"}
