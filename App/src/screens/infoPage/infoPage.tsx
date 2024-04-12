@@ -1,91 +1,53 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Button } from 'react-native';
+import React, { useState } from "react";
+import { View, Text, TextInput, Image, Button } from "react-native";
+import style from "./infoStyle";
 
 export default function Home() {
-  const [goal, setGoal] = useState(79);
-  const [weight, setWeight] = useState(79);
-  const [calories, setCalories] = useState(79);
-  const [protein, setProtein] = useState(79);
+  const [isEditing, setIsEditing] = useState(false); // edit stuff, still prototype
+  const [height, setHeight] = useState("170");
+  const [currentWeight, setCurrentWeight] = useState("79");
+  const [targetWeight, setTargetWeight] = useState("100");
+  const [burnedCalories, setBurnedCalories] = useState("1000");
 
-  const incrementValue = (setter: React.Dispatch<React.SetStateAction<number>>, currentValue: number) => {
-    setter(currentValue + 1);
+  const userName = "Albert Einstein";
+  const userGoal = "Gain Weight";
+  const profilePicture =
+    "https://hips.hearstapps.com/hmg-prod/images/albert-einstein-sticks-out-his-tongue-when-asked-by-news-photo-1681316749.jpg";
+
+  const handleEditPress = () => {
+    setIsEditing(!isEditing);
   };
-  
+
+  // editing here:
+  const renderEditableField = (label: any, value: any, setValue: any) => (
+    <View style={style.entry}>
+      <Text style={style.label}>{label}:</Text>
+      <TextInput
+        style={style.input}
+        onChangeText={setValue}
+        value={value}
+        editable={isEditing}
+        keyboardType="numeric"
+      />
+    </View>
+  );
 
   return (
-    <View style={styles.container}>
-      <TextInput style={styles.input} placeholder="Name" />
-      <TextInput style={styles.input} placeholder="Height" />
-      <View style={styles.fieldContainer}>
-        <Text style={styles.label}>Goal:</Text>
-        <TextInput style={styles.valueInput} value={goal.toString()} />
-        <TouchableOpacity onPress={() => incrementValue(setGoal, goal)} style={styles.button}>
-          <Text style={styles.buttonText}>+</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.fieldContainer}>
-        <Text style={styles.label}>Weight</Text>
-        <TextInput style={styles.valueInput} value={weight.toString()} />
-        <TouchableOpacity onPress={() => incrementValue(setWeight, weight)} style={styles.button}>
-          <Text style={styles.buttonText}>+</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.fieldContainer}>
-        <Text style={styles.label}>Calorie:</Text>
-        <TextInput style={styles.valueInput} value={calories.toString()} />
-        <TouchableOpacity onPress={() => incrementValue(setCalories, calories)} style={styles.button}>
-          <Text style={styles.buttonText}>+</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.fieldContainer}>
-        <Text style={styles.label}>Protein:</Text>
-        <TextInput style={styles.valueInput} value={protein.toString()} />
-        <TouchableOpacity onPress={() => incrementValue(setProtein, protein)} style={styles.button}>
-          <Text style={styles.buttonText}>+</Text>
-        </TouchableOpacity>
-      </View>
-      <Button title="Save" color="red" onPress={() => console.log('Save button pressed')} />
+    <View style={style.container}>
+      <Image source={{ uri: profilePicture }} style={style.profilePic} />
+      <Text style={style.userName}>{userName}</Text>
+      <Text style={style.goalType}>Goal: {userGoal}</Text>
+
+      {renderEditableField("Height", height, setHeight)}
+      {renderEditableField("Current Weight", currentWeight, setCurrentWeight)}
+      {renderEditableField("Target Weight", targetWeight, setTargetWeight)}
+      {renderEditableField("Burned Today", burnedCalories, setBurnedCalories)}
+
+      <Button
+        title={isEditing ? "Save" : "Edit"}
+        color="#F94F6D"
+        onPress={handleEditPress}
+      />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  input: {
-    width: '80%',
-    margin: 10,
-    padding: 10,
-    borderColor: 'grey',
-    borderWidth: 1,
-  },
-  fieldContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '80%',
-    margin: 10,
-  },
-  label: {
-    flex: 1,
-    fontSize: 18,
-  },
-  valueInput: {
-    flex: 2,
-    padding: 10,
-    borderColor: 'grey',
-    borderWidth: 1,
-  },
-  button: {
-    marginLeft: 10,
-    padding: 10,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 18,
-  },
-});
