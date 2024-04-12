@@ -27,15 +27,18 @@ export default function Home() {
   ) => (
     <View style={style.entry}>
       <Text style={style.label}>{label}:</Text>
-      <TextInput
-        style={style.input}
-        onChangeText={setValue}
-        value={value}
-        editable={isEditing}
-        keyboardType="numeric"
-        underlineColorAndroid="transparent" // remove the ugly lines under eww
-      />
-      <Text style={style.units}>{units}</Text>
+      {/* make it so units are next to text, good very good great success yes */}
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <TextInput
+          style={style.input}
+          onChangeText={setValue}
+          value={value}
+          editable={isEditing}
+          keyboardType="numeric"
+          underlineColorAndroid="transparent" // remove the ugly lines under eww
+        />
+        <Text style={style.units}>{units}</Text>
+      </View>
     </View>
   );
 
@@ -67,7 +70,7 @@ export default function Home() {
 
       <Button
         title={isEditing ? "Save" : "Edit"}
-        color="#F94F6D"
+        color="#1C2833"
         onPress={handleEditPress}
       />
     </View>

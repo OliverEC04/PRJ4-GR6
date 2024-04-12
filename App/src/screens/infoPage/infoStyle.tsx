@@ -1,22 +1,21 @@
-import { StyleSheet } from "react-native";
+import { Animated, StyleSheet } from "react-native";
 
 const style = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#fff",
+    backgroundColor: "white",
   },
   userName: {
     fontSize: 26,
     fontWeight: "bold",
-    color: "#000",
+    color: "black",
     alignSelf: "center",
     marginBottom: 4,
   },
   goalType: {
     fontSize: 20,
-    fontStyle: "italic",
-    color: "#555",
+    color: "gray",
     alignSelf: "center",
     marginBottom: 20,
   },
@@ -25,37 +24,33 @@ const style = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 10,
-    paddingVertical: 10,
+    paddingVertical: 15,
     paddingHorizontal: 15,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "darkgray",
     borderRadius: 5,
   },
   label: {
     fontSize: 18,
-    color: "#666",
-  },
-  value: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#333",
+    color: "gray",
   },
   profilePic: {
     width: 150,
     height: 150,
-    borderRadius: 75,
+    borderRadius: 100,
     alignSelf: "center",
     marginBottom: 20,
   },
   input: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#333",
+    color: "black",
     textAlign: "right",
   },
   units: {
     fontSize: 18,
-    color: "#666",
+    color: "gray",
+    marginLeft: 6,
   },
 });
 
