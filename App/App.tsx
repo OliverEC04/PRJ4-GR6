@@ -1,31 +1,20 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, StatusBar } from 'react-native';
-import Scanner from './components/Scanner'; // Assuming Scanner is in the components folder
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import AddFoodPage from './src/Pages/AddFoodPage'; // Assuming AddFoodPage is imported correctly
 
 export default function App() {
-  const [showScanner, setShowScanner] = useState(false);
-
-  if (showScanner) {
-    return <Scanner />;
-  }
-
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <Button
-        title="Go to Scanner"
-        onPress={() => setShowScanner(true)}
-      />
-      <StatusBar />
+      <AddFoodPage />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
+    flex: 1, // Makes sure that the container takes up the full screen
     justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10, // Provides some padding around the inner content
   },
 });
