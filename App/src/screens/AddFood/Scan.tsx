@@ -9,7 +9,7 @@ export default function App() {
   const [loading, setLoading] = useState(false); // Added loading state
 
   const askForCameraPermission = async () => {
-    const { status } = await Camera.requestPermissionsAsync();
+    const { status } = await Camera.requestCameraPermissionsAsync();
     setHasPermission(status === 'granted');
   };
 
@@ -48,7 +48,8 @@ export default function App() {
         const localResponse = await fetch(`https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/GetBarcodeInfo/${barcode}`);
         result = await localResponse.json();
       }
-  
+  // by using ngrok we can expose our localhost to the internet
+
       setFoodInfo(result);
     } catch (error) {
       console.error(error);
@@ -89,7 +90,7 @@ return (
         style={styles.camera}
       />
     </View>
-    {loading ? ( // Conditionally render "Loading" text based on loading state
+    {loading ? (//render "Loading" 
       <Text>Loading...</Text>
     ) : (
       <View style={styles.resultContainer}>
