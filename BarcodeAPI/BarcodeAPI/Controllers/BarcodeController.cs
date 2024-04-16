@@ -22,7 +22,7 @@ namespace BarcodeAPI.Controllers
         [HttpGet("GetBarcodeInfo/{EAN}")]
         public ActionResult<Barcode> GetBarcodeInfo(long EAN)
         {
-            var barcode = _context.Barcode.FirstOrDefault(b => b.id == EAN);
+            var barcode = _context.Barcode.FirstOrDefault(b => b.BarcodeId == EAN);
             if (barcode == null)
             {
                 return NotFound();
@@ -30,37 +30,86 @@ namespace BarcodeAPI.Controllers
             return Ok(barcode);
         }
 
-        // POST api/barcode/AddBarcode
-        [HttpPost("AddBarcode")]
-        public ActionResult<Barcode> AddBarcode([FromBody] Barcode barcode)
+        // Get list of barcode
+        [HttpGet("ListOfBarcodes")]
+        public ActionResult<IEnumerable<Barcode>> GetListOfBarcodes()
         {
-            if (string.IsNullOrEmpty(barcode.MealName))
+            var barcodes = _context.Barcode.ToList();
+            return Ok(barcodes);
+        }
+
+
+        // POST api/barcode/AddBarcode
+        [HttpPost("AddMealWithBarcode")]
+        public ActionResult<Barcode> AddMealWithBarcode(long barcodeId, string mealName, float calories, float protein, float carbs, float fat)
+        {
+
+            if (string.IsNullOrEmpty(mealName))
             {
-                return BadRequest();
+                return BadRequest("Meal name cannot be empty.");
             }
 
-            if (!ModelState.IsValid)
+            var barcode = new Barcode
             {
-                return BadRequest(ModelState);
-            }
+                BarcodeId = barcodeId,
+                MealName = mealName,
+                Calories = calories,
+                Protein = protein,
+                Carbs = carbs,
+                Fat = fat
+            };
 
             _context.Barcode.Add(barcode);
+            _context.SaveChanges();
 
+            return Ok();
 
-            _context.Database.OpenConnection();
-            try
+        }
+
+        // POST api/barcode/AddBarcodeNoId
+        [HttpPost("AddMealWithNoBarcode")]
+        public ActionResult<Barcode> AddMealWithNoBarcode(string mealName, float calories, float protein, float carbs, float fat)
+        {
+            if (string.IsNullOrEmpty(mealName))
             {
-                _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Barcode ON");
-                _context.SaveChanges();
-                _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Barcode ON");
-            }
-            finally
-            {
-                _context.Database.CloseConnection();
+                return BadRequest("Meal name cannot be empty.");
             }
 
+            var barcode = new Barcode
+            {
+                BarcodeId = 0,
+                MealName = mealName,
+                Calories = calories,
+                Protein = protein,
+                Carbs = carbs,
+                Fat = fat
+            };
+
+            _context.Barcode.Add(barcode);
+            _context.SaveChanges();
 
             return Ok();
         }
+
+
+        // DELETE api/barcode/RemoveBarcode/{id}
+        [HttpDelete("RemoveBarcode/{id}")]
+        public ActionResult RemoveBarcode(long id)
+        {
+            var barcode = _context.Barcode.FirstOrDefault(b => b.id == id);
+            if (barcode == null)
+            {
+                return NotFound();
+            }
+
+            _context.Barcode.Remove(barcode);
+            _context.SaveChanges();
+
+            return Ok();
+        }
+
+
+
+
     }
 }

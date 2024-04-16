@@ -2,7 +2,9 @@
 
 public class Barcode
 {
-    public long id { get; set; }
+    public int id { get; set; }
+
+    public long BarcodeId { get; set; }
 
     public string MealName { get; set; }
 

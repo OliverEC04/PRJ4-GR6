@@ -23,11 +23,14 @@ namespace BarcodeAPI.Migrations
 
             modelBuilder.Entity("BarcodeAPI.Data.Models.Barcode", b =>
                 {
-                    b.Property<long>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<long>("BarcodeId")
+                        .HasColumnType("bigint");
 
                     b.Property<float>("Calories")
                         .HasColumnType("real");

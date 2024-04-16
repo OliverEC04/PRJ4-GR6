@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BarcodeAPI.Migrations
 {
     [DbContext(typeof(BarcodeAPIDbContext))]
-    [Migration("20240411194944_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240416232046_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,11 +26,14 @@ namespace BarcodeAPI.Migrations
 
             modelBuilder.Entity("BarcodeAPI.Data.Models.Barcode", b =>
                 {
-                    b.Property<long>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<long>("BarcodeId")
+                        .HasColumnType("bigint");
 
                     b.Property<float>("Calories")
                         .HasColumnType("real");
