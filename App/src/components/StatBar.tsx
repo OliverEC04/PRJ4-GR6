@@ -22,16 +22,20 @@ export default function StatBar({
     colors = ["#E06C75", "#E5C07B", "#98C379"]
 }: StatBarProps)
 {
+    let progress = val / (maxVal - minVal) * 100;
+
     return (
         <View style={StatBarStyle.container}>
             <Text style={StatBarStyle.title}>
                 {title}
             </Text>
-            <LinearGradient colors={colors} style={[StatBarStyle.bar, {height: height, borderRadius: height / 2}]} start={{x: 0, y: 0}} end={{x: 1, y: 0}}>
+            <View>
                 <Text className="font-semibold" style={[StatBarStyle.text, {lineHeight: height, fontSize: height > 40 ? height * 0.4 : 14}]}>
                     {val} / {maxVal} {unit} 
                 </Text>
-            </LinearGradient>
+                <LinearGradient colors={colors} style={[StatBarStyle.bar, {height: height, borderRadius: height / 2}]} start={{x: 0, y: 0}} end={{x: 1, y: 0}}></LinearGradient>
+                <View style={[StatBarStyle.barCover, {height: height, width: `${100 - progress}%`, borderTopRightRadius: height / 2, borderBottomRightRadius: height / 2}]}></View>
+            </View>
         </View>
     );
 }
