@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
 
 export default function AddFoodPage() {
     const [foodName, setFoodName] = useState('');
@@ -96,7 +97,12 @@ export default function AddFoodPage() {
             placeholder="Enter fat amount"
         />
 
-        <Button title="Enter" onPress={handleSubmit} />
+<TouchableOpacity
+    onPress={handleSubmit}
+    style={styles.buttonStyle}>
+    <Text style={styles.buttonText}>Enter</Text>
+</TouchableOpacity>
+
     </View>
     );
 }
@@ -122,8 +128,23 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1,
         padding: 10,
-    },
-    inputGroup: {
+        width: 300,
+        borderRadius: 10,
         marginBottom: 15,
     },
+    inputGroup: {
+        marginBottom: 15,   
+    },
+    buttonStyle: {
+        marginTop: 30,
+        borderRadius: 10,
+        padding: 10,
+        backgroundColor: '#333333',
+    },
+    buttonText: {
+        fontSize: 20,
+        textAlign: 'center',
+        color: 'white',
+    },
+    
 });
