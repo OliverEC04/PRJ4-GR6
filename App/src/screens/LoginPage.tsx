@@ -1,5 +1,5 @@
 import { View, Text, TextInput } from "react-native";
-// import { textStyles } from "../styles/textStyles";
+import { textStyles } from "../styles/textStyles";
 
 export default function LoginPage() {
     return (
