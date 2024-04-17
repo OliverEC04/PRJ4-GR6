@@ -1,8 +1,7 @@
 import { View, Text, TextInput } from "react-native";
-import { textStyles } from "../styles/textStyles";
+// import { textStyles } from "../styles/textStyles";
 
-export default function LoginPage()
-{
+export default function LoginPage() {
     return (
         <View>
             {/* <Text className="italic text-orange-600">Login screen</Text> */}
