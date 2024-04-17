@@ -33,97 +33,92 @@ export default function AddFoodPage() {
         console.log({ foodName, numCalories, numProtein, numCarbs, numFat });
     };
 
+    function tailwind(arg0: string): import("react-native").StyleProp<import("react-native").TextStyle> {
+        throw new Error('Function not implemented.');
+    }
+
     return (
-        <View style={styles.container}>
-        <Text style={styles.header}>Add Food Page</Text>
-
-        <TouchableOpacity onPress={() => foodNameInput.current?.focus()}>
-            <Text style={styles.label}>Food Name:</Text>
-        </TouchableOpacity>
-        <TextInput
-            ref={foodNameInput}
-            style={styles.input}
-            value={foodName}
-            onChangeText={setFoodName}
-            placeholder="Enter food name"
-        />
-
-        <TouchableOpacity onPress={() => caloriesInput.current?.focus()}>
-            <Text style={styles.label}>Calories:</Text>
-        </TouchableOpacity>
-        <TextInput
-            ref={caloriesInput}
-            style={styles.input}
-            value={calories}
-            onChangeText={setCalories}
-            keyboardType="numeric"
-            placeholder="Enter calorie amount"
-        />
-
-        <TouchableOpacity onPress={() => proteinInput.current?.focus()}>
-            <Text style={styles.label}>Protein (g):</Text>
-        </TouchableOpacity>
-        <TextInput
-            ref={proteinInput}
-            style={styles.input}
-            value={protein}
-            onChangeText={setProtein}
-            keyboardType="numeric"
-            placeholder="Enter protein amount"
-        />
-
-        <TouchableOpacity onPress={() => carbsInput.current?.focus()}>
-            <Text style={styles.label}>Carbs (g):</Text>
-        </TouchableOpacity>
-        <TextInput
-            ref={carbsInput}
-            style={styles.input}
-            value={carbs}
-            onChangeText={setCarbs}
-            keyboardType="numeric"
-            placeholder="Enter carbs amount"
-        />
-
-        <TouchableOpacity onPress={() => fatInput.current?.focus()}>
-            <Text style={styles.label}>Fat (g):</Text>
-        </TouchableOpacity>
-        <TextInput
-            ref={fatInput}
-            style={styles.input}
-            value={fat}
-            onChangeText={setFat}
-            keyboardType="numeric"
-            placeholder="Enter fat amount"
-        />
-
-        <Button title="Enter" onPress={handleSubmit} />
-    </View>
+        <View style={tailwind('flex-1 justify-center px-5')}>
+            <Text style={tailwind('text-2xl mb-5 text-center')}>Add Food Page</Text>
+    
+            <View style={tailwind('')}>
+                <TouchableOpacity onPress={() => foodNameInput.current?.focus()}>
+                    <Text style={tailwind('text-lg mb-2')}>Food Name:</Text>
+                </TouchableOpacity>
+                <TextInput
+                    ref={foodNameInput}
+                    style={tailwind('h-10 border-b-2 border-gray-300 px-4')}
+                    value={foodName}
+                    onChangeText={setFoodName}
+                    placeholder="Enter food name"
+                />
+            </View>
+    
+            <View style={tailwind('')}>
+                <TouchableOpacity onPress={() => caloriesInput.current?.focus()}>
+                    <Text style={tailwind('text-lg mb-2')}>Calories:</Text>
+                </TouchableOpacity>
+                <TextInput
+                    ref={caloriesInput}
+                    style={tailwind('h-10 border-b-2 border-gray-300 px-4')}
+                    value={calories}
+                    onChangeText={setCalories}
+                    keyboardType="numeric"
+                    placeholder="Enter calorie amount"
+                />
+            </View>
+    
+            <View style={tailwind('')}>
+                <TouchableOpacity onPress={() => proteinInput.current?.focus()}>
+                    <Text style={tailwind('text-lg mb-2')}>Protein (g):</Text>
+                </TouchableOpacity>
+                <TextInput
+                    ref={proteinInput}
+                    style={tailwind('h-10 border-b-2 border-gray-300 px-4')}
+                    value={protein}
+                    onChangeText={setProtein}
+                    keyboardType="numeric"
+                    placeholder="Enter protein amount"
+                />
+            </View>
+    
+            <View style={tailwind('')}>
+                <TouchableOpacity onPress={() => carbsInput.current?.focus()}>
+                    <Text style={tailwind('text-lg mb-2')}>Carbs (g):</Text>
+                </TouchableOpacity>
+                <TextInput
+                    ref={carbsInput}
+                    style={tailwind('h-10 border-b-2 border-gray-300 px-4')}
+                    value={carbs}
+                    onChangeText={setCarbs}
+                    keyboardType="numeric"
+                    placeholder="Enter carbs amount"
+                />
+            </View>
+    
+            <View style={tailwind('')}>
+                <TouchableOpacity onPress={() => fatInput.current?.focus()}>
+                    <Text style={tailwind('text-lg mb-2')}>Fat (g):</Text>
+                </TouchableOpacity>
+                <TextInput
+                    ref={fatInput}
+                    style={tailwind('h-10 border-b-2 border-gray-300 px-4')}
+                    value={fat}
+                    onChangeText={setFat}
+                    keyboardType="numeric"
+                    placeholder="Enter fat amount"
+                />
+            </View>
+    
+            <View style={tailwind('mt-6')}>
+                <Button
+                    title="Enter"
+                    onPress={handleSubmit}
+                    color="#4B5563" // Tailwind's Gray-600 for demonstration, you can customize this
+                />
+            </View>
+        </View>
     );
+    
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        padding: 20,
-    },
-    header: {
-        fontSize: 24,
-        marginBottom: 20,
-        textAlign: 'center',
-    },
-    label: {
-        fontSize: 18,
-        marginTop: 15,
-        marginBottom: 5,
-    },
-    input: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        padding: 10,
-    },
-    inputGroup: {
-        marginBottom: 15,
-    },
-});
