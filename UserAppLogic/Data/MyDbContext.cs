@@ -6,6 +6,10 @@ namespace UserBackend.Data
 {
     public class MyDbContext : IdentityDbContext<AppUser>
     {
+        public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) 
+        { 
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var configuration = new ConfigurationBuilder()
@@ -16,23 +20,10 @@ namespace UserBackend.Data
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("MyDatabase"));
         }
 
-        public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
-
-
-
-        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AppUser>().HasData(
-                new AppUser
-                {
-                    AppUserId = 1,
-                    FullName = "John Doe",
-                    Email = "sad@gmail.com",
-                    DateOfBirth = new DateOnly(1999, 12, 12),
-                    Password = "1234"
-                }
-            );
+            base.OnModelCreating(modelBuilder);
 
-        }*/
+        }
     }
 }

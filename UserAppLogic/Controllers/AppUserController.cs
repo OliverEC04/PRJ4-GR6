@@ -2,9 +2,11 @@ using System.Data.Common;
 using Microsoft.AspNetCore.Mvc;
 using UserBackend.Data.Models;
 using UserBackend.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AppUserBackend.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     [ApiController]
     [Produces("application/json")]
