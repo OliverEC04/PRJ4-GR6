@@ -1,22 +1,7 @@
-import React, { useState, useRef } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
-
-//midlertidig data bare for at se om noget kommer frem i dropdown menuet
-
-const data = [
-    { label: 'Item 1', value: '1' },
-    { label: 'Item 2', value: '2' },
-    { label: 'Item 3', value: '3' },
-    { label: 'Item 4', value: '4' },
-    { label: 'Item 5', value: '5' },
-    { label: 'Item 6', value: '6' },
-    { label: 'Item 7', value: '7' },
-    { label: 'Item 8', value: '8' },
-  ];
-
-  type DropdownValue = string | null;
 
 export default function AddFoodPage() {
     const [foodName, setFoodName] = useState('');
@@ -24,118 +9,160 @@ export default function AddFoodPage() {
     const [protein, setProtein] = useState('');
     const [carbs, setCarbs] = useState('');
     const [fat, setFat] = useState('');
-    const [value, setValue] = useState<DropdownValue>(null);
+    const [value, setValue] = useState(null);
+    const [meals, setMeals] = useState([]);
 
-    const foodNameInput = useRef<TextInput>(null);
-    const caloriesInput = useRef<TextInput>(null);
-    const proteinInput = useRef<TextInput>(null);
-    const carbsInput = useRef<TextInput>(null);
-    const fatInput = useRef<TextInput>(null);
+    const foodNameInput = useRef(null);
+    const caloriesInput = useRef(null);
+    const proteinInput = useRef(null);
+    const carbsInput = useRef(null);
+    const fatInput = useRef(null);
 
-    const handleSubmit = () => {
-        const numCalories = Number(calories);
-        const numProtein = Number(protein);
-        const numCarbs = Number(carbs);
-        const numFat = Number(fat);
+    useEffect(() => {
+        fetchMeals();
+    }, []);
 
-        if (!foodName.trim()) {
-            Alert.alert("Error", "Please enter a food name");
-            return;
+    const fetchMeals = async () => {
+        try {
+            const response = await fetch('https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/ListOfBarcodes');
+            const data = await response.json();
+            setMeals(data);
+        } catch (error) {
+            console.error('Error fetching meals:', error);
         }
-
-        if (numCalories < 1 || numProtein < 1 || numCarbs < 1 || numFat < 1) {
-            Alert.alert("Error", "Please enter a valid number for each field");
-            return;
-        }
-
-        console.log({ foodName, numCalories, numProtein, numCarbs, numFat });
     };
 
-    const renderItem = (item: { label: string; value: string }) => (
-        <View style={styles.item}>
-          <Text style={styles.textItem}>{item.label}</Text>
-          {item.value === value && (
-            <AntDesign name="checkcircle" size={20} color="black" />
-          )}
-        </View>
-      );
+    const handleSubmit = () => {
+        //should post to api an update user calrie intake
+    };
+
+    const handleMealSelect = (selectedMeal) => {
+        setValue(selectedMeal.mealName);
+        setFoodName(selectedMeal.mealName);
+        setCalories(selectedMeal.calories.toString());
+        setProtein(selectedMeal.protein.toString());
+        setCarbs(selectedMeal.carbs.toString());
+        setFat(selectedMeal.fat.toString());
+
+        
+    };
+
+    const renderItem = (item) => (
+        <TouchableOpacity onPress={() => handleMealSelect(item)}>
+            <View style={styles.item}>
+                <Text style={styles.textItem}>{item.mealName}</Text>
+                {item.mealName === value && (
+                    <AntDesign name="checkcircle" size={20} color="black" />
+                )}
+            </View>
+        </TouchableOpacity>
+    );
+
+    const handleAddNewFood = async () => {
+        try {
+            const response = await fetch(`https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/AddMealWithNoBarcode?mealName=${foodName}&calories=${calories}&protein=${protein}&carbs=${carbs}&fat=${fat}`, {
+                method: 'POST'
+            });
+            if (response.ok) {
+                Alert.alert('Success', 'New food added successfully!');
+                setFoodName('');
+                setCalories('');
+                setProtein('');
+                setCarbs('');
+                setFat('');
+                fetchMeals();
+            } else {
+                Alert.alert('Error', 'Failed to add new food. Please try again later.');
+            }
+        } catch (error) {
+            Alert.alert('Error', 'Failed to add new food. Please check your network connection and try again.');
+        }
+    };
+
     return (
         <View style={styles.container}>
-        <Dropdown
+            <Dropdown
                 style={styles.dropdown}
-                data={data}
-                labelField="label"
-                valueField="value"
-                placeholder="Select item"
+                data={meals}
+                labelField="mealName"
+                valueField="id"
+                placeholder="Select meal"
                 value={value}
-                onChange={item => setValue(item.value)}
+                onChange={(item) => setValue(item.mealName)}
                 renderItem={renderItem}
             />
-        <TouchableOpacity onPress={() => foodNameInput.current?.focus()}>
+
             <Text style={styles.label}>Food Name:</Text>
-        </TouchableOpacity>
-        <TextInput
-            ref={foodNameInput}
-            style={styles.input}
-            value={foodName}
-            onChangeText={setFoodName}
-            placeholder="Enter food name"
-        />
-        <TouchableOpacity onPress={() => caloriesInput.current?.focus()}>
+            <TextInput
+                ref={foodNameInput}
+                style={styles.input}
+                value={foodName}
+                onChangeText={setFoodName}
+                placeholder="Enter food name"
+            />
+
             <Text style={styles.label}>Calories:</Text>
-        </TouchableOpacity>
-        <TextInput
-            ref={caloriesInput}
-            style={styles.input}
-            value={calories}
-            onChangeText={setCalories}
-            keyboardType="numeric"
-            placeholder="Enter calorie amount"
-        />
+            <TextInput
+                ref={caloriesInput}
+                style={styles.input}
+                value={calories}
+                onChangeText={setCalories}
+                keyboardType="numeric"
+                placeholder="Enter calorie amount"
+            />
 
-        <TouchableOpacity onPress={() => proteinInput.current?.focus()}>
             <Text style={styles.label}>Protein (g):</Text>
-        </TouchableOpacity>
-        <TextInput
-            ref={proteinInput}
-            style={styles.input}
-            value={protein}
-            onChangeText={setProtein}
-            keyboardType="numeric"
-            placeholder="Enter protein amount"
-        />
+            <TextInput
+                ref={proteinInput}
+                style={styles.input}
+                value={protein}
+                onChangeText={setProtein}
+                keyboardType="numeric"
+                placeholder="Enter protein amount"
+            />
 
-        <TouchableOpacity onPress={() => carbsInput.current?.focus()}>
             <Text style={styles.label}>Carbs (g):</Text>
-        </TouchableOpacity>
-        <TextInput
-            ref={carbsInput}
-            style={styles.input}
-            value={carbs}
-            onChangeText={setCarbs}
-            keyboardType="numeric"
-            placeholder="Enter carbs amount"
-        />
+            <TextInput
+                ref={carbsInput}
+                style={styles.input}
+                value={carbs}
+                onChangeText={setCarbs}
+                keyboardType="numeric"
+                placeholder="Enter carbs amount"
+            />
 
-        <TouchableOpacity onPress={() => fatInput.current?.focus()}>
             <Text style={styles.label}>Fat (g):</Text>
-        </TouchableOpacity>
-        <TextInput
-            ref={fatInput}
-            style={styles.input}
-            value={fat}
-            onChangeText={setFat}
-            keyboardType="numeric"
-            placeholder="Enter fat amount"
-        />
+            <TextInput
+                ref={fatInput}
+                style={styles.input}
+                value={fat}
+                onChangeText={setFat}
+                keyboardType="numeric"
+                placeholder="Enter fat amount"
+            />
 
-<TouchableOpacity
-    onPress={handleSubmit}
-    style={styles.buttonStyle}>
-    <Text style={styles.buttonText}>Enter</Text>
-</TouchableOpacity>
+            <View style={styles.buttonContainer}>
+            
+                <TouchableOpacity
+                    onPress={handleAddNewFood}
+                    style={[styles.buttonStyle, styles.addFoodButtonStyle]}
+                >
+                    <Text style={styles.buttonText}>Add New Food</Text>
+                </TouchableOpacity>
 
-    </View>
+                <TouchableOpacity
+                    onPress={handleSubmit}
+                    style={[styles.buttonStyle, styles.enterButtonStyle]}
+                >
+                    <Text style={styles.buttonText}>Enter</Text>
+                </TouchableOpacity>
+
+
+
+            </View>
+
+
+        </View>
     );
 }
 
@@ -149,24 +176,22 @@ const styles = StyleSheet.create({
         height: 50,
         backgroundColor: 'white',
         borderRadius: 12,
-        padding: 12, 
+        padding: 12,
         marginBottom: 15,
         paddingHorizontal: 10,
         borderColor: 'gray',
         borderWidth: 1,
-
-    
-      },
-      item: {
+    },
+    item: {
         padding: 17,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-      },
-      textItem: {
+    },
+    textItem: {
         flex: 1,
         fontSize: 16,
-      },
+    },
     label: {
         fontSize: 18,
         marginTop: 15,
@@ -181,19 +206,26 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginBottom: 15,
     },
-    inputGroup: {
-        marginBottom: 15,   
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 20,
     },
     buttonStyle: {
-        marginTop: 30,
         borderRadius: 10,
         padding: 10,
+        width: '48%', // Adjust as needed
+        alignItems: 'center',
+    },
+    enterButtonStyle: {
         backgroundColor: '#333333',
+    },
+    addFoodButtonStyle: {
+        backgroundColor: 'green',
     },
     buttonText: {
         fontSize: 20,
         textAlign: 'center',
         color: 'white',
     },
-    
 });
