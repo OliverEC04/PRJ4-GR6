@@ -7,8 +7,8 @@ export default function Goals() {
   return (
     <TabHeader
       screens={[
-        new TabScreen("Achievements", Achievements),
         new TabScreen("Goals", SetGoals),
+        new TabScreen("Achievements", Achievements),
       ]}
     />
   );
