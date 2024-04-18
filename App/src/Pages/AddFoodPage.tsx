@@ -1,6 +1,22 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
+import AntDesign from '@expo/vector-icons/AntDesign';
+
+//midlertidig data bare for at se om noget kommer frem i dropdown menuet
+
+const data = [
+    { label: 'Item 1', value: '1' },
+    { label: 'Item 2', value: '2' },
+    { label: 'Item 3', value: '3' },
+    { label: 'Item 4', value: '4' },
+    { label: 'Item 5', value: '5' },
+    { label: 'Item 6', value: '6' },
+    { label: 'Item 7', value: '7' },
+    { label: 'Item 8', value: '8' },
+  ];
+
+  type DropdownValue = string | null;
 
 export default function AddFoodPage() {
     const [foodName, setFoodName] = useState('');
@@ -8,6 +24,7 @@ export default function AddFoodPage() {
     const [protein, setProtein] = useState('');
     const [carbs, setCarbs] = useState('');
     const [fat, setFat] = useState('');
+    const [value, setValue] = useState<DropdownValue>(null);
 
     const foodNameInput = useRef<TextInput>(null);
     const caloriesInput = useRef<TextInput>(null);
@@ -34,10 +51,26 @@ export default function AddFoodPage() {
         console.log({ foodName, numCalories, numProtein, numCarbs, numFat });
     };
 
+    const renderItem = (item: { label: string; value: string }) => (
+        <View style={styles.item}>
+          <Text style={styles.textItem}>{item.label}</Text>
+          {item.value === value && (
+            <AntDesign name="checkcircle" size={20} color="black" />
+          )}
+        </View>
+      );
     return (
         <View style={styles.container}>
-        <Text style={styles.header}>Add Food Page</Text>
-
+        <Dropdown
+                style={styles.dropdown}
+                data={data}
+                labelField="label"
+                valueField="value"
+                placeholder="Select item"
+                value={value}
+                onChange={item => setValue(item.value)}
+                renderItem={renderItem}
+            />
         <TouchableOpacity onPress={() => foodNameInput.current?.focus()}>
             <Text style={styles.label}>Food Name:</Text>
         </TouchableOpacity>
@@ -48,7 +81,6 @@ export default function AddFoodPage() {
             onChangeText={setFoodName}
             placeholder="Enter food name"
         />
-
         <TouchableOpacity onPress={() => caloriesInput.current?.focus()}>
             <Text style={styles.label}>Calories:</Text>
         </TouchableOpacity>
@@ -113,11 +145,28 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 20,
     },
-    header: {
-        fontSize: 24,
-        marginBottom: 20,
-        textAlign: 'center',
-    },
+    dropdown: {
+        height: 50,
+        backgroundColor: 'white',
+        borderRadius: 12,
+        padding: 12, 
+        marginBottom: 15,
+        paddingHorizontal: 10,
+        borderColor: 'gray',
+        borderWidth: 1,
+
+    
+      },
+      item: {
+        padding: 17,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      },
+      textItem: {
+        flex: 1,
+        fontSize: 16,
+      },
     label: {
         fontSize: 18,
         marginTop: 15,
