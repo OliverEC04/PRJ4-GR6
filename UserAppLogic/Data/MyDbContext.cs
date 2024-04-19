@@ -20,7 +20,7 @@ namespace UserBackend.Data
                 .AddJsonFile("secret.json")
                 .Build();
         
-            //optionsBuilder.UseSqlServer(configuration.GetConnectionString("MyDatabase"));
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("MyDatabase"));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
