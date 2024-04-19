@@ -12,12 +12,6 @@ export default function AddFoodPage() {
     const [value, setValue] = useState(null);
     const [meals, setMeals] = useState([]);
 
-    const foodNameInput = useRef(null);
-    const caloriesInput = useRef(null);
-    const proteinInput = useRef(null);
-    const carbsInput = useRef(null);
-    const fatInput = useRef(null);
-
     useEffect(() => {
         fetchMeals();
     }, []);
@@ -32,10 +26,6 @@ export default function AddFoodPage() {
         }
     };
 
-    const handleSubmit = () => {
-        //should post to api an update user calrie intake
-    };
-
     const handleMealSelect = (selectedMeal) => {
         setValue(selectedMeal.mealName);
         setFoodName(selectedMeal.mealName);
@@ -43,8 +33,6 @@ export default function AddFoodPage() {
         setProtein(selectedMeal.protein.toString());
         setCarbs(selectedMeal.carbs.toString());
         setFat(selectedMeal.fat.toString());
-
-        
     };
 
     const renderItem = (item) => (
@@ -92,76 +80,57 @@ export default function AddFoodPage() {
                 renderItem={renderItem}
             />
 
-            <Text style={styles.label}>Food Name:</Text>
-            <TextInput
-                ref={foodNameInput}
-                style={styles.input}
-                value={foodName}
-                onChangeText={setFoodName}
-                placeholder="Enter food name"
-            />
+            <View style={styles.form}>
+                <Text style={styles.label}>Food Name:</Text>
+                <TextInput
+                    style={styles.input}
+                    value={foodName}
+                    onChangeText={setFoodName}
+                    placeholder="Enter food name"
+                />
 
-            <Text style={styles.label}>Calories:</Text>
-            <TextInput
-                ref={caloriesInput}
-                style={styles.input}
-                value={calories}
-                onChangeText={setCalories}
-                keyboardType="numeric"
-                placeholder="Enter calorie amount"
-            />
+                <Text style={styles.label}>Calories:</Text>
+                <TextInput
+                    style={styles.input}
+                    value={calories}
+                    onChangeText={setCalories}
+                    keyboardType="numeric"
+                    placeholder="Enter calorie amount"
+                />
 
-            <Text style={styles.label}>Protein (g):</Text>
-            <TextInput
-                ref={proteinInput}
-                style={styles.input}
-                value={protein}
-                onChangeText={setProtein}
-                keyboardType="numeric"
-                placeholder="Enter protein amount"
-            />
+                <Text style={styles.label}>Protein (g):</Text>
+                <TextInput
+                    style={styles.input}
+                    value={protein}
+                    onChangeText={setProtein}
+                    keyboardType="numeric"
+                    placeholder="Enter protein amount"
+                />
 
-            <Text style={styles.label}>Carbs (g):</Text>
-            <TextInput
-                ref={carbsInput}
-                style={styles.input}
-                value={carbs}
-                onChangeText={setCarbs}
-                keyboardType="numeric"
-                placeholder="Enter carbs amount"
-            />
+                <Text style={styles.label}>Carbs (g):</Text>
+                <TextInput
+                    style={styles.input}
+                    value={carbs}
+                    onChangeText={setCarbs}
+                    keyboardType="numeric"
+                    placeholder="Enter carbs amount"
+                />
 
-            <Text style={styles.label}>Fat (g):</Text>
-            <TextInput
-                ref={fatInput}
-                style={styles.input}
-                value={fat}
-                onChangeText={setFat}
-                keyboardType="numeric"
-                placeholder="Enter fat amount"
-            />
-
-            <View style={styles.buttonContainer}>
-            
-                <TouchableOpacity
-                    onPress={handleAddNewFood}
-                    style={[styles.buttonStyle, styles.addFoodButtonStyle]}
-                >
-                    <Text style={styles.buttonText}>Add New Food</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    onPress={handleSubmit}
-                    style={[styles.buttonStyle, styles.enterButtonStyle]}
-                >
-                    <Text style={styles.buttonText}>Enter</Text>
-                </TouchableOpacity>
-
-
-
+                <Text style={styles.label}>Fat (g):</Text>
+                <TextInput
+                    style={styles.input}
+                    value={fat}
+                    onChangeText={setFat}
+                    keyboardType="numeric"
+                    placeholder="Enter fat amount"
+                />
             </View>
 
-
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity onPress={handleAddNewFood} style={[styles.buttonStyle, styles.addFoodButtonStyle]}>
+                    <Text style={styles.buttonText}>Add New Food</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 }
@@ -169,24 +138,26 @@ export default function AddFoodPage() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         padding: 20,
+        justifyContent: 'space-between'  // Improves vertical distribution
     },
     dropdown: {
         height: 50,
         backgroundColor: 'white',
         borderRadius: 12,
-        padding: 12,
-        marginBottom: 15,
         paddingHorizontal: 10,
         borderColor: 'gray',
         borderWidth: 1,
     },
+    form: {
+        flex: 1,  // Takes available space
+        justifyContent: 'center'  // Centers form in available space
+    },
     item: {
-        padding: 17,
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
+        padding: 17,
+        justifyContent: 'space-between'
     },
     textItem: {
         flex: 1,
@@ -201,31 +172,25 @@ const styles = StyleSheet.create({
         height: 40,
         borderColor: 'gray',
         borderWidth: 1,
-        padding: 10,
-        width: 300,
         borderRadius: 10,
+        padding: 10,
         marginBottom: 15,
     },
     buttonContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 20,
+        justifyContent: 'space-around'
     },
     buttonStyle: {
         borderRadius: 10,
         padding: 10,
-        width: '48%', // Adjust as needed
+        width: '48%',  // Allows for two buttons side by side
         alignItems: 'center',
-    },
-    enterButtonStyle: {
-        backgroundColor: '#333333',
     },
     addFoodButtonStyle: {
         backgroundColor: 'green',
     },
     buttonText: {
         fontSize: 20,
-        textAlign: 'center',
         color: 'white',
     },
 });
