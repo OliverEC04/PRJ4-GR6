@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
@@ -11,12 +11,6 @@ export default function AddFoodPage() {
     const [fat, setFat] = useState('');
     const [value, setValue] = useState(null);
     const [meals, setMeals] = useState([]);
-
-    const foodNameInput = useRef(null);
-    const caloriesInput = useRef(null);
-    const proteinInput = useRef(null);
-    const carbsInput = useRef(null);
-    const fatInput = useRef(null);
 
     useEffect(() => {
         fetchMeals();
@@ -32,10 +26,6 @@ export default function AddFoodPage() {
         }
     };
 
-    const handleSubmit = () => {
-        //should post to api an update user calrie intake
-    };
-
     const handleMealSelect = (selectedMeal) => {
         setValue(selectedMeal.mealName);
         setFoodName(selectedMeal.mealName);
@@ -43,8 +33,6 @@ export default function AddFoodPage() {
         setProtein(selectedMeal.protein.toString());
         setCarbs(selectedMeal.carbs.toString());
         setFat(selectedMeal.fat.toString());
-
-        
     };
 
     const renderItem = (item) => (
@@ -80,7 +68,7 @@ export default function AddFoodPage() {
     };
 
     return (
-        <View style={styles.container}>
+        <ScrollView>
             <Dropdown
                 style={styles.dropdown}
                 data={meals}
@@ -91,86 +79,73 @@ export default function AddFoodPage() {
                 onChange={(item) => setValue(item.mealName)}
                 renderItem={renderItem}
             />
-
+            
+            {/* Input fields for food information */}
             <Text style={styles.label}>Food Name:</Text>
             <TextInput
-                ref={foodNameInput}
                 style={styles.input}
                 value={foodName}
                 onChangeText={setFoodName}
                 placeholder="Enter food name"
             />
-
             <Text style={styles.label}>Calories:</Text>
             <TextInput
-                ref={caloriesInput}
                 style={styles.input}
                 value={calories}
                 onChangeText={setCalories}
                 keyboardType="numeric"
                 placeholder="Enter calorie amount"
             />
-
             <Text style={styles.label}>Protein (g):</Text>
             <TextInput
-                ref={proteinInput}
                 style={styles.input}
                 value={protein}
                 onChangeText={setProtein}
                 keyboardType="numeric"
                 placeholder="Enter protein amount"
             />
-
             <Text style={styles.label}>Carbs (g):</Text>
             <TextInput
-                ref={carbsInput}
                 style={styles.input}
                 value={carbs}
                 onChangeText={setCarbs}
                 keyboardType="numeric"
                 placeholder="Enter carbs amount"
             />
-
             <Text style={styles.label}>Fat (g):</Text>
             <TextInput
-                ref={fatInput}
                 style={styles.input}
                 value={fat}
                 onChangeText={setFat}
                 keyboardType="numeric"
                 placeholder="Enter fat amount"
             />
-
-            <View style={styles.buttonContainer}>
             
+            {/* Button container for action buttons */}
+            <View style={styles.buttonContainer}>
                 <TouchableOpacity
                     onPress={handleAddNewFood}
-                    style={[styles.buttonStyle, styles.addFoodButtonStyle]}
+                    style={[styles.button, styles.addButton]}
                 >
                     <Text style={styles.buttonText}>Add New Food</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity
-                    onPress={handleSubmit}
-                    style={[styles.buttonStyle, styles.enterButtonStyle]}
+                    onPress={() => {} /* Implement handle submit here */}
+                    style={[styles.button, styles.submitButton]}
                 >
                     <Text style={styles.buttonText}>Enter</Text>
                 </TouchableOpacity>
-
-
-
             </View>
-
-
-        </View>
+        </ScrollView>
     );
 }
 
+// Styles are defined outside of the component to use Flexbox effectively
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         padding: 20,
+        justifyContent: 'space-around', // Adjusted for spacing around main axis
     },
     dropdown: {
         height: 50,
@@ -201,31 +176,30 @@ const styles = StyleSheet.create({
         height: 40,
         borderColor: 'gray',
         borderWidth: 1,
-        padding: 10,
-        width: 300,
         borderRadius: 10,
+        padding: 10,
         marginBottom: 15,
     },
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 20,
     },
-    buttonStyle: {
+    button: {
         borderRadius: 10,
         padding: 10,
-        width: '48%', // Adjust as needed
+        flex: 1, // Buttons take equal space
+        marginHorizontal: 5, // Add horizontal space between buttons
         alignItems: 'center',
+        justifyContent: 'center', // Center text vertically
     },
-    enterButtonStyle: {
-        backgroundColor: '#333333',
+    addButton: {
+        backgroundColor: 'green', // Add button is green
     },
-    addFoodButtonStyle: {
-        backgroundColor: 'green',
+    submitButton: {
+        backgroundColor: '#333', // Submit button has a dark background
     },
     buttonText: {
         fontSize: 20,
-        textAlign: 'center',
         color: 'white',
     },
 });
