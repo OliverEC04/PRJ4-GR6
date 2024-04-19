@@ -82,14 +82,12 @@ export default function AddFoodPage() {
             />
             
             {/* Input fields for food information */}
-            <Text style={styles.label}>Food Name:</Text>
             <TextInput
                 style={styles.input}
                 value={foodName}
                 onChangeText={setFoodName}
                 placeholder="Enter food name"
             />
-            <Text style={styles.label}>Calories:</Text>
             <TextInput
                 style={styles.input}
                 value={calories}
@@ -97,7 +95,6 @@ export default function AddFoodPage() {
                 keyboardType="numeric"
                 placeholder="Enter calorie amount"
             />
-            <Text style={styles.label}>Protein (g):</Text>
             <TextInput
                 style={styles.input}
                 value={protein}
@@ -105,7 +102,6 @@ export default function AddFoodPage() {
                 keyboardType="numeric"
                 placeholder="Enter protein amount"
             />
-            <Text style={styles.label}>Carbs (g):</Text>
             <TextInput
                 style={styles.input}
                 value={carbs}
@@ -113,7 +109,6 @@ export default function AddFoodPage() {
                 keyboardType="numeric"
                 placeholder="Enter carbs amount"
             />
-            <Text style={styles.label}>Fat (g):</Text>
             <TextInput
                 style={styles.input}
                 value={fat}
