@@ -1352,10 +1352,6 @@
     node-forge "^1.2.1"
     nullthrows "^1.1.1"
 
-"@expo/config-plugins@~7.9.0", "@expo/config-plugins@7.9.1":
-  version "7.9.1"
-  resolved "https://registry.npmjs.org/@expo/config-plugins/-/config-plugins-7.9.1.tgz"
-  integrity sha512-ICt6Jed1J0tPYMQrJ8K5Qusgih2I6pZ2PU4VSvxsN3T4n97L13XpYV1vyq1Uc/HMl3UhOwldipmgpEbCfeDqsQ==
   dependencies:
     "@expo/config-types" "^50.0.0-alpha.1"
     "@expo/fingerprint" "^0.6.0"
@@ -1380,10 +1376,6 @@
   resolved "https://registry.npmjs.org/@expo/config-types/-/config-types-50.0.1.tgz"
   integrity sha512-EZHMgzkWRB9SMHO1e9m8s+OMahf92XYTnsCFjxhSfcDrcEoSdFPyJWDJVloHZPMGhxns7Fi2+A+bEVN/hD4NKA==
 
-"@expo/config@~8.5.0", "@expo/config@8.5.6":
-  version "8.5.6"
-  resolved "https://registry.npmjs.org/@expo/config/-/config-8.5.6.tgz"
-  integrity sha512-wF5awSg6MNn1cb1lIgjnhOn5ov2TEUTnkAVCsOl0QqDwcP+YIerteSFwjn9V52UZvg58L+LKxpCuGbw5IHavbg==
   dependencies:
     "@babel/code-frame" "~7.10.4"
     "@expo/config-plugins" "~7.9.0"
@@ -1465,10 +1457,12 @@
     json5 "^2.2.2"
     write-file-atomic "^2.3.0"
 
+
 "@expo/metro-config@~0.17.0", "@expo/metro-config@0.17.7":
   version "0.17.7"
   resolved "https://registry.npmjs.org/@expo/metro-config/-/metro-config-0.17.7.tgz"
   integrity sha512-3vAdinAjMeRwdhGWWLX6PziZdAPvnyJ6KVYqnJErHHqH0cA6dgAENT3Vq6PEM1H2HgczKr2d5yG9AMgwy848ow==
+
   dependencies:
     "@babel/core" "^7.20.0"
     "@babel/generator" "^7.20.5"
@@ -2908,13 +2902,6 @@ chalk@^2.0.1, chalk@^2.4.2:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-chalk@^4.0.0:
-  version "4.1.2"
-  resolved "https://registry.npmjs.org/chalk/-/chalk-4.1.2.tgz"
-  integrity sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==
-  dependencies:
-    ansi-styles "^4.1.0"
-    supports-color "^7.1.0"
 
 chalk@^4.1.0, chalk@^4.1.2:
   version "4.1.2"
@@ -3797,11 +3784,6 @@ expo-keep-awake@~12.8.2:
   resolved "https://registry.npmjs.org/expo-keep-awake/-/expo-keep-awake-12.8.2.tgz"
   integrity sha512-uiQdGbSX24Pt8nGbnmBtrKq6xL/Tm3+DuDRGBk/3ZE/HlizzNosGRIufIMJ/4B4FRw4dw8KU81h2RLuTjbay6g==
 
-expo-linear-gradient@^12.7.2:
-  version "12.7.2"
-  resolved "https://registry.npmjs.org/expo-linear-gradient/-/expo-linear-gradient-12.7.2.tgz"
-  integrity sha512-Wwb2EF18ywgrlTodcXJ6Yt/UEcKitRMdXPNyP/IokmeKh4emoq9DxZJpZdkXm3HUTLlbRpi6/t32jrFVqXB9AQ==
-
 expo-modules-autolinking@>=0.8.1, expo-modules-autolinking@1.10.3:
   version "1.10.3"
   resolved "https://registry.npmjs.org/expo-modules-autolinking/-/expo-modules-autolinking-1.10.3.tgz"
@@ -3826,10 +3808,12 @@ expo-status-bar@~1.11.1:
   resolved "https://registry.npmjs.org/expo-status-bar/-/expo-status-bar-1.11.1.tgz"
   integrity sha512-ddQEtCOgYHTLlFUe/yH67dDBIoct5VIULthyT3LRJbEwdpzAgueKsX2FYK02ldh440V87PWKCamh7R9evk1rrg==
 
+
 expo@*, expo@^50.0.15:
   version "50.0.17"
   resolved "https://registry.npmjs.org/expo/-/expo-50.0.17.tgz"
   integrity sha512-eD8Nh10BgVwecU7EVyogx7X314ajxVpJdFwkXhi341AD61S2WPX31NMHW82XGXas6dbDjdbgtaOMo5H/vylB7Q==
+
   dependencies:
     "@babel/runtime" "^7.20.0"
     "@expo/cli" "0.17.10"
@@ -5682,7 +5666,7 @@ object.assign@^4.1.5:
     define-properties "^1.2.1"
     has-symbols "^1.0.3"
     object-keys "^1.1.1"
-
+    
 on-finished@~2.3.0:
   version "2.3.0"
   resolved "https://registry.npmjs.org/on-finished/-/on-finished-2.3.0.tgz"
@@ -6229,6 +6213,7 @@ react-freeze@^1.0.0:
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
 react-is@^16.13.0:
+
   version "16.13.1"
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
@@ -6252,30 +6237,6 @@ react-is@^18.1.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
-
-react-lifecycles-compat@^3.0.2:
-  version "3.0.4"
-  resolved "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz"
-  integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
-
-react-native-dismiss-keyboard@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz"
-  integrity sha512-g3v9TSrObvdcO6O5Qg1MlgbTpLMZOOE6Ex4ZOWhm4NcT47ihwI9ci8Tgy+O3hKo2NpAmVHSWVCwPgvnloVj92w==
-
-react-native-drawer-layout-polyfill@^1.3.2:
-  version "1.3.2"
-  resolved "https://registry.npmjs.org/react-native-drawer-layout-polyfill/-/react-native-drawer-layout-polyfill-1.3.2.tgz"
-  integrity sha512-XzPhfLDJrYHru+e8+dFwhf0FtTeAp7JXPpFYezYV6P1nTeA1Tia/kDpFT+O2DWTrBKBEI8FGhZnThrroZmHIxg==
-  dependencies:
-    react-native-drawer-layout "1.3.2"
-
-react-native-drawer-layout@1.3.2:
-  version "1.3.2"
-  resolved "https://registry.npmjs.org/react-native-drawer-layout/-/react-native-drawer-layout-1.3.2.tgz"
-  integrity sha512-fjO0scqbJUfNu2wuEpvywL7DYLXuCXJ2W/zYhWz986rdLytidbys1QGVvkaszHrb4Y7OqO96mTkgpOcP8KWevw==
-  dependencies:
-    react-native-dismiss-keyboard "1.0.0"
 
 react-native-element-dropdown@^2.10.4:
   version "2.10.4"
@@ -6324,12 +6285,6 @@ react-native-safe-area-context@*, "react-native-safe-area-context@>= 3.0.0", rea
   resolved "https://registry.npmjs.org/react-native-safe-area-context/-/react-native-safe-area-context-4.8.2.tgz"
   integrity sha512-ffUOv8BJQ6RqO3nLml5gxJ6ab3EestPiyWekxdzO/1MQ7NF8fW1Mzh1C5QE9yq573Xefnc7FuzGXjtesZGv7cQ==
 
-react-native-safe-area-view@0.11.0:
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/react-native-safe-area-view/-/react-native-safe-area-view-0.11.0.tgz"
-  integrity sha512-N3nElaahu1Me2ltnfc9acpgt1znm6pi8DSadKy79kvdzKwvVIzw0IXueA/Hjr51eCW1BsfNw7D1SgBT9U6qEkA==
-  dependencies:
-    hoist-non-react-statics "^2.3.1"
 
 "react-native-screens@>= 3.0.0", react-native-screens@~3.29.0:
   version "3.29.0"
@@ -6345,12 +6300,6 @@ react-native-tab-view@^3.5.2, "react-native-tab-view@>= 3.0.0":
   integrity sha512-nE5WqjbeEPsWQx4mtz81QGVvgHRhujTNIIZiMCx3Bj6CBFDafbk7XZp9ocmtzXUQaZ4bhtVS43R4FIiR4LboJw==
   dependencies:
     use-latest-callback "^0.1.5"
-
-"react-native-tab-view@github:react-navigation/react-native-tab-view":
-  version "0.0.74"
-  resolved "git+ssh://git@github.com/react-navigation/react-native-tab-view.git#d87a5cb3ddbcb9e5ea1651450f6c12a7f41355df"
-  dependencies:
-    prop-types "^15.6.0"
 
 react-native-vector-icons@*, react-native-vector-icons@^10.0.3, "react-native-vector-icons@>= 6.0.0":
   version "10.0.3"
@@ -7063,7 +7012,7 @@ string.prototype.trimstart@^1.0.8:
     call-bind "^1.0.7"
     define-properties "^1.2.1"
     es-object-atoms "^1.0.0"
-
+    
 strip-ansi@^5.0.0, strip-ansi@^5.2.0:
   version "5.2.0"
   resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-5.2.0.tgz"
