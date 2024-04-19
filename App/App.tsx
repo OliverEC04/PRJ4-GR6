@@ -19,6 +19,9 @@ export default function App()
 
 const styles = StyleSheet.create({
 	appBar: {
-		height: 60
-	}
+		height: 40
+	},
+	navCont: {
+
+	},
 });

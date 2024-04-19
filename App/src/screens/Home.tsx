@@ -6,9 +6,7 @@ export default function Home()
 {
     return (
         <View style={HomeStyle.container}>
-                <Image source={require('./../../assets/logo.png')} resizeMode="contain" style={HomeStyle.logo} />
-            {/* <View style={HomeStyle.logoCont}>
-            </View> */}
+            <Image source={require('./../../assets/logo.png')} resizeMode="contain" style={HomeStyle.logo} />
             <StatBar title="Calories" val={2000} maxVal={2500} unit="kcal" height={60} colors={["#98C379", "#E5C07B", "#E06C75"]}></StatBar>
             <StatBar title="Protein" val={120} maxVal={126} unit="g" height={26}></StatBar>
             <StatBar title="Carbs" val={30} maxVal={126} unit="g" height={26}></StatBar>

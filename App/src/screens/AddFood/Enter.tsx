@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView, View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import Btn from "../../components/Btn";
 
 export default function AddFoodPage() {
     const [foodName, setFoodName] = useState('');
@@ -123,18 +124,8 @@ export default function AddFoodPage() {
             
             {/* Button container for action buttons */}
             <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                    onPress={handleAddNewFood}
-                    style={[styles.button, styles.addButton]}
-                >
-                    <Text style={styles.buttonText}>Add New Food</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => {} /* Implement handle submit here */}
-                    style={[styles.button, styles.submitButton]}
-                >
-                    <Text style={styles.buttonText}>Enter</Text>
-                </TouchableOpacity>
+                <Btn onClick={handleAddNewFood} text='Add New Food' style={styles.addButton}/>
+                <Btn onClick={() => {}} text='Enter' style={styles.submitButton}/>
             </View>
         </ScrollView>
     );
@@ -184,22 +175,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
-    button: {
-        borderRadius: 10,
-        padding: 10,
-        flex: 1, // Buttons take equal space
-        marginHorizontal: 5, // Add horizontal space between buttons
-        alignItems: 'center',
-        justifyContent: 'center', // Center text vertically
-    },
     addButton: {
-        backgroundColor: '#4169e1', // Add button is green
+        backgroundColor: 'green', // Add button is green
+        width: "40%",
     },
     submitButton: {
         backgroundColor: '#333', // Submit button has a dark background
-    },
-    buttonText: {
-        fontSize: 20,
-        color: 'white',
+        width: "40%",
     },
 });
