@@ -64,24 +64,16 @@ export default function Home() {
         maxHeight={200}
         labelField="label"
         valueField="value"
-        placeholder={!isEditing ? 'Select Gender' : '...'}
+        placeholder={!isEditing ? 'Select Gender' : 'Email??'}
         value={gender}
         onChange={item => setGender(item.value)}
         disable={!isEditing}
-        renderLeftIcon={() => (
-          <AntDesign
-            style={style.icon}
-            color={isEditing ? 'blue' : 'black'}
-            name="Safety"
-            size={20}
-          />
-        )}
       />
     </View>
   );
 
   return (
-    <ScrollView style={style.container}>
+    <ScrollView style={[style.container, { paddingBottom: 60 }]}>
       <Image source={{ uri: profilePicture }} style={style.profilePic} />
       <Text style={style.userName}>{userName}</Text>
       <Text style={style.goalType}>Goal: {userGoal}</Text>
