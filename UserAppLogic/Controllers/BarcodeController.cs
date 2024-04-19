@@ -3,6 +3,7 @@ using BarcodeAPI.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using UserBackend.Data;
 
 namespace BarcodeAPI.Controllers
 {
@@ -11,9 +12,9 @@ namespace BarcodeAPI.Controllers
     [Produces("application/json")]
     public class BarcodeController : ControllerBase
     {
-        private readonly BarcodeAPIDbContext _context;
+        private readonly MyDbContext _context;
 
-        public BarcodeController(BarcodeAPIDbContext context)
+        public BarcodeController(MyDbContext context)
         {
             _context = context;
         }

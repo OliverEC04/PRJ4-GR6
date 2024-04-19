@@ -1,3 +1,4 @@
+using BarcodeAPI.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using UserBackend.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -9,6 +10,8 @@ namespace UserBackend.Data
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) 
         { 
         }
+
+        public DbSet<Barcode> Barcode { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
