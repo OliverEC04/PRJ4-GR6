@@ -8,11 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="secret.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="secret.json" />
+    <None Update="secret.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
