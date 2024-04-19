@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center', // Center text vertically
     },
     addButton: {
-        backgroundColor: 'green', // Add button is green
+        backgroundColor: '#4169e1', // Add button is green
     },
     submitButton: {
         backgroundColor: '#333', // Submit button has a dark background
