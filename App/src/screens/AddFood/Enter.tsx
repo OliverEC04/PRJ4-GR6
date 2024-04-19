@@ -3,6 +3,7 @@ import { ScrollView, View, Text, TextInput, TouchableOpacity, StyleSheet, Alert 
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Btn from "../../components/Btn";
+import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 
 export default function AddFoodPage() {
     const [foodName, setFoodName] = useState('');
@@ -10,6 +11,7 @@ export default function AddFoodPage() {
     const [protein, setProtein] = useState('');
     const [carbs, setCarbs] = useState('');
     const [fat, setFat] = useState('');
+    const [id, setId] = useState(null);
     const [value, setValue] = useState(null);
     const [meals, setMeals] = useState([]);
 
@@ -28,6 +30,7 @@ export default function AddFoodPage() {
     };
 
     const handleMealSelect = (selectedMeal) => {
+        setId(selectedMeal.id.toString());
         setValue(selectedMeal.mealName);
         setFoodName(selectedMeal.mealName);
         setCalories(selectedMeal.calories.toString());
@@ -49,6 +52,7 @@ export default function AddFoodPage() {
 
     const handleAddNewFood = async () => {
         try {
+
             const response = await fetch(`https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/AddMealWithNoBarcode?mealName=${foodName}&calories=${calories}&protein=${protein}&carbs=${carbs}&fat=${fat}`, {
                 method: 'POST'
             });
@@ -65,6 +69,27 @@ export default function AddFoodPage() {
             }
         } catch (error) {
             Alert.alert('Error', 'Failed to add new food. Please check your network connection and try again.');
+        }
+    };
+
+    const handleDeleteNewFood = async () => {
+        try {
+            const response = await fetch(`https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/RemoveBarcode/${id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                Alert.alert('Success', 'Food deleted successfully!');
+                setFoodName('');
+                setCalories('');
+                setProtein('');
+                setCarbs('');
+                setFat('');
+                fetchMeals();
+            } else {
+                Alert.alert('Error', 'Failed to delete food. Please try again later.');
+            }
+        } catch (error) {
+            Alert.alert('Error', 'Failed to delete food. Please check your network connection and try again.');
         }
     };
 
@@ -119,8 +144,11 @@ export default function AddFoodPage() {
             
             {/* Button container for action buttons */}
             <View style={styles.buttonContainer}>
+                <Btn onClick={() => {}} text='Enter' style={styles.submitButton}/> 
+            </View>
+            <View style={styles.buttonContainer}>
                 <Btn onClick={handleAddNewFood} text='Add New Food' style={styles.addButton}/>
-                <Btn onClick={() => {}} text='Enter' style={styles.submitButton}/>
+                <Btn onClick={handleDeleteNewFood} text='Delete Food' style={styles.deleteButton}/>
             </View>
         </ScrollView>
     );
@@ -176,10 +204,15 @@ const styles = StyleSheet.create({
     },
     addButton: {
         backgroundColor: '#4169e1', 
-        width: "45%",
+        width: "50%",
     },
     submitButton: {
         backgroundColor: '#333', 
-        width: "45%",
+        width: "100%",
+    },
+
+    deleteButton: {
+        backgroundColor: 'red', 
+        width: "50%",
     },
 });
