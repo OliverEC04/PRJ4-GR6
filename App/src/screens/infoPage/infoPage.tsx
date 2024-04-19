@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Image, Button } from "react-native";
+import { View, Text, TextInput, Image, Button, ScrollView } from "react-native";
 import style from "./infoStyle";
 import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from '@expo/vector-icons/AntDesign'
@@ -54,7 +54,7 @@ export default function Home() {
   );
 
   const renderGenderDropdown = () => (
-    <View style={style.entry}>
+    <ScrollView style={style.entry}>
       <Dropdown
         style={[style.dropdown, isEditing && { borderColor: 'blue' }]}
         placeholderStyle={style.placeholderStyle}
@@ -77,11 +77,11 @@ export default function Home() {
           />
         )}
       />
-    </View>
+    </ScrollView>
   );
 
   return (
-    <View style={style.container}>
+    <ScrollView style={style.container}>
       <Image source={{ uri: profilePicture }} style={style.profilePic} />
       <Text style={style.userName}>{userName}</Text>
       <Text style={style.goalType}>Goal: {userGoal}</Text>
@@ -112,6 +112,6 @@ export default function Home() {
         color="#1C2833"
         onPress={handleEditPress}
       />
-    </View>
+    </ScrollView>
   );
 }
