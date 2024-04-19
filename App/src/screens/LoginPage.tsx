@@ -31,7 +31,7 @@ export default function LoginPage() {
             <Text style={textStyles.pageTitle}>Login screen</Text>
             <Text className="text-3xl">Username</Text>
             <TextInput value="usernameBox" placeholder="Enter your username" />
-            <Text className="text-3x1">Email</Text>
+            <Text className="text-3xl">Email</Text>
             <TextInput value="emailBox" placeholder="Enter your email" />
             <Text className="text-3xl">Password</Text>
             <TextInput value="passwordBox" placeholder="Enter your password" secureTextEntry={true} />
