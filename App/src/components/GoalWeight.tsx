@@ -1,13 +1,14 @@
 import React, { useState, useRef } from "react";
 import {
   View,
-  Text,
   TextInput,
   Button,
   StyleSheet,
   Alert,
   TouchableOpacity,
 } from "react-native";
+
+import { Text } from "react-native";
 
 export default function GoalWeight() {
   const [goalWeight, setGoalWeight] = useState("");
@@ -21,14 +22,10 @@ export default function GoalWeight() {
       Alert.alert("Error", "Please enter a valid number for each field");
       return;
     }
-
-    console.log({ numGoalWeight });
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Set Your Goals</Text>
-      <Text style={styles.label}>Current Weight:</Text>
       <TouchableOpacity onPress={() => goalWeightInput.current?.focus()}>
         <Text style={styles.label}>Goal Weight:</Text>
       </TouchableOpacity>
@@ -40,6 +37,7 @@ export default function GoalWeight() {
         keyboardType="numeric"
         placeholder="Enter your goal weight"
       />
+      <Text style={styles.label}>Goal Weight:</Text>
 
       <Text>{goalWeight}</Text>
       <TouchableOpacity onPress={handleSubmit} style={styles.buttonStyle}>
@@ -51,7 +49,7 @@ export default function GoalWeight() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     justifyContent: "center",
     padding: 20,
     marginTop: 50,
