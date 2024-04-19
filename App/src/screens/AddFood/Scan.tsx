@@ -9,7 +9,7 @@ export default function App() {
   const [loading, setLoading] = useState(false); // Added loading state
 
   const askForCameraPermission = async () => {
-    const { status } = await Camera.requestPermissionsAsync();
+    const { status } = await Camera.requestCameraPermissionsAsync();
     setHasPermission(status === 'granted');
   };
 
@@ -32,7 +32,7 @@ export default function App() {
         'X-RapidAPI-Host': 'barcodes1.p.rapidapi.com'
       }
     };
-
+  
     try {
       const queryString = Object.keys(options.params)
         .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(options.params[key]))
@@ -41,7 +41,15 @@ export default function App() {
         method: options.method,
         headers: options.headers
       });
-      const result = await response.json();
+      let result = await response.json();
+  
+      // If the result is empty, fetch from localhost
+      if (!result || !result.product) {
+        const localResponse = await fetch(`https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/GetBarcodeInfo/${barcode}`);
+        result = await localResponse.json();
+      }
+  // by using ngrok we can expose our localhost to the internet
+
       setFoodInfo(result);
     } catch (error) {
       console.error(error);
@@ -49,6 +57,7 @@ export default function App() {
       setLoading(false); // Set loading state to false when API call is complete
     }
   };
+  
 
   // What happens when we scan the barcode
   const handleBarCodeScanned = ({ type, data }) => {
@@ -56,64 +65,64 @@ export default function App() {
     console.log('Type: ' + type + '\nData: ' + data);
     fetchFoodInfo(data);
   };
-
-  // Check permissions and return the screens
-  if (hasPermission === null) {
-    return (
-      <View style={styles.container}>
-        <Text>Requesting for camera permission</Text>
-      </View>
-    );
-  }
-  if (hasPermission === false) {
-    return (
-      <View style={styles.container}>
-        <Text style={{ margin: 10 }}>No access to camera</Text>
-        <Button title={'Allow Camera'} onPress={() => askForCameraPermission()} />
-      </View>
-    );
-  }
-
+// Check permissions and return the screens
+if (hasPermission === null) {
   return (
     <View style={styles.container}>
-      <View style={styles.cameraContainer}>
-        <Camera
-          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={styles.camera}
-        />
-      </View>
-      {loading ? ( // Conditionally render "Loading" text based on loading state
-        <Text>Loading...</Text>
-      ) : (
-        <View style={styles.resultContainer}>
-          {foodInfo && (
-            <View>
-              {foodInfo.product && (
-                <>
-                  {(foodInfo.product.brand || foodInfo.product.nutrition_facts) && (
-                    <>
-                      {foodInfo.product.brand && (
-                        <Text style={styles.resultText}>Brand: {foodInfo.product.brand}</Text>
-                      )}
-                      {foodInfo.product.nutrition_facts && (
-                        <Text style={styles.resultText}>Nutritional Facts:</Text>
-                      )}
-                      {foodInfo.product.nutrition_facts && foodInfo.product.nutrition_facts.split(',').map((fact, index) => (
-                        <Text key={index} style={styles.resultText}>{fact.trim()}</Text>
-                      ))}
-                    </>
-                  )}
-                </>
-              )}
-            </View>
-          )}
-        </View>
-      )}
-      {scanned && (
-        <Button title={'Scan again?'} onPress={() => setScanned(false)} color="tomato" />
-      )}
+      <Text>Requesting for camera permission</Text>
     </View>
   );
+}
+if (hasPermission === false) {
+  return (
+    <View style={styles.container}>
+      <Text style={{ margin: 10 }}>No access to camera</Text>
+      <Button title={'Allow Camera'} onPress={() => askForCameraPermission()} />
+    </View>
+  );
+}
+
+return (
+  <View style={styles.container}>
+    <View style={styles.cameraContainer}>
+      <Camera
+        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        style={styles.camera}
+      />
+    </View>
+    {loading ? (//render "Loading" 
+      <Text>Loading...</Text>
+    ) : (
+      <View style={styles.resultContainer}>
+        {foodInfo && foodInfo.product && (
+          <View>
+            {foodInfo.product.brand && (
+              <Text style={styles.resultText}>Brand: {foodInfo.product.brand}</Text>
+            )}
+            {foodInfo.product.nutrition_facts && (
+              <Text style={styles.resultText}>Nutritional Facts:</Text>
+            )}
+            {foodInfo.product.nutrition_facts && foodInfo.product.nutrition_facts.split(',').map((fact, index) => (
+              <Text key={index} style={styles.resultText}>{fact.trim()}</Text>
+            ))}
+          </View>
+        )}
+        {foodInfo && !foodInfo.product && (
+          <View>
+            <Text style={styles.resultText}>Meal Name: {foodInfo.mealName}</Text>
+            <Text style={styles.resultText}>Calories: {foodInfo.calories}</Text>
+            <Text style={styles.resultText}>Protein: {foodInfo.protein}</Text>
+            <Text style={styles.resultText}>Carbs: {foodInfo.carbs}</Text>
+            <Text style={styles.resultText}>Fat: {foodInfo.fat}</Text>
+          </View>
+        )}
+      </View>
+    )}
+    {scanned && (
+      <Button title={'Scan again?'} onPress={() => setScanned(false)} color="tomato" />
+    )}
+  </View>
+);
 }
 
 const styles = StyleSheet.create({
