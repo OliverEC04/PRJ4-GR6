@@ -1,22 +1,24 @@
+import { NavigationContainer } from '@react-navigation/native';
+import TabFooter from './src/components/TabFooter';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Test from './components/test';
+import { View, StyleSheet } from 'react-native';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your gay app!</Text>
-      <Test></Test>
-      <StatusBar style="auto" />
-    </View>
-  );
+
+export default function App()
+{
+	return (
+		<>
+			<StatusBar/>
+			<View style={styles.appBar}></View>
+			<NavigationContainer>
+				<TabFooter/>
+			</NavigationContainer>
+		</>
+	);
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+	appBar: {
+		height: 60
+	}
 });
