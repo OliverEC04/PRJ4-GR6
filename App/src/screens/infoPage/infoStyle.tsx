@@ -1,4 +1,4 @@
-import { Animated, StyleSheet } from "react-native";
+import {StyleSheet} from "react-native";
 
 const style = StyleSheet.create({
   container: {
@@ -51,6 +51,27 @@ const style = StyleSheet.create({
     fontSize: 18,
     color: "gray",
     marginLeft: 6,
+  },
+  dropdown: {
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    flex: 1,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  icon: {
+    marginRight: 5,
   },
 });
 

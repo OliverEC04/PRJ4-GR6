@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Image, Button } from "react-native";
 import style from "./infoStyle";
+import { Dropdown } from "react-native-element-dropdown";
+import AntDesign from '@expo/vector-icons/AntDesign'
+
 
 export default function Home() {
   const [isEditing, setIsEditing] = useState(false); // edit stuff
@@ -8,6 +11,13 @@ export default function Home() {
   const [currentWeight, setCurrentWeight] = useState("79");
   const [targetWeight, setTargetWeight] = useState("100");
   const [burnedCalories, setBurnedCalories] = useState("1000");
+  const [gender, setGender] = useState("Helicopter");
+
+  const allGenders = [
+    { label: 'Male', value: 'male' },
+    { label: 'Female', value: 'female' },
+    { label: 'Email', value: 'email' },
+  ];
 
   // just mock data
   const userName = "Albert Einstein";
@@ -43,6 +53,33 @@ export default function Home() {
     </View>
   );
 
+  const renderGenderDropdown = () => (
+    <View style={style.entry}>
+      <Dropdown
+        style={[style.dropdown, isEditing && { borderColor: 'blue' }]}
+        placeholderStyle={style.placeholderStyle}
+        selectedTextStyle={style.selectedTextStyle}
+        iconStyle={style.iconStyle}
+        data={allGenders}
+        maxHeight={200}
+        labelField="label"
+        valueField="value"
+        placeholder={!isEditing ? 'Select Gender' : '...'}
+        value={gender}
+        onChange={item => setGender(item.value)}
+        disable={!isEditing}
+        renderLeftIcon={() => (
+          <AntDesign
+            style={style.icon}
+            color={isEditing ? 'blue' : 'black'}
+            name="Safety"
+            size={20}
+          />
+        )}
+      />
+    </View>
+  );
+
   return (
     <View style={style.container}>
       <Image source={{ uri: profilePicture }} style={style.profilePic} />
@@ -68,6 +105,7 @@ export default function Home() {
         setBurnedCalories,
         "kcal"
       )}
+      {renderGenderDropdown()}
 
       <Button
         title={isEditing ? "Save" : "Edit"}
