@@ -54,7 +54,7 @@ export default function Home() {
   );
 
   const renderGenderDropdown = () => (
-    <ScrollView style={style.entry}>
+    <View style={style.entry}>
       <Dropdown
         style={[style.dropdown, isEditing && { borderColor: 'blue' }]}
         placeholderStyle={style.placeholderStyle}
@@ -77,7 +77,7 @@ export default function Home() {
           />
         )}
       />
-    </ScrollView>
+    </View>
   );
 
   return (
