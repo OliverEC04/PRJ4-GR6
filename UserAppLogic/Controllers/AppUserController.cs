@@ -1,8 +1,14 @@
-using System.Data.Common;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using UserBackend.Data.Models;
 using UserBackend.Data;
+using UserBackend.Data.Models;
+using UserAppLogic.DTO;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore; 
 
 namespace AppUserBackend.Controllers
 {
@@ -19,44 +25,87 @@ namespace AppUserBackend.Controllers
             db = context;
         }
 
-        // GET: /YourControllerName
-        [HttpGet("GetAppUsers")]
-        public IActionResult Get()
+
+        // GET: api/AppUser
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<AppUser>>> GetAppUsers()
         {
-            var AppUsers = db.Users.ToList();
-            return Ok(AppUsers);
+            return await db.Users.ToListAsync();
         }
 
-        // POST: /YourControllerName
-        /*[HttpPost("AddAppUser")]
-        public IActionResult AddAppUser([FromBody] AppUser AppUserModel)
+        // GET: api/AppUser/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<AppUser>> GetAppUser(string id)
         {
-            AppUser newAppUser = new AppUser
+            var appUser = await db.Users.FindAsync(id);
+
+            if (appUser == null)
             {
-                FullName = AppUserModel.FullName,
-                Email = AppUserModel.Email,
-                DateOfBirth = AppUserModel.DateOfBirth,
-                Password = AppUserModel.Password
-            };
-            db.Users.Add(newAppUser);
-            db.SaveChanges();
-            return Ok("Created AppAppUser with data: " + newAppUser.ToString());
-        }*/
+                return NotFound();
+            }
 
-        // PUT: /YourControllerName/{id}
+            return appUser;
+        }
+
+        // PUT: api/AppUser/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] AppUser AppUserModel)
+        public async Task<IActionResult> PutAppUser(string id, AppUser appUser)
         {
-            // Your code here
+            if (id != appUser.Id)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(appUser).State = EntityState.Modified;
+
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AppUserExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
             return NoContent();
         }
 
-        // DELETE: /YourControllerName/{id}
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        // POST: api/AppUser
+        [HttpPost]
+        public async Task<ActionResult<AppUser>> PostAppUser(AppUser appUser)
         {
-            // Your code here
+            db.Users.Add(appUser);
+            await db.SaveChangesAsync();
+
+            return CreatedAtAction("GetAppUser", new { id = appUser.Id }, appUser);
+        }
+
+        // DELETE: api/AppUser/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAppUser(string id)
+        {
+            var appUser = await db.Users.FindAsync(id);
+            if (appUser == null)
+            {
+                return NotFound();
+            }
+
+            db.Users.Remove(appUser);
+            await db.SaveChangesAsync();
+
             return NoContent();
+        }
+
+        private bool AppUserExists(string id)
+        {
+            return db.Users.Any(e => e.Id == id);
         }
     }
 }
