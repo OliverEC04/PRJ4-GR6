@@ -94,7 +94,7 @@ export default function AddFoodPage() {
     };
 
     return (
-        <ScrollView>
+        <ScrollView style={{paddingTop: 20}}>
             <Dropdown
                 style={styles.dropdown}
                 data={meals}
@@ -108,40 +108,58 @@ export default function AddFoodPage() {
             
             {/* Input fields for food information */}
             <TextInput
-                style={styles.input}
+                style={styles.inputContainer}
                 value={foodName}
                 onChangeText={setFoodName}
                 placeholder="Enter food name"
             />
-            <TextInput
-                style={styles.input}
-                value={calories}
-                onChangeText={setCalories}
-                keyboardType="numeric"
-                placeholder="Enter calorie amount"
-            />
-            <TextInput
-                style={styles.input}
-                value={protein}
-                onChangeText={setProtein}
-                keyboardType="numeric"
-                placeholder="Enter protein amount"
-            />
-            <TextInput
-                style={styles.input}
-                value={carbs}
-                onChangeText={setCarbs}
-                keyboardType="numeric"
-                placeholder="Enter carbs amount"
-            />
-            <TextInput
-                style={styles.input}
-                value={fat}
-                onChangeText={setFat}
-                keyboardType="numeric"
-                placeholder="Enter fat amount"
-            />
-            
+            <View style={styles.inputContainer}>
+        <TextInput
+            style={{ flex: 1 }}
+            value={calories}
+            onChangeText={setCalories}
+            keyboardType="numeric"
+            placeholder="Enter calorie amount"
+        />
+        <Text>kcal</Text>
+    </View>
+    
+    {/* Protein Input with Unit */}
+    <View style={styles.inputContainer}>
+        <TextInput
+            style={{ flex: 1 }}
+            value={protein}
+            onChangeText={setProtein}
+            keyboardType="numeric"
+            placeholder="Enter protein amount"
+        />
+        <Text>g</Text>
+    </View>
+    
+    {/* Carbs Input with Unit */}
+    <View style={styles.inputContainer}>
+        <TextInput
+            style={{ flex: 1 }}
+            value={carbs}
+            onChangeText={setCarbs}
+            keyboardType="numeric"
+            placeholder="Enter carbs amount"
+        />
+        <Text>g</Text>
+    </View>
+    
+    {/* Fat Input with Unit */}
+    <View style={styles.inputContainer}>
+        <TextInput
+            style={{ flex: 1 }}
+            value={fat}
+            onChangeText={setFat}
+            keyboardType="numeric"
+            placeholder="Enter fat amount"
+        />
+        <Text>g</Text>
+    </View>
+
             {/* Button container for action buttons */}
             <View style={styles.buttonContainer}>
                 <Btn onClick={() => {}} text='Enter' style={styles.submitButton}/> 
@@ -162,7 +180,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
     },
     dropdown: {
-        height: 50,
+        height: 45,
         backgroundColor: 'white',
         borderRadius: 12,
         padding: 12,
@@ -171,7 +189,7 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1,
         alignSelf: 'center',
-        width: '70%',
+        width: '85%',
     },
     item: {
         padding: 17,
@@ -188,16 +206,21 @@ const styles = StyleSheet.create({
         marginTop: 15,
         marginBottom: 5,
     },
-    input: {
-        height: 40,
+    inputContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         borderColor: 'gray',
         borderWidth: 1,
         borderRadius: 10,
         padding: 10,
         marginBottom: 15,
         alignSelf: 'center',
-        width: '70%',
+        width: '85%',
+        height: 45,
+        backgroundColor: 'white',
     },
+    
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
