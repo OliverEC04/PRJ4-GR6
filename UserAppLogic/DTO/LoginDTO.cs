@@ -5,8 +5,8 @@ namespace UserAppLogic.DTO
     public class LoginDTO
     {
         [Required]
-        [EmailAddress]
-        public string? Email { get; set; }
+        [MaxLength(255)]
+        public string? UserName { get; set; }
         [Required]
         public string? Password { get; set; }
     }

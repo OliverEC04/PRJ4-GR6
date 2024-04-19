@@ -1,3 +1,4 @@
+using BarcodeAPI.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using UserBackend.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -10,6 +11,8 @@ namespace UserBackend.Data
         { 
         }
 
+        public DbSet<Barcode> Barcode { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var configuration = new ConfigurationBuilder()
@@ -17,7 +20,7 @@ namespace UserBackend.Data
                 .AddJsonFile("secret.json")
                 .Build();
         
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("MyDatabase"));
+            //optionsBuilder.UseSqlServer(configuration.GetConnectionString("MyDatabase"));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
