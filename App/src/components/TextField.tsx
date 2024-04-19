@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TextInput } from 'react-native';
 import style from '../styles/TextFieldStyle';
 
-type TextField = {
+type TextFieldProps = {
   label: string,
   value: string,
   setValue: (text: string) => void,
@@ -16,7 +16,7 @@ const TextField = ({
   setValue,
   units,
   isEditing,
-}: TextField) => {
+}: TextFieldProps) => {
   return (
     <View style={style.entry}>
       <Text style={style.label}>{label}:</Text>
