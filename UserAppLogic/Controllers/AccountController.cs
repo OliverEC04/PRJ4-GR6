@@ -17,6 +17,7 @@ namespace AppUserBackend.Controllers
         private readonly MyDbContext _db;
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration _configuration;
+        private readonly string _signingKey;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         public AccountController(
@@ -31,6 +32,7 @@ namespace AppUserBackend.Controllers
             _configuration = configuration;
             _userManager = userManager;
             _signInManager = signInManager;
+            _signingKey = _configuration["SigningKeys:Default"];
         }
 
         [HttpPost]
@@ -42,22 +44,25 @@ namespace AppUserBackend.Controllers
                 if (ModelState.IsValid)
                 {
                     var newUser = new AppUser();
+
                     newUser.UserName = input.Email;
                     newUser.Email = input.Email;
                     newUser.FullName = input.FullName;
-                    var result = await _userManager.CreateAsync(
-                        newUser, input.Password);
+                    
+                    var result = await _userManager.CreateAsync(newUser, input.Password);
+
                     if (result.Succeeded)
                     {
-                        _logger.LogInformation("User {userName} ({email}) created a new account", newUser.UserName, newUser.Email);
+                        _logger.LogInformation(
+                        "User {userName} ({email}) has been created.",
+                        newUser.UserName, newUser.Email);
                         return StatusCode(201,
-                        $"User '{newUser.UserName}' created successfully");
+                        $"User '{newUser.UserName}' has been created.");
                     }
-                    else 
-                    {
-                        throw new Exception(string.Format("Error: {0}", string.Join(" ",
+                    else
+                        throw new Exception(
+                        string.Format("Error: {0}", string.Join(" ",
                         result.Errors.Select(e => e.Description))));
-                    }
                 }
                 else
                 {
@@ -88,29 +93,31 @@ namespace AppUserBackend.Controllers
         {
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
-                    var user = await _userManager.FindByEmailAsync(input.Email);
+                    var user = await _userManager.FindByNameAsync(input.UserName);
                     if (user == null || !await _userManager.CheckPasswordAsync(user, input.Password))
-                    {
-                        throw new Exception("Invalid login attempt");
-                    }
+                        throw new Exception("Invalid login attempt.");
                     else
                     {
                         var signingCredentials = new SigningCredentials(
-                            new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration["Jwt:SigningKey:Default"])),
-                            SecurityAlgorithms.HmacSha256);
-                        var claims = new List<Claim>();
-                        claims.Add(new Claim(ClaimTypes.Email, user.Email));
-                        var jwtObject = new JwtSecurityToken(
-                            issuer: _configuration["Jwt:Issuer"],
-                            audience: _configuration["Jwt:Audience"],
-                            claims: claims,
-                            expires: DateTime.Now.AddSeconds(300),
-                            signingCredentials: signingCredentials);
-                        var jwtString = new JwtSecurityTokenHandler().WriteToken(jwtObject);
-                        return StatusCode(StatusCodes.Status200OK, jwtString);
+                                new SymmetricSecurityKey(
+                                System.Text.Encoding.UTF8.GetBytes(_configuration["SigningKeys:Default"])),
+                                SecurityAlgorithms.HmacSha256);
 
+                        var claims = new List<Claim>();
+                        claims.Add(new Claim(ClaimTypes.Name, user.UserName));
+
+                        var jwtObject = new JwtSecurityToken(
+                                issuer: _configuration["JWT:Issuer"],
+                                audience: _configuration["JWT:Audience"],
+                                claims: claims,
+                                expires: DateTime.Now.AddSeconds(300),
+                                signingCredentials: signingCredentials);
+                        var jwtString = new JwtSecurityTokenHandler()
+                        .WriteToken(jwtObject);
+                        
+                        return StatusCode(StatusCodes.Status200OK, jwtString);
                     }
                 }
                 else
@@ -132,31 +139,6 @@ namespace AppUserBackend.Controllers
                 "https:/ /tools.ietf.org/html/rfc7231#section-6.6.1";
                 return StatusCode(
                     StatusCodes.Status401Unauthorized, exceptionDetails);
-            }
-        }
-
-        public static void SeedUsers(UserManager<IdentityUser> userManager)
-        {
-            const string adminEmail = "Admin@localhost";
-            const string adminPassword = "Secret7$";
-
-            if (userManager == null)
-                throw new ArgumentNullException(nameof(userManager));
-
-            if (userManager.FindByNameAsync(adminEmail).Result == null)
-            {
-                var user = new IdentityUser();
-                user.UserName = adminEmail;
-                user.Email = adminEmail;
-                user.EmailConfirmed = true;
-                IdentityResult result = userManager.CreateAsync(user, adminPassword).Result;
-
-                if (result.Succeeded)
-                {
-                    var adminUser = userManager.FindByNameAsync(adminEmail).Result;
-                    var claim = new Claim("IsAdmin", "true");
-                    var claimAdded = userManager.AddClaimAsync(adminUser, claim).Result;
-                }
             }
         }
     }

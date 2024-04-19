@@ -53,7 +53,7 @@ builder.Configuration.AddJsonFile("secret.json");
 
 builder.Services.AddDbContext<MyDbContext>(options => 
     options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection"))
+        builder.Configuration.GetConnectionString("MyDatabase"))
     );
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(options => {
@@ -86,7 +86,10 @@ builder.Services.AddAuthentication(options => {
     };
 });
 
-
+builder.Services.AddAuthorization(options =>
+{
+   options.AddPolicy("AdminOnly", policy => policy.RequireClaim("isAdmin","true"));
+});
 
 var app = builder.Build();
 
