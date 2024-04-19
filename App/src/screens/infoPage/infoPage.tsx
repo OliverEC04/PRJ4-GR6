@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Image, Button, ScrollView } from "react-native";
+import { View, Text, TextInput, Image, ScrollView } from "react-native";
 import style from "./infoStyle";
 import { Dropdown } from "react-native-element-dropdown";
+import Btn from "../../components/Btn";
 import AntDesign from '@expo/vector-icons/AntDesign'
 
 
@@ -99,10 +100,10 @@ export default function Home() {
       )}
       {renderGenderDropdown()}
 
-      <Button
-        title={isEditing ? "Save" : "Edit"}
-        color="#1C2833"
-        onPress={handleEditPress}
+      <Btn
+        text={isEditing ? "Save" : "Edit"}
+        onClick={handleEditPress}
+        style={style.button}
       />
     </ScrollView>
   );
