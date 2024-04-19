@@ -10,7 +10,7 @@ export default function Home() {
   const [height, setHeight] = useState("170");
   const [currentWeight, setCurrentWeight] = useState("79");
   const [targetWeight, setTargetWeight] = useState("100");
-  const [burnedCalories, setBurnedCalories] = useState("1000");
+  const [age, setAge] = useState("22");
   const [gender, setGender] = useState("Helicopter");
 
   const allGenders = [
@@ -73,7 +73,7 @@ export default function Home() {
   );
 
   return (
-    <ScrollView style={[style.container, { paddingBottom: 60 }]}>
+    <ScrollView style={style.container}>
       <Image source={{ uri: profilePicture }} style={style.profilePic} />
       <Text style={style.userName}>{userName}</Text>
       <Text style={style.goalType}>Goal: {userGoal}</Text>
@@ -85,17 +85,17 @@ export default function Home() {
         setCurrentWeight,
         "kg"
       )}
-      {renderEditableField(
+      {renderEditableField( // move this to target
         "Target Weight",
         targetWeight,
         setTargetWeight,
         "kg"
       )}
       {renderEditableField(
-        "Burned Today",
-        burnedCalories,
-        setBurnedCalories,
-        "kcal"
+        "Age",
+        age,
+        setAge,
+        "years"
       )}
       {renderGenderDropdown()}
 
