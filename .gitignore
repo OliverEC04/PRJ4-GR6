@@ -16,6 +16,9 @@
 # Mono auto generated files
 mono_crash.*
 
+# Ignore secret.json
+secret.json
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

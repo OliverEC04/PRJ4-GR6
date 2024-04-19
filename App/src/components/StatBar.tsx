@@ -1,5 +1,5 @@
 import { View, Text, ColorValue } from "react-native";
-import StatBarStyle from "../styles/StatBarStyle"
+import StatBarStyle from "../styles/StatBarStyle";
 import { LinearGradient } from "expo-linear-gradient";
 
 type StatBarProps = {
