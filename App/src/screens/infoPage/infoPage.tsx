@@ -73,7 +73,7 @@ export default function Home() {
   );
 
   return (
-    <ScrollView style={[style.container, { paddingBottom: 60 }]}>
+    <ScrollView style={style.container}>
       <Image source={{ uri: profilePicture }} style={style.profilePic} />
       <Text style={style.userName}>{userName}</Text>
       <Text style={style.goalType}>Goal: {userGoal}</Text>
