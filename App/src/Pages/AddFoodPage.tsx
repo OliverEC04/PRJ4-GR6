@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { ScrollView, View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import Btn from "../../components/Btn";
 
 export default function AddFoodPage() {
     const [foodName, setFoodName] = useState('');
@@ -69,7 +68,7 @@ export default function AddFoodPage() {
     };
 
     return (
-        <ScrollView>
+        <View style={styles.container}>
             <Dropdown
                 style={styles.dropdown}
                 data={meals}
@@ -80,90 +79,80 @@ export default function AddFoodPage() {
                 onChange={(item) => setValue(item.mealName)}
                 renderItem={renderItem}
             />
-            
-            {/* Input fields for food information */}
-            <Text style={styles.label}>Food Name:</Text>
-            <TextInput
-                style={styles.input}
-                value={foodName}
-                onChangeText={setFoodName}
-                placeholder="Enter food name"
-            />
-            <Text style={styles.label}>Calories:</Text>
-            <TextInput
-                style={styles.input}
-                value={calories}
-                onChangeText={setCalories}
-                keyboardType="numeric"
-                placeholder="Enter calorie amount"
-            />
-            <Text style={styles.label}>Protein (g):</Text>
-            <TextInput
-                style={styles.input}
-                value={protein}
-                onChangeText={setProtein}
-                keyboardType="numeric"
-                placeholder="Enter protein amount"
-            />
-            <Text style={styles.label}>Carbs (g):</Text>
-            <TextInput
-                style={styles.input}
-                value={carbs}
-                onChangeText={setCarbs}
-                keyboardType="numeric"
-                placeholder="Enter carbs amount"
-            />
-            <Text style={styles.label}>Fat (g):</Text>
-            <TextInput
-                style={styles.input}
-                value={fat}
-                onChangeText={setFat}
-                keyboardType="numeric"
-                placeholder="Enter fat amount"
-            />
-            
-            {/* Button container for action buttons */}
-            <View style={styles.buttonContainer}>
-                <Btn onClick={handleAddNewFood} text='Add New Food' style={styles.addButton}/>
-                <Btn onClick={() => {}} text='Enter' style={styles.submitButton}/>
+
+            <View style={styles.form}>
+                <TextInput
+                    style={styles.input}
+                    value={foodName}
+                    onChangeText={setFoodName}
+                    placeholder="Enter food name"
+                />
+                <TextInput
+                    style={styles.input}
+                    value={calories}
+                    onChangeText={setCalories}
+                    keyboardType="numeric"
+                    placeholder="Enter calorie amount"
+                />
+                <TextInput
+                    style={styles.input}
+                    value={protein}
+                    onChangeText={setProtein}
+                    keyboardType="numeric"
+                    placeholder="Enter protein amount"
+                />
+                <TextInput
+                    style={styles.input}
+                    value={carbs}
+                    onChangeText={setCarbs}
+                    keyboardType="numeric"
+                    placeholder="Enter carbs amount"
+                />
+                <TextInput
+                    style={styles.input}
+                    value={fat}
+                    onChangeText={setFat}
+                    keyboardType="numeric"
+                    placeholder="Enter fat amount"
+                />
             </View>
-        </ScrollView>
+
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity onPress={handleAddNewFood} style={[styles.buttonStyle, styles.addFoodButtonStyle]}>
+                    <Text style={styles.buttonText}>Add New Food</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
     );
 }
 
-// Styles are defined outside of the component to use Flexbox effectively
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        justifyContent: 'space-around',
+        justifyContent: 'space-between'  // Improves vertical distribution
     },
     dropdown: {
         height: 50,
         backgroundColor: 'white',
         borderRadius: 12,
-        padding: 12,
-        marginBottom: 15,
         paddingHorizontal: 10,
         borderColor: 'gray',
         borderWidth: 1,
-        alignSelf: 'center',
-        width: '70%',
+    },
+    form: {
+        flex: 1,  // Takes available space
+        justifyContent: 'center'  // Centers form in available space
     },
     item: {
-        padding: 17,
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
+        padding: 17,
+        justifyContent: 'space-between'
     },
     textItem: {
         flex: 1,
         fontSize: 16,
-    },
-    label: {
-        fontSize: 18,
-        marginTop: 15,
-        marginBottom: 5,
     },
     input: {
         height: 40,
@@ -172,19 +161,22 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         marginBottom: 15,
-        alignSelf: 'center',
-        width: '70%',
     },
     buttonContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around'
     },
-    addButton: {
-        backgroundColor: '#4169e1', 
-        width: "45%",
+    buttonStyle: {
+        borderRadius: 10,
+        padding: 10,
+        width: '45%',  // Allows for two buttons side by side
+        alignItems: 'center',
     },
-    submitButton: {
-        backgroundColor: '#333', 
-        width: "45%",
+    addFoodButtonStyle: {
+        backgroundColor: 'green',
+    },
+    buttonText: {
+        fontSize: 20,
+        color: 'white',
     },
 });
