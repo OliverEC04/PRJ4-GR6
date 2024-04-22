@@ -70,15 +70,11 @@ const style = StyleSheet.create({
     width: 20,
     height: 20,
   },
-  icon: {
-    marginRight: 5,
-  },
   button: {
     marginBottom: 50,
     marginTop: 20,
-    alignItems: "center",
     backgroundColor: 'black',
-    width: 350,
+    width: "90%",
     height: 50,
   }
 });
