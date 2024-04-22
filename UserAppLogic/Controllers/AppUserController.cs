@@ -29,7 +29,7 @@ namespace AppUserBackend.Controllers
 
         // GET: api/AppUser/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<AppUser>> GetAppUser(string id)
+        public async Task<ActionResult<object>> GetAppUserData(string id)
         {
             var appUser = await db.Users.FindAsync(id);
 
@@ -38,7 +38,17 @@ namespace AppUserBackend.Controllers
                 return NotFound();
             }
 
-            return appUser;
+            var result = new 
+            {
+                appUser.FullName,
+                appUser.Height,
+                appUser.CurrentWeight,
+                appUser.TargetWeight,
+                appUser.Age,
+                appUser.Gender
+            };
+
+            return result;
         }
 
         // PUT: api/AppUser/5
