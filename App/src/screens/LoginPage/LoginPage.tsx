@@ -9,19 +9,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
-  // const fetchUserInfo = async (username, password) => {
-  //     const options = {
-  //         method: 'GET',
-  //         // url: ' url her ',
-  //         params: {
-  //             // query: en query
-  //         },
-  //         headers: {
-  //             // 'X-RapidAPI-Key': '76a997481amsh760010dadfad3f4p1059ebjsn0c157546bc30',
-  //             // 'X-RapidAPI-Host': 'barcodes1.p.rapidapi.com'
-  //         }
-  //     };
-  // }
   function handleChangeName(e: string) {
     setUsername(e);
   }
