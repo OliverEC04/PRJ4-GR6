@@ -7,9 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AppUserBackend.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class AccountController : ControllerBase
@@ -34,6 +36,7 @@ namespace AppUserBackend.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("Register")]
         public async Task<ActionResult> Register(RegisterDTO input)
         {
@@ -83,6 +86,7 @@ namespace AppUserBackend.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("Login")] 
         public async Task<ActionResult> Login(LoginDTO input)
         {
