@@ -1,4 +1,5 @@
 using UserBackend.Data;
+using UserAppLogic.Data;
 using UserBackend.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Data.SqlClient;
 using Microsoft.OpenApi.Models;
+using AppUserBackend.Controllers;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -91,6 +93,7 @@ builder.Services.AddAuthorization(options =>
    options.AddPolicy("AdminOnly", policy => policy.RequireClaim("isAdmin","true"));
 });
 
+builder.Services.AddRazorPages();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -104,6 +107,17 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapRazorPages();
+using (var scope = app.Services.CreateScope())
+{
+    var serviceProvider = scope.ServiceProvider;
+    var userManager = serviceProvider.GetService<UserManager<AppUser>>();
+    if(userManager != null)
+        DbInitializer.SeedUsers(userManager);
+    else throw new Exception("UserManager is null");
+}
+
 
 app.MapControllers();
 

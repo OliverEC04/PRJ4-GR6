@@ -2,14 +2,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using UserBackend.Data;
 using UserBackend.Data.Models;
-using UserAppLogic.DTO;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
 
-    namespace AppUserBackend.Controllers
+namespace AppUserBackend.Controllers
     {
+        [Authorize]
         [ApiController]
         [Route("[controller]")]
         public class SeedController : ControllerBase
