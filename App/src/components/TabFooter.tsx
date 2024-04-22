@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Home from "../screens/Home";
 import AddFood from "../screens/AddFood/AddFood";
 import infoPage from "../screens/infoPage/infoPage";
-import LoginPage from "../screens/LoginPage";
+import LoginNav from "../screens/LoginPage/LoginNav";
 
 export default function TabFooter() {
   const Tab = createMaterialBottomTabNavigator();
@@ -36,7 +36,7 @@ export default function TabFooter() {
           ),
         }}
       />
-      
+
       <Tab.Screen
         name="infoPage"
         component={infoPage}
@@ -53,7 +53,7 @@ export default function TabFooter() {
       />
       <Tab.Screen
         name="LoginPage"
-        component={LoginPage}
+        component={LoginNav}
         options={{
           tabBarLabel: "Login",
           tabBarIcon: ({ color }) => (
