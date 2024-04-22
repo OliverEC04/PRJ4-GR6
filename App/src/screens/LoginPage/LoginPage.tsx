@@ -1,9 +1,8 @@
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, Image } from "react-native";
 import { textStyles } from "../../styles/textStyles";
 import { useState } from "react";
 import Server from "../../models/Server";
 import Btn from "../../components/Btn";
-import logo from "../../../assets/logo.png";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -41,7 +40,11 @@ export default function LoginPage() {
 
   return (
     <View style={textStyles.container}>
-      <Image source={logo} />
+      <Image
+        source={require("../../../assets/logo.png")}
+        resizeMode="contain"
+        style={textStyles.logo}
+      />
       <Text style={textStyles.pageTitle}>Login screen</Text>
       <Text className="text-3xl">Username</Text>
       <TextInput
