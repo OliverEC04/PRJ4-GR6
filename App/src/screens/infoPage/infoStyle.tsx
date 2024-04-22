@@ -73,6 +73,14 @@ const style = StyleSheet.create({
   icon: {
     marginRight: 5,
   },
+  button: {
+    marginBottom: 50,
+    marginTop: 20,
+    alignItems: "center",
+    backgroundColor: 'black',
+    width: 350,
+    height: 50,
+  }
 });
 
 export default style;

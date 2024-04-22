@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Image, Button, ScrollView } from "react-native";
+import { View, Text, TextInput, Image, ScrollView } from "react-native";
 import style from "./infoStyle";
 import { Dropdown } from "react-native-element-dropdown";
+import TextField from "../../components/TextField";
+import Btn from "../../components/Btn";
 import AntDesign from '@expo/vector-icons/AntDesign'
-
 
 export default function Home() {
   const [isEditing, setIsEditing] = useState(false); // edit stuff
   const [height, setHeight] = useState("170");
   const [currentWeight, setCurrentWeight] = useState("79");
   const [targetWeight, setTargetWeight] = useState("100");
-  const [burnedCalories, setBurnedCalories] = useState("1000");
+  const [age, setAge] = useState("22");
   const [gender, setGender] = useState("Helicopter");
 
   const allGenders = [
@@ -29,39 +30,13 @@ export default function Home() {
     setIsEditing(!isEditing);
   };
 
-  // editing here:
-  const renderEditableField = (
-    label: any,
-    value: any,
-    setValue: any,
-    units: any
-  ) => (
-    <View style={style.entry}>
-      <Text style={style.label}>{label}:</Text>
-      {/* make it so units are next to text, good very good great success yes */}
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <TextInput
-          style={style.input}
-          onChangeText={setValue}
-          value={value}
-          editable={isEditing}
-          keyboardType="numeric"
-          underlineColorAndroid="transparent" // remove the ugly lines under eww
-        />
-        <Text style={style.units}>{units}</Text>
-      </View>
-    </View>
-  );
-
   const renderGenderDropdown = () => (
     <View style={style.entry}>
       <Dropdown
-        style={[style.dropdown, isEditing && { borderColor: 'blue' }]}
+        style={[style.dropdown, isEditing && { borderColor: 'gray' }]}
         placeholderStyle={style.placeholderStyle}
         selectedTextStyle={style.selectedTextStyle}
-        iconStyle={style.iconStyle}
         data={allGenders}
-        maxHeight={200}
         labelField="label"
         valueField="value"
         placeholder={!isEditing ? 'Select Gender' : 'Email??'}
@@ -73,36 +48,21 @@ export default function Home() {
   );
 
   return (
-    <ScrollView style={[style.container, { paddingBottom: 60 }]}>
+    <ScrollView style={style.container}>
       <Image source={{ uri: profilePicture }} style={style.profilePic} />
       <Text style={style.userName}>{userName}</Text>
       <Text style={style.goalType}>Goal: {userGoal}</Text>
 
-      {renderEditableField("Height", height, setHeight, "cm")}
-      {renderEditableField(
-        "Current Weight",
-        currentWeight,
-        setCurrentWeight,
-        "kg"
-      )}
-      {renderEditableField(
-        "Target Weight",
-        targetWeight,
-        setTargetWeight,
-        "kg"
-      )}
-      {renderEditableField(
-        "Burned Today",
-        burnedCalories,
-        setBurnedCalories,
-        "kcal"
-      )}
+      <TextField label="Height" value={height} setValue={setHeight} units="cm" isEditing={isEditing} />
+      <TextField label="Current Weight" value={currentWeight} setValue={setCurrentWeight} units="kg" isEditing={isEditing} />
+      <TextField label="Target Weight" value={targetWeight} setValue={setTargetWeight} units="kg" isEditing={isEditing} />
+      <TextField label="Age" value={age} setValue={setAge} units="years" isEditing={isEditing} />
       {renderGenderDropdown()}
 
-      <Button
-        title={isEditing ? "Save" : "Edit"}
-        color="#1C2833"
-        onPress={handleEditPress}
+      <Btn
+        text={isEditing ? "Save" : "Edit"}
+        onClick={handleEditPress}
+        style={style.button}
       />
     </ScrollView>
   );
