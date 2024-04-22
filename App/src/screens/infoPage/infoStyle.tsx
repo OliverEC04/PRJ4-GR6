@@ -6,19 +6,6 @@ const style = StyleSheet.create({
     padding: 20,
     backgroundColor: "white",
   },
-  userName: {
-    fontSize: 26,
-    fontWeight: "bold",
-    color: "black",
-    alignSelf: "center",
-    marginBottom: 4,
-  },
-  goalType: {
-    fontSize: 20,
-    color: "gray",
-    alignSelf: "center",
-    marginBottom: 20,
-  },
   entry: {
     flexDirection: "row",
     alignItems: "center",
@@ -30,27 +17,12 @@ const style = StyleSheet.create({
     borderColor: "darkgray",
     borderRadius: 5,
   },
-  label: {
-    fontSize: 18,
-    color: "gray",
-  },
   profilePic: {
     width: 150,
     height: 150,
     borderRadius: 100,
     alignSelf: "center",
     marginBottom: 20,
-  },
-  input: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "black",
-    textAlign: "right",
-  },
-  units: {
-    fontSize: 18,
-    color: "gray",
-    marginLeft: 6,
   },
   dropdown: {
     height: 50,
@@ -70,15 +42,11 @@ const style = StyleSheet.create({
     width: 20,
     height: 20,
   },
-  icon: {
-    marginRight: 5,
-  },
   button: {
     marginBottom: 50,
     marginTop: 20,
-    alignItems: "center",
     backgroundColor: 'black',
-    width: 350,
+    width: "90%",
     height: 50,
   }
 });

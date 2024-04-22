@@ -4,7 +4,6 @@ import style from "./infoStyle";
 import { Dropdown } from "react-native-element-dropdown";
 import TextField from "../../components/TextField";
 import Btn from "../../components/Btn";
-import AntDesign from "@expo/vector-icons/AntDesign";
 
 export default function Home() {
   const [isEditing, setIsEditing] = useState(false); // edit stuff
@@ -22,7 +21,7 @@ export default function Home() {
 
   // just mock data
   const userName = "Albert Einstein";
-  const userGoal = "Gain Weight";
+  const userGoal = "Lose Weight";
   const profilePicture =
     "https://hips.hearstapps.com/hmg-prod/images/albert-einstein-sticks-out-his-tongue-when-asked-by-news-photo-1681316749.jpg";
 
@@ -50,8 +49,8 @@ export default function Home() {
   return (
     <ScrollView style={style.container}>
       <Image source={{ uri: profilePicture }} style={style.profilePic} />
-      <Text style={style.userName}>{userName}</Text>
-      <Text style={style.goalType}>Goal: {userGoal}</Text>
+      <Text style={textStyles.userName}>{userName}</Text>
+      <Text style={textStyles.goalType}>Goal: {userGoal}</Text>
 
       <TextField
         label="Height"
@@ -82,12 +81,13 @@ export default function Home() {
         isEditing={isEditing}
       />
       {renderGenderDropdown()}
-
-      <Btn
-        text={isEditing ? "Save" : "Edit"}
-        onClick={handleEditPress}
-        style={style.button}
-      />
+      <View style={[{ alignItems: "center" }]}>
+        <Btn
+          text={isEditing ? "Save" : "Edit"}
+          onClick={handleEditPress}
+          style={style.button}
+        />
+      </View>
     </ScrollView>
   );
 }
