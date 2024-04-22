@@ -71,7 +71,7 @@ const style = StyleSheet.create({
     marginTop: 20,
     alignItems: "center",
     backgroundColor: "black",
-    width: 350,
+    width: 340,
     height: 50,
   },
 });

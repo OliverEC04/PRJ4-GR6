@@ -35,7 +35,9 @@ export default function Home() {
         data={Difficulty}
         labelField="label"
         valueField="value"
-        placeholder={!isEditing ? "Choose Goal Difficulty" : "Normal"}
+        placeholder={
+          !isEditing ? "Choose Goal Difficulty" : "Choose Goal Difficulty"
+        }
         value={difficulty}
         onChange={(item) => setDiffuclty(item.value)}
       />
@@ -98,6 +100,7 @@ export default function Home() {
         isEditing={isEditing}
       />
       {renderDifficultyDropdown()}
+      {renderActivityDropdown()}
       {renderHydrationDropdown()}
 
       <Btn
