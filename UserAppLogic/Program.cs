@@ -14,8 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-    
 
+builder.Services.AddCors();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
@@ -24,6 +24,13 @@ builder.Services.AddSwaggerGen(options =>
 {
     //options.ParameterFilter<SortColumnFilter>();
     //options.ParameterFilter<SortOrderFilter>();
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "UserAPI",
+        Version = "v1",
+        Description = "API to mange Users"
+    });
+
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -103,7 +110,31 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+
+builder.Services.AddEndpointsApiExplorer();
+
+
+
 app.UseHttpsRedirection();
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    string swaggerJsonBasePath = string.IsNullOrWhiteSpace(c.RoutePrefix) ? "." : "..";
+    c.SwaggerEndpoint($"{swaggerJsonBasePath}/swagger/v1/swagger.json", "Barcode API");
+});
+
+app.UseCors(x => x
+    .AllowAnyOrigin() // Not allowed together with AllowCredential
+    .WithOrigins("http://localhost:3000", "http://localhost:8080", "http://localhost:5000")
+    .SetIsOriginAllowed(x => _ = true)
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials()
+);
+
+
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -117,6 +148,8 @@ using (var scope = app.Services.CreateScope())
         DbInitializer.SeedUsers(userManager);
     else throw new Exception("UserManager is null");
 }
+
+
 
 
 app.MapControllers();
