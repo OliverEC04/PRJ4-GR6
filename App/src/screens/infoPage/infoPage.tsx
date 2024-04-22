@@ -4,6 +4,7 @@ import style from "./infoStyle";
 import { Dropdown } from "react-native-element-dropdown";
 import TextField from "../../components/TextField";
 import Btn from "../../components/Btn";
+import { textStyles } from "../../styles/textStyles";
 
 export default function Home() {
   const [isEditing, setIsEditing] = useState(false); // edit stuff
