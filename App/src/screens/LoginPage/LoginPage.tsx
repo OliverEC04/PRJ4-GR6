@@ -3,6 +3,7 @@ import { textStyles } from "../../styles/textStyles";
 import { useState } from "react";
 import Server from "../../models/Server";
 import Btn from "../../components/Btn";
+import logo from "../../../assets/logo.png";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -22,6 +23,17 @@ export default function LoginPage() {
   //         }
   //     };
   // }
+  function handleChangeName(e: string) {
+    setUsername(e);
+  }
+
+  function handleChangePassword(e: string) {
+    setPassword(e);
+  }
+
+  function handleChangeEmail(e: string) {
+    setEmail(e);
+  }
 
   const handleLogin = () => {
     Server.loginUser(username, password);
@@ -29,19 +41,28 @@ export default function LoginPage() {
 
   return (
     <View style={textStyles.container}>
-      {/* <Text className="italic text-orange-600">Login screen</Text> */}
+      <Image source={logo} />
       <Text style={textStyles.pageTitle}>Login screen</Text>
       <Text className="text-3xl">Username</Text>
-      <TextInput value={username} placeholder="Enter your username" />
+      <TextInput
+        value={username}
+        placeholder="Enter your username"
+        onChangeText={handleChangeName}
+      />
       <Text className="text-3xl">Email</Text>
-      <TextInput value={email} placeholder="Enter your email" />
+      <TextInput
+        value={email}
+        placeholder="Enter your email"
+        onChangeText={handleChangeEmail}
+      />
       <Text className="text-3xl">Password</Text>
       <TextInput
         value={password}
         placeholder="Enter your password"
         secureTextEntry={true}
+        onChangeText={handleChangePassword}
       />
-      <Btn text="Log In" onClick={handleLogin} />
+      <Btn style={textStyles.button} text="Log In" onClick={handleLogin} />
     </View>
   );
 }

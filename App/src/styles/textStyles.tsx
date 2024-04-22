@@ -3,8 +3,13 @@ import { StyleSheet } from "react-native";
 const textStyles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    justifyContent: "space-around",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+  button: {
+    alignSelf: "center",
+    justifyContent: "center",
   },
   title: {
     fontSize: 24,
