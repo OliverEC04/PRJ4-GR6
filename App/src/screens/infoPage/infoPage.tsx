@@ -4,7 +4,7 @@ import style from "./infoStyle";
 import { Dropdown } from "react-native-element-dropdown";
 import TextField from "../../components/TextField";
 import Btn from "../../components/Btn";
-import AntDesign from '@expo/vector-icons/AntDesign'
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 export default function Home() {
   const [isEditing, setIsEditing] = useState(false); // edit stuff
@@ -15,9 +15,9 @@ export default function Home() {
   const [gender, setGender] = useState("Helicopter");
 
   const allGenders = [
-    { label: 'Male', value: 'male' },
-    { label: 'Female', value: 'female' },
-    { label: 'Email', value: 'email' },
+    { label: "Male", value: "male" },
+    { label: "Female", value: "female" },
+    { label: "Email", value: "email" },
   ];
 
   // just mock data
@@ -33,15 +33,15 @@ export default function Home() {
   const renderGenderDropdown = () => (
     <View style={style.entry}>
       <Dropdown
-        style={[style.dropdown, isEditing && { borderColor: 'gray' }]}
+        style={[style.dropdown, isEditing && { borderColor: "gray" }]}
         placeholderStyle={style.placeholderStyle}
         selectedTextStyle={style.selectedTextStyle}
         data={allGenders}
         labelField="label"
         valueField="value"
-        placeholder={!isEditing ? 'Select Gender' : 'Email??'}
+        placeholder={!isEditing ? "Select Gender" : "Email??"}
         value={gender}
-        onChange={item => setGender(item.value)}
+        onChange={(item) => setGender(item.value)}
         disable={!isEditing}
       />
     </View>
@@ -53,10 +53,34 @@ export default function Home() {
       <Text style={style.userName}>{userName}</Text>
       <Text style={style.goalType}>Goal: {userGoal}</Text>
 
-      <TextField label="Height" value={height} setValue={setHeight} units="cm" isEditing={isEditing} />
-      <TextField label="Current Weight" value={currentWeight} setValue={setCurrentWeight} units="kg" isEditing={isEditing} />
-      <TextField label="Target Weight" value={targetWeight} setValue={setTargetWeight} units="kg" isEditing={isEditing} />
-      <TextField label="Age" value={age} setValue={setAge} units="years" isEditing={isEditing} />
+      <TextField
+        label="Height"
+        value={height}
+        setValue={setHeight}
+        units="cm"
+        isEditing={isEditing}
+      />
+      <TextField
+        label="Current Weight"
+        value={currentWeight}
+        setValue={setCurrentWeight}
+        units="kg"
+        isEditing={isEditing}
+      />
+      <TextField
+        label="Target Weight"
+        value={targetWeight}
+        setValue={setTargetWeight}
+        units="kg"
+        isEditing={isEditing}
+      />
+      <TextField
+        label="Age"
+        value={age}
+        setValue={setAge}
+        units="years"
+        isEditing={isEditing}
+      />
       {renderGenderDropdown()}
 
       <Btn
