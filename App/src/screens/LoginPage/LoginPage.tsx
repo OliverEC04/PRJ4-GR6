@@ -27,54 +27,21 @@ export default function LoginPage() {
     // fetchUserInfo(username, password);
   };
 
-  function createNewUser(): void {
-    console.log(
-      "Creating new user with username: " +
-        username +
-        ", password: " +
-        password +
-        ", email: " +
-        email
-    );
-    Server.registerUser(username, password, email);
-  }
-
-  function handleChangeName(e: string) {
-    setUsername(e);
-  }
-
-  function handleChangePassword(e: string) {
-    setPassword(e);
-  }
-
-  function handleChangeEmail(e: string) {
-    setEmail(e);
-  }
-
   return (
     <View style={textStyles.container}>
       {/* <Text className="italic text-orange-600">Login screen</Text> */}
       <Text style={textStyles.pageTitle}>Login screen</Text>
       <Text className="text-3xl">Username</Text>
-      <TextInput
-        value={username}
-        onChangeText={handleChangeName}
-        placeholder="Enter your username"
-      />
+      <TextInput value={username} placeholder="Enter your username" />
       <Text className="text-3xl">Email</Text>
-      <TextInput
-        value={email}
-        onChangeText={handleChangeEmail}
-        placeholder="Enter your email"
-      />
+      <TextInput value={email} placeholder="Enter your email" />
       <Text className="text-3xl">Password</Text>
       <TextInput
         value={password}
-        onChangeText={handleChangePassword}
         placeholder="Enter your password"
         secureTextEntry={true}
       />
-      <Btn text="Sign up" onClick={createNewUser} />
+      <Btn text="Log In" onClick={handleLogin} />
     </View>
   );
 }
