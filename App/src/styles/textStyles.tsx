@@ -3,9 +3,9 @@ import { StyleSheet } from "react-native";
 const textStyles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
-    paddingHorizontal: 20,
+    paddingHorizontal: 0,
   },
   button: {
     alignSelf: "center",
@@ -20,6 +20,15 @@ const textStyles = StyleSheet.create({
     fontSize: 36,
     fontWeight: "bold",
     color: "orange",
+  },
+  logoCont: {
+    width: "10%",
+    height: "10%",
+    flex: 1,
+  },
+  logo: {
+    width: "60%",
+    height: 200,
   },
 });
 
