@@ -5,6 +5,7 @@ import Home from "../screens/Home";
 import AddFood from "../screens/AddFood/AddFood";
 import infoPage from "../screens/infoPage/infoPage";
 import LoginNav from "../screens/LoginPage/LoginNav";
+import GoalPage from "../screens/GoalPage/GoalPage";
 
 export default function TabFooter() {
   const Tab = createMaterialBottomTabNavigator();
@@ -36,7 +37,16 @@ export default function TabFooter() {
           ),
         }}
       />
-
+      <Tab.Screen
+        name="GoalPage"
+        component={GoalPage}
+        options={{
+          tabBarLabel: "Goals",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="target" color={color} size={24} />
+          ),
+        }}
+      />
       <Tab.Screen
         name="infoPage"
         component={infoPage}
