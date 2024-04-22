@@ -7,12 +7,6 @@ class Server {
         this.url = url;
     }
 
-
-    public getUsers(): void {
-
-        fetch(this.url + "url her");
-    }
-
     public async registerUser(nameArg: string, passwordArg: string, emailArg: string) {
         try {
             console.log("fetching... ");
@@ -37,12 +31,16 @@ class Server {
         };
     }
 
-    public loginUser(name: string, password: string) {
-        fetch(this.url + "Login", {
+    public loginUser(nameArg: string, passwordArg: string) {
+        fetch(this.url + "Account/Login", {
             method: 'POST',
+            headers: {
+                'Accept': '*/*',
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
-                name: name,
-                password: password
+                name: nameArg,
+                password: passwordArg
             })
         });
     }

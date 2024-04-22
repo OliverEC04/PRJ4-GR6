@@ -24,7 +24,7 @@ export default function LoginPage() {
   // }
 
   const handleLogin = () => {
-    // fetchUserInfo(username, password);
+    Server.loginUser(username, password);
   };
 
   return (
