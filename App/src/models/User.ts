@@ -6,6 +6,7 @@ export class User {
     public carbs: number = 0;
     public fats: number = 0;
     public water: number = 0;
+    public token: string = "";
 
     constructor(email: string, fullName: string) {
         this.email = email;
