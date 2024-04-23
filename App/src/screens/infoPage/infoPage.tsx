@@ -4,6 +4,7 @@ import style from "./infoStyle";
 import { Dropdown } from "react-native-element-dropdown";
 import TextField from "../../components/TextField";
 import Btn from "../../components/Btn";
+import { textStyles } from "../../styles/textStyles";
 
 export default function Home() {
   const [isEditing, setIsEditing] = useState(false); // edit stuff
@@ -30,15 +31,15 @@ export default function Home() {
   };
 
   const renderGenderDropdown = () => (
-    <View style={style.entry}>
+    <View>
       <Dropdown
-        style={[style.dropdown, isEditing && { borderColor: "gray" }]}
-        placeholderStyle={style.placeholderStyle}
-        selectedTextStyle={style.selectedTextStyle}
+        style={[style.dropdown]}
+        placeholderStyle={style.placeholderText}
+        selectedTextStyle={style.placeholderText}
         data={allGenders}
         labelField="label"
         valueField="value"
-        placeholder={!isEditing ? "Select Gender" : "Email??"}
+        placeholder={!isEditing ? "Select Gender" : "--------"}
         value={gender}
         onChange={(item) => setGender(item.value)}
         disable={!isEditing}
@@ -67,13 +68,6 @@ export default function Home() {
         isEditing={isEditing}
       />
       <TextField
-        label="Target Weight"
-        value={targetWeight}
-        setValue={setTargetWeight}
-        units="kg"
-        isEditing={isEditing}
-      />
-      <TextField
         label="Age"
         value={age}
         setValue={setAge}
@@ -83,7 +77,7 @@ export default function Home() {
       {renderGenderDropdown()}
       <View style={[{ alignItems: "center" }]}>
         <Btn
-          text={isEditing ? "Save" : "Edit"}
+          text={isEditing ? "Save" : "Edit Profile"}
           onClick={handleEditPress}
           style={style.button}
         />
