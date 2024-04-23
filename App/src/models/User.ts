@@ -14,4 +14,4 @@ export class User {
     }
 }
 
-export let currentUser: User;
+export let currentUser: User = new User("", "");

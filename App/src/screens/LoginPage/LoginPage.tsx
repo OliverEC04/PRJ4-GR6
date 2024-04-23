@@ -1,17 +1,14 @@
 import { View, Text, TextInput, Image } from "react-native";
 import { textStyles } from "../../styles/textStyles";
 import { useState } from "react";
+import { currentUser } from "../../models/User";
 import Server from "../../models/Server";
 import Btn from "../../components/Btn";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
-  function handleChangeName(e: string) {
-    setUsername(e);
-  }
 
   function handleChangePassword(e: string) {
     setPassword(e);
@@ -21,9 +18,17 @@ export default function LoginPage() {
     setEmail(e);
   }
 
-  const handleLogin = () => {
-    Server.loginUser(username, password);
+  const handleLogin = async () => {
+    await Server.loginUser(email, password);
+    // when finished:
+    // navigate til "Home";
+    // skal den bare kalde en ny functon?
   };
+
+  const debugShowToken = () => {
+    console.log("token: ");
+    console.log(currentUser.token);
+  }
 
   return (
     <View style={textStyles.container}>
@@ -33,12 +38,6 @@ export default function LoginPage() {
         style={textStyles.logo}
       />
       <Text style={textStyles.pageTitle}>Login screen</Text>
-      <Text className="text-3xl">Username</Text>
-      <TextInput
-        value={username}
-        placeholder="Enter your username"
-        onChangeText={handleChangeName}
-      />
       <Text className="text-3xl">Email</Text>
       <TextInput
         value={email}
@@ -53,6 +52,7 @@ export default function LoginPage() {
         onChangeText={handleChangePassword}
       />
       <Btn style={textStyles.button} text="Log In" onClick={handleLogin} />
+      <Btn style={textStyles.button} text="Show token" onClick={debugShowToken} />
     </View>
   );
 }
