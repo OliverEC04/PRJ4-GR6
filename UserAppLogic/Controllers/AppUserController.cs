@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AppUserBackend.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [Route("[controller]")]
     [ApiController]
     [Produces("application/json")]
