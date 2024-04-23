@@ -4,8 +4,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 type RoundBtnProps = {
     onClick: () => void,
-    icon: undefined,
-    size: number,
+    icon: string,
+    size?: number,
     btnColor?: string,
     iconColor?: string,
     style?: {},
@@ -25,9 +25,11 @@ export default function RoundBtn({
             onPress={onClick}
             style={[
                 BtnStyle.round,
-                { width: size, height: size, borderRadius: size / 2, backgroundColor: btnColor }, style]}>
+                { width: size, height: size, borderRadius: size / 2, backgroundColor: btnColor },
+                style
+            ]}>
             <MaterialCommunityIcons
-                name={icon}
+                name={icon as any}
                 color={iconColor}
                 size={size / 2}
             />

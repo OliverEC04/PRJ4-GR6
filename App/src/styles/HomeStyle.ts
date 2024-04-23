@@ -14,4 +14,14 @@ export default StyleSheet.create({
         width: "60%",
         height: 200,
     },
+    waterCont: {
+        display: "flex",
+        flexDirection: "row",
+        width: 300,
+    },
+    waterBtn: {
+        alignSelf: "flex-end",
+        marginTop: 22,
+        marginLeft: 10,
+    },
 });

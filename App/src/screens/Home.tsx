@@ -12,8 +12,10 @@ export default function Home()
             <StatBar title="Protein" val={120} maxVal={126} unit="g" height={26}></StatBar>
             <StatBar title="Carbs" val={30} maxVal={126} unit="g" height={26}></StatBar>
             <StatBar title="Fats" val={60} maxVal={126} unit="g" height={26}></StatBar>
-            <StatBar title="Water" val={3} maxVal={3} unit="L" height={26} colors={["#E06C75", "#61AFEF"]}></StatBar>
-            {/* <RoundBtn onClick={() => {}}/> */}
+            <View style={HomeStyle.waterCont}>
+                <StatBar title="Water" val={3} maxVal={3} unit="L" height={26} colors={["#E06C75", "#61AFEF"]} width={300 - (60 + 4 + 10)}></StatBar>
+                <RoundBtn onClick={() => { }} icon={"plus"} size={60} style={HomeStyle.waterBtn}/>
+            </View>
         </View>
     );
 }
