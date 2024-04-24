@@ -75,7 +75,6 @@ export default function App() {
 
   const handleAddNewFood = async () => {
     try {
-
         const response = await fetch(`https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/AddMealWithBarcode?BarcodeId=${scannedBarcode}&mealName=${foodName}&calories=${calories}&protein=${protein}&carbs=${carbs}&fat=${fat}`, {
             method: 'POST'
         });
@@ -92,7 +91,6 @@ export default function App() {
         Alert.alert('Error', 'Failed to add new food. Please check your network connection and try again.');
     }
 };
-
 
   if (hasPermission === null) {
     return (
@@ -160,10 +158,13 @@ export default function App() {
           setModalVisible(false);
         }}
       >
-        {/* popup container*/}
-        <View style={styles.modalContainer}>
-          <ScrollView style={{ paddingTop: 60, paddingHorizontal: 20 }}>
-            {/* Display scanned barcode ID */}
+        {/* Transparent grey background */}
+        <View style={styles.modalBackground}>
+          {/* Container for modal content */}
+          <View style={styles.modalContainer}>
+          <Text style={styles.modalTitle}>Barcode not found, add it to the database</Text>
+            <ScrollView style={{ paddingTop: 60, paddingHorizontal: 20 }}>
+               {/* Display scanned barcode ID */}
             <Text style={styles.barcodeText}>Scanned Barcode: {scannedBarcode}</Text>
 
             {/* Input fields for food information */}
@@ -200,7 +201,8 @@ export default function App() {
                 <Btn onClick={handleAddNewFood} text='Enter' style={styles.EnterButton} />
                 <Btn onClick={() => setModalVisible(false)} text='close' style={styles.cancelButton}/>
             </View>
-          </ScrollView>
+            </ScrollView>
+          </View>
         </View>
       </Modal>
     </View>
@@ -242,11 +244,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'monospace',
   },
-  barcodeText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -258,17 +255,40 @@ const styles = StyleSheet.create({
     borderRadius: 20,
 }, 
 
+barcodeText: {
+  fontSize: 18,
+  fontWeight: 'bold',
+  marginBottom: 10,
+},
 cancelButton: {
     backgroundColor: '#fa8072', 
     width: "45%",
     borderRadius: 20,
 },
-  modalContainer: {
+  modalBackground: {
     flex: 1,
-    padding: 0,
-    justifyContent: 'space-around',
-    backgroundColor: 'white', 
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+    justifyContent: 'center',
     alignItems: 'center',
   },
+  modalContainer: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    width: '90%', 
+    height: '55%', 
+    marginBottom: 10,
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    borderWidth: 1,
+    borderColor: "black",
+
+  },
+  modalTitle: {
+    fontSize: 17,
+    fontWeight: 'normal',
+    includeFontPadding: false,
+    textDecorationLine: 'underline',
+    marginBottom: -50,
+    textAlign: 'center',
+  }
 });
-                                                      
