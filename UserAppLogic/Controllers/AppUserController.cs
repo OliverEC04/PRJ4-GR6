@@ -2,54 +2,75 @@ using Microsoft.AspNetCore.Mvc;
 using UserBackend.Data;
 using UserBackend.Data.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore; 
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
 
 namespace AppUserBackend.Controllers
 {
-    [Authorize(Roles = "Admin")]
     [Route("[controller]")]
     [ApiController]
     [Produces("application/json")]
     public class AppUserController : ControllerBase
     {
         private readonly MyDbContext db;
+        private readonly ILogger<AppUserController> logger;
+        private readonly UserManager<AppUser> _userManager;
 
-        public AppUserController(MyDbContext context)
+
+        public AppUserController(MyDbContext context, ILogger<AppUserController> logger, UserManager<AppUser> userManager)
         {
             db = context;
+            this.logger = logger;
+            _userManager = userManager;
+
         }
 
 
         // GET: api/AppUser
         [HttpGet]
+        [Authorize("AdminOnly")]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetAppUsers()
         {
             return await db.Users.ToListAsync();
         }
 
-        // GET: api/AppUser/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<object>> GetAppUserData(string id)
+        
+        [HttpGet("me")]
+        [Authorize("User")]
+        public async Task<ActionResult<object>> GetAppUserData()
         {
-            var appUser = await db.Users.FindAsync(id);
-
-            if (appUser == null)
+            try
             {
-                return NotFound();
+                var userName = User.FindFirstValue(ClaimTypes.Name);
+
+                var appUser = await _userManager.FindByNameAsync(userName);
+
+                if (appUser == null)
+                {
+                    return NotFound();
+                }
+
+                var result = new 
+                {
+                    appUser.FullName,
+                    appUser.Height,
+                    appUser.CurrentWeight,
+                    appUser.TargetWeight,
+                    appUser.Age,
+                    appUser.Gender
+                };
+
+                return result;
             }
-
-            var result = new 
+            catch (Exception e)
             {
-                appUser.FullName,
-                appUser.Height,
-                appUser.CurrentWeight,
-                appUser.TargetWeight,
-                appUser.Age,
-                appUser.Gender
-            };
+                return BadRequest(e.Message);
+            }
+}
 
-            return result;
-        }
+
 
         // PUT: api/AppUser/5
         [HttpPut("{id}")]

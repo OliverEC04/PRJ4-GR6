@@ -83,22 +83,21 @@ builder.Services.AddAuthentication(options => {
     options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options => {
     options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidIssuer = builder.Configuration["JWT:Issuer"],
-        ValidateAudience = true,
-        ValidAudience = builder.Configuration["JWT:Audience"],
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(
-            System.Text.Encoding.UTF8.GetBytes(
-            builder.Configuration["SigningKeys:Default"]))
-    };
+{
+    ValidateIssuer = true,
+    ValidIssuer = builder.Configuration["JWT:Issuer"],
+    ValidateAudience = true,
+    ValidAudience = builder.Configuration["JWT:Audience"],
+    ValidateIssuerSigningKey = true,
+    IssuerSigningKey = new SymmetricSecurityKey(
+        System.Text.Encoding.UTF8.GetBytes(builder.Configuration["SigningKeys:Default"]))
+};
 });
 
 builder.Services.AddAuthorization(options =>
 {
-   options.AddPolicy("AdminOnly", policy => policy.RequireClaim("isAdmin","true"));
-   options.AddPolicy("User", policy => policy.RequireClaim("isUser","true"));
+    options.AddPolicy("AdminOnly", policy => policy.RequireClaim("isAdmin", "true"));
+    options.AddPolicy("User", policy => policy.RequireClaim("isUser", "true"));
 });
 
 builder.Services.AddRazorPages();

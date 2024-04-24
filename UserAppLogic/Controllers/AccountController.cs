@@ -41,7 +41,7 @@ namespace AppUserBackend.Controllers
         [AllowAnonymous]
         [Route("Register")]
         public async Task<ActionResult> Register(RegisterDTO input)
-        {
+            {
             try
             {
                 if (ModelState.IsValid)
@@ -102,33 +102,37 @@ namespace AppUserBackend.Controllers
                     var user = await _userManager.FindByNameAsync(input.UserName);
                     if (user == null || !await _userManager.CheckPasswordAsync(user, input.Password))
                         throw new Exception("Invalid login attempt.");
-                    else
+
+                    var signingCredentials = new SigningCredentials(
+                            new SymmetricSecurityKey(
+                            System.Text.Encoding.UTF8.GetBytes(_signingKey)),
+                            SecurityAlgorithms.HmacSha256);
+
+                    var claims = new List<Claim>
                     {
-                        var signingCredentials = new SigningCredentials(
-                                new SymmetricSecurityKey(
-                                System.Text.Encoding.UTF8.GetBytes(_configuration["SigningKeys:Default"])),
-                                SecurityAlgorithms.HmacSha256);
-
-                        var claims = new List<Claim>();
-                        claims.Add(new Claim(ClaimTypes.Name, user.UserName));
-
-                        var jwtObject = new JwtSecurityToken(
-                                issuer: _configuration["JWT:Issuer"],
-                                audience: _configuration["JWT:Audience"],
-                                claims: claims,
-                                expires: DateTime.Now.AddSeconds(300),
-                                signingCredentials: signingCredentials);
-                        var jwtString = new JwtSecurityTokenHandler()
-                        .WriteToken(jwtObject);
-                        
-                        return StatusCode(StatusCodes.Status200OK, jwtString);
+                        new Claim(ClaimTypes.Name, user.UserName),
+                        new Claim("isUser", "true")
+                    };
+                    if (user.UserName == "Admin@localhost")
+                    {
+                        claims.Add(new Claim("isAdmin", "true"));
                     }
+
+                    var jwtObject = new JwtSecurityToken(
+                            issuer: _configuration["JWT:Issuer"],
+                            audience: _configuration["JWT:Audience"],
+                            claims: claims,
+                            expires: DateTime.Now.AddSeconds(300),
+                            signingCredentials: signingCredentials);
+
+                    var jwtString = new JwtSecurityTokenHandler().WriteToken(jwtObject);
+                    
+                    return StatusCode(StatusCodes.Status200OK, jwtString);
                 }
                 else
                 {
                     var details = new ValidationProblemDetails(ModelState);
-                    details.Type =
-                    "https:/ /tools.ietf.org/html/rfc7231#section-6.5.1";
+                    details.Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1";
                     details.Status = StatusCodes.Status400BadRequest;
                     return new BadRequestObjectResult(details);
                 }
@@ -137,13 +141,11 @@ namespace AppUserBackend.Controllers
             {
                 var exceptionDetails = new ProblemDetails();
                 exceptionDetails.Detail = e.Message;
-                exceptionDetails.Status =
-                StatusCodes.Status401Unauthorized;
-                exceptionDetails.Type =
-                "https:/ /tools.ietf.org/html/rfc7231#section-6.6.1";
-                return StatusCode(
-                    StatusCodes.Status401Unauthorized, exceptionDetails);
+                exceptionDetails.Status = StatusCodes.Status401Unauthorized;
+                exceptionDetails.Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1";
+                return StatusCode(StatusCodes.Status401Unauthorized, exceptionDetails);
             }
         }
+
     }
 }
