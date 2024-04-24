@@ -38,7 +38,7 @@ export default function App() {
         'X-RapidAPI-Host': 'barcodes1.p.rapidapi.com'
       }
     };
-
+  
     try {
       const queryString = Object.keys(options.params)
         .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(options.params[key]))
@@ -48,10 +48,15 @@ export default function App() {
         headers: options.headers
       });
       let result = await response.json();
-
+  
       if (!result || !result.product) {
-        setModalVisible(true);
-        return;
+        const localResponse = await fetch(`https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/GetBarcodeInfo/${barcode}`);
+        result = await localResponse.json();
+  
+        if (!foodName.trim() || !carbs.trim() || !protein.trim() || !fat.trim()) {
+          setModalVisible(true);
+          return;
+        }
       }
       setFoodInfo(result);
       setScannedBarcode(barcode); 
@@ -155,7 +160,7 @@ export default function App() {
           setModalVisible(false);
         }}
       >
-        {/* Black container */}
+        {/* popup container*/}
         <View style={styles.modalContainer}>
           <ScrollView style={{ paddingTop: 60, paddingHorizontal: 20 }}>
             {/* Display scanned barcode ID */}
@@ -249,19 +254,20 @@ const styles = StyleSheet.create({
 },
   EnterButton: {
     backgroundColor: '#333', 
-    width: "50%",
+    width: "45%",
     borderRadius: 20,
 }, 
 
 cancelButton: {
     backgroundColor: '#fa8072', 
-    width: "50%",
+    width: "45%",
     borderRadius: 20,
 },
   modalContainer: {
     flex: 1,
+    padding: 0,
+    justifyContent: 'space-around',
     backgroundColor: 'white', 
-    justifyContent: 'center',
     alignItems: 'center',
   },
 });
