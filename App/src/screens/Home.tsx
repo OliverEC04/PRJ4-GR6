@@ -3,6 +3,7 @@ import StatBar from "../components/StatBar";
 import HomeStyle from "../styles/HomeStyle";
 import RoundBtn from "../components/RoundBtn";
 import Server from "../models/Server";
+import { currentUser } from "../models/User";
 
 export default function Home()
 {
