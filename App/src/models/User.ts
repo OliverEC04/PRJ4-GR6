@@ -1,3 +1,5 @@
+import Server from "../models/Server";
+
 export class User {
     public email: string;
     public fullName: string;
@@ -11,6 +13,12 @@ export class User {
     constructor(email: string, fullName: string) {
         this.email = email;
         this.fullName = fullName;
+    }
+
+    public addWater(liters: number): void {
+        this.water += liters;
+
+        // TODO: post added water to server
     }
 }
 
