@@ -1,9 +1,16 @@
 import { View, Text, Image } from "react-native";
 import StatBar from "../components/StatBar";
 import HomeStyle from "../styles/HomeStyle";
+import RoundBtn from "../components/RoundBtn";
+import Server from "../models/Server";
+import { currentUser } from "../models/User";
+import PopupField from "../components/PopupField";
+import { useState } from "react";
 
 export default function Home()
 {
+    const [addWaterPopupVisible, setAddWaterPopupVisible] = useState(false);
+
     return (
         <View style={HomeStyle.container}>
             <Image source={require('./../../assets/logo.png')} resizeMode="contain" style={HomeStyle.logo} />
@@ -11,7 +18,17 @@ export default function Home()
             <StatBar title="Protein" val={120} maxVal={126} unit="g" height={26}></StatBar>
             <StatBar title="Carbs" val={30} maxVal={126} unit="g" height={26}></StatBar>
             <StatBar title="Fats" val={60} maxVal={126} unit="g" height={26}></StatBar>
-            <StatBar title="Water" val={3} maxVal={3} unit="L" height={26} colors={["#E06C75", "#61AFEF"]}></StatBar>
+            <View style={HomeStyle.waterCont}>
+                <StatBar title="Water" val={3} maxVal={3} unit="L" height={26} colors={["#E06C75", "#61AFEF"]} width={300 - (60 + 4 + 10)}></StatBar>
+                <RoundBtn onClick={() => {setAddWaterPopupVisible(true)}} icon={"plus"} size={60} style={HomeStyle.waterBtn}/>
+            </View>
+            <PopupField
+                onEnter={v => currentUser.addWater(+v)}
+                visible={addWaterPopupVisible}
+                setVisible={setAddWaterPopupVisible}
+                fieldPlaceholder="Enter liters of water to add"
+                fieldUnit="L"
+            />
         </View>
     );
 }

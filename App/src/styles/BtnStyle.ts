@@ -14,4 +14,15 @@ export default StyleSheet.create({
         fontSize: 20,
         color: 'white',
     },
+    round: {
+        padding: 10,
+        margin: 4,
+        justifyContent: 'center',
+        alignItems: "center",
+        backgroundColor: "#61AFEF",
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        color: "white",
+    }
 });

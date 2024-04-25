@@ -2,6 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import TabFooter from './src/components/TabFooter';
 import { StatusBar } from 'expo-status-bar';
 import { View, StyleSheet } from 'react-native';
+import Server from './src/models/Server';
 
 
 export default function App()
@@ -13,6 +14,7 @@ export default function App()
 			<NavigationContainer>
 				<TabFooter/>
 			</NavigationContainer>
+			
 		</>
 	);
 }
