@@ -18,7 +18,7 @@ export class User {
     public addWater(liters: number): void {
         this.water += liters;
 
-        // TODO: post added water to server
+        // TODO: post added water to server ( server.PostWater(this.water) eller noget )
     }
 }
 
