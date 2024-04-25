@@ -23,6 +23,7 @@
     "expo-status-bar": "~1.11.1",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
+    "react-modal": "^3.16.1",
     "react-native": "0.73.6",
     "react-native-element-dropdown": "^2.10.4",
     "react-native-gesture-handler": "~2.14.0",
