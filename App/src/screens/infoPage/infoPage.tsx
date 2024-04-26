@@ -12,7 +12,7 @@ export default function InfoPage() {
   useEffect(()=>{
     Server.getUser().then;
 
-    setHeight(currentUser.)
+    // setHeight(currentUser.)
   }); 
 
   const [isEditing, setIsEditing] = useState(false); // edit stuff
