@@ -4,7 +4,7 @@ import { Camera } from 'expo-camera';
 import AddTextField from "../../components/AddTextField";
 import { User, currentUser } from "../../models/User";
 import Btn from "../../components/Btn";
-import {styles}
+import styles from "./ScanStyle"
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -214,3 +214,4 @@ export default function App() {
     </View>
   );
 }
+

@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     addButton: {
-        backgroundColor: '#E06C75', 
+        backgroundColor: '#61AFEF', 
         width: "41.5%",
         marginRight: -5,
         borderRadius: 20,
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     },
 
     deleteButton: {
-        backgroundColor: '#61AFEF', 
+        backgroundColor: '#E06C75', 
         width: "41.5%",
         marginLeft: -5,
         borderRadius: 20,
