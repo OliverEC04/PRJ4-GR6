@@ -4,6 +4,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import AddTextField from "../../components/AddTextField";
 import styles from './EnterStyle';
+import { User, currentUser } from "../../models/User";
 import Btn from "../../components/Btn";
 import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 
@@ -24,12 +25,14 @@ export default function AddFoodPage() {
 
     const fetchMeals = async () => {
         try {
-            const response = await fetch('https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/ListOfBarcodes');
+            const headers = { 'Authorization': 'Bearer ' + currentUser.token};
+            const response = await fetch('https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/ListOfBarcodes', { headers });
             const data = await response.json();
             setMeals(data);
         } catch (error) {
             console.error('Error fetching meals:', error);
         }
+        
     };
 
     const handleMealSelect = (selectedMeal:any) => {
@@ -57,11 +60,12 @@ export default function AddFoodPage() {
         setIsEditing(!isEditing);
       };
 
-    const handleAddNewFood = async () => {
+      const handleAddNewFood = async () => {
         try {
-
+            const headers = { 'Authorization': 'Bearer ' + currentUser.token };
             const response = await fetch(`https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/AddMealWithNoBarcode?mealName=${foodName}&calories=${calories}&protein=${protein}&carbs=${carbs}&fat=${fat}`, {
-                method: 'POST'
+                method: 'POST',
+                headers: headers
             });
             if (response.ok) {
                 Alert.alert('Success', 'New food added successfully!');
@@ -78,11 +82,14 @@ export default function AddFoodPage() {
             Alert.alert('Error', 'Failed to add new food. Please check your network connection and try again.');
         }
     };
+    
 
     const handleDeleteNewFood = async () => {
         try {
+            const headers = { 'Authorization': 'Bearer ' + currentUser.token};
             const response = await fetch(`https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/RemoveBarcode/${id}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: headers
             });
             if (response.ok) {
                 Alert.alert('Success', 'Food deleted successfully!');

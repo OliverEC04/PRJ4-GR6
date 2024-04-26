@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button, Modal, ScrollView } from 'react-native';
 import { Camera } from 'expo-camera';
 import AddTextField from "../../components/AddTextField";
+import { User, currentUser } from "../../models/User";
 import Btn from "../../components/Btn";
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
 
   const fetchFoodInfo = async (barcode) => {
     setLoading(true);
+    
     const options = {
       method: 'GET',
       url: 'https://barcodes1.p.rapidapi.com/',
@@ -50,7 +52,8 @@ export default function App() {
       let result = await response.json();
   
       if (!result || !result.product) {
-        const localResponse = await fetch(`https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/GetBarcodeInfo/${barcode}`);
+        const headers = { 'Authorization': 'Bearer ' + currentUser.token};
+        const localResponse = await fetch(`https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/GetBarcodeInfo/${barcode}`, { headers });
         result = await localResponse.json();
   
         if (!foodName.trim() || !carbs.trim() || !protein.trim() || !fat.trim()) {
@@ -74,9 +77,11 @@ export default function App() {
   };
 
   const handleAddNewFood = async () => {
+    const headers = { 'Authorization': 'Bearer ' + currentUser.token};
     try {
         const response = await fetch(`https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/AddMealWithBarcode?BarcodeId=${scannedBarcode}&mealName=${foodName}&calories=${calories}&protein=${protein}&carbs=${carbs}&fat=${fat}`, {
-            method: 'POST'
+            method: 'POST',
+            headers: headers
         });
         if (response.ok) {
             Alert.alert('Success', 'New barcode added successfully!');
