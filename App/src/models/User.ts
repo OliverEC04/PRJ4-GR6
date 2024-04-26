@@ -6,6 +6,7 @@ export class User {
     public height: number = 0;
     public gender: string = "";
     public weight: number = 0;
+    public age: number = 0;
     public calories: number = 0;
     public proteins: number = 0;
     public carbs: number = 0;
@@ -22,6 +23,7 @@ export class User {
         this.fullName = user.fullName;
         this.gender = user.gender;
         this.weight = user.weight;
+        this.age = user.age;
         this.calories = user.calories;
         this.proteins = user.proteins;
         this.carbs = user.carbs;
