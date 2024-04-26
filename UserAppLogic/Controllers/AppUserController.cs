@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
+using UserBackend.Data.DTO;
 
 namespace AppUserBackend.Controllers
 {
@@ -59,7 +60,12 @@ namespace AppUserBackend.Controllers
                     appUser.CurrentWeight,
                     appUser.TargetWeight,
                     appUser.Age,
-                    appUser.Gender
+                    appUser.Gender,
+                    appUser.DailyCalories,
+                    appUser.DailyProtein,
+                    appUser.DailyCarbs,
+                    appUser.DailyFat,
+                    appUser.CurrentCalories
                 };
 
                 return result;
@@ -73,33 +79,42 @@ namespace AppUserBackend.Controllers
 
 
         // PUT: api/AppUser/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAppUser(string id, AppUser appUser)
+        [Authorize("User")]
+        [HttpPut("me")]
+        public async Task<IActionResult> PutAppUser(AppUserDTO appUser)
         {
-            if (id != appUser.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(appUser).State = EntityState.Modified;
-
             try
             {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AppUserExists(id))
+                var userName = User.FindFirstValue(ClaimTypes.Name);
+
+                var user = await _userManager.FindByNameAsync(userName);
+
+                if (user == null)
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return NoContent();
+                user.FullName = appUser.FullName;
+                user.Height = appUser.Height;
+                user.CurrentWeight = appUser.CurrentWeight;
+                user.TargetWeight = appUser.TargetWeight;
+                user.Age = appUser.Age;
+                user.Gender = appUser.Gender;
+                user.DailyCalories = appUser.DailyCalories;
+                user.DailyProtein = appUser.DailyProtein;
+                user.DailyCarbs = appUser.DailyCarbs;
+                user.DailyFat = appUser.DailyFat;
+                user.CurrentCalories = appUser.CurrentCalories;
+            
+                await _userManager.UpdateAsync(user);
+            
+                return NoContent();
+            }
+            
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         // POST: api/AppUser

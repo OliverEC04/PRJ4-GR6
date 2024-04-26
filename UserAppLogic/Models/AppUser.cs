@@ -27,5 +27,20 @@ namespace UserBackend.Data.Models
         
         [RegularExpression("^(Male|Female)$", ErrorMessage = "Gender must be either Male or Female.")]
         public string? Gender { get; set; }
+
+        [Range(0, int.MaxValue, ErrorMessage = "Daily calories must be a positive number.")]
+        public int? DailyCalories { get; set; }
+
+        [Range(0, int.MaxValue, ErrorMessage = "Protein must be a positive number.")]
+        public int? DailyProtein { get; set; }
+
+        [Range(0, int.MaxValue, ErrorMessage = "Carbs must be a positive number.")]
+        public int? DailyCarbs { get; set; }
+
+        [Range(0, int.MaxValue, ErrorMessage = "Fat must be a positive number.")]
+        public int? DailyFat { get; set; }
+
+        [Range(0, int.MaxValue, ErrorMessage = "Current calories must be a positive number.")]
+        public int? CurrentCalories { get; set; }
     }
 }

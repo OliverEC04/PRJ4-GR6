@@ -1,4 +1,4 @@
-﻿using BarcodeAPI.Data;
+using BarcodeAPI.Data;
 using BarcodeAPI.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +8,7 @@ using UserBackend.Data;
 
 namespace BarcodeAPI.Controllers
 {
-    [Authorize]
+    [Authorize("User")]
     [Route("api/[controller]")]
     [ApiController]
     [Produces("application/json")]
