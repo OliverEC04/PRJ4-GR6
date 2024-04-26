@@ -69,6 +69,7 @@ export default function AddFoodPage() {
             });
             if (response.ok) {
                 Alert.alert('Success', 'New food added successfully!');
+                setId(null);
                 setFoodName('');
                 setCalories('');
                 setProtein('');

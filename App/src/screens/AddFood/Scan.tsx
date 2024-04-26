@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button, Modal, ScrollView } from 'react-native';
-import { Camera } from 'expo-camera';
+import { Text, View, StyleSheet, Button, Modal, ScrollView, Alert } from 'react-native';
+import { Camera, CameraType } from 'expo-camera';
+import { useIsFocused } from '@react-navigation/native';
 import AddTextField from "../../components/AddTextField";
-import { User, currentUser } from "../../models/User";
 import Btn from "../../components/Btn";
 
 export default function App() {
@@ -16,11 +16,24 @@ export default function App() {
   const [carbs, setCarbs] = useState('');
   const [fat, setFat] = useState('');
   const [scannedBarcode, setScannedBarcode] = useState('');
+  const isFocused = useIsFocused();
 
   const askForCameraPermission = async () => {
     const { status } = await Camera.requestCameraPermissionsAsync();
     setHasPermission(status === 'granted');
   };
+
+
+  
+  function toggleCameraType() {
+    setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
+  }
+
+  function Profile() {
+    const isFocused = useIsFocused();
+  
+    return <Text>{isFocused ? 'focused' : 'unfocused'}</Text>;
+  }
 
   useEffect(() => {
     askForCameraPermission();
@@ -116,12 +129,14 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+    {isFocused && hasPermission && (
       <View style={styles.cameraContainer}>
         <Camera
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
           style={styles.camera}
         />
       </View>
+    )}
       {loading ? (
         <Text>Loading...</Text>
       ) : (
