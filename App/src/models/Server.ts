@@ -60,10 +60,11 @@ class Server {
         };
     }
 
-    public async getUser(email: string): Promise<User> {
-        const response = await fetch(this.url + `GetUser/${email}`);
-
-        return new User(email, "");
+    public async getUser(): Promise<void> {
+        const response = await fetch(this.url + `GetUser`)
+        .then((r) => {
+            currentUser.update(r);
+        });
     }
 }
 
