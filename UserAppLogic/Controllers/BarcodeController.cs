@@ -44,9 +44,7 @@ namespace BarcodeAPI.Controllers
         [HttpGet("ListOfBarcodesForUser")]
 
         public async Task<ActionResult<object>> GetListOfBarcodesForUser()
-
         {
-
             try
             {
                 var userName = User.FindFirstValue(ClaimTypes.Name);
@@ -57,16 +55,9 @@ namespace BarcodeAPI.Controllers
                 {
                     return NotFound();
                 }
-
-
-                var result = _context.Barcode
-
-                    .Where(b => b.AppUser.FullName == userName && b.BarcodeId != 0)
-
-                    .ToList();
-
-
-                return Ok(result);
+                
+                var barcodes = appUser.Barcodes.ToList();
+                return Ok(barcodes);
             }
             catch (Exception e)
             {
@@ -75,15 +66,24 @@ namespace BarcodeAPI.Controllers
 
         }
 
-       
+
         // POST api/barcode/AddBarcode
         [HttpPost("AddMealWithBarcode")]
-        public ActionResult<Barcode> AddMealWithBarcode(long barcodeId, string mealName, float calories, float protein, float carbs, float fat)
+        public async Task<ActionResult<object>> AddMealWithBarcode(long barcodeId, string mealName, float calories, float protein, float carbs, float fat)
         {
 
             if (string.IsNullOrEmpty(mealName))
             {
                 return BadRequest("Meal name cannot be empty.");
+            }
+
+            var userName = User.FindFirstValue(ClaimTypes.Name);
+
+            var appUser = await _userManager.FindByNameAsync(userName);
+
+            if (appUser == null)
+            {
+                return NotFound();
             }
 
             var barcode = new Barcode
@@ -97,6 +97,7 @@ namespace BarcodeAPI.Controllers
             };
 
             _context.Barcode.Add(barcode);
+            appUser.Barcodes.Add(barcode);
             _context.SaveChanges();
 
             return Ok();
@@ -105,11 +106,20 @@ namespace BarcodeAPI.Controllers
 
         // POST api/barcode/AddBarcodeNoId
         [HttpPost("AddMealWithNoBarcode")]
-        public ActionResult<Barcode> AddMealWithNoBarcode(string mealName, float calories, float protein, float carbs, float fat)
+        public async Task<ActionResult<object>> AddMealWithNoBarcode(string mealName, float calories, float protein, float carbs, float fat)
         {
             if (string.IsNullOrEmpty(mealName))
             {
                 return BadRequest("Meal name cannot be empty.");
+            }
+
+            var userName = User.FindFirstValue(ClaimTypes.Name);
+
+            var appUser = await _userManager.FindByNameAsync(userName);
+
+            if (appUser == null)
+            {
+                return NotFound();
             }
 
             var barcode = new Barcode
@@ -123,6 +133,7 @@ namespace BarcodeAPI.Controllers
             };
 
             _context.Barcode.Add(barcode);
+            appUser.Barcodes.Add(barcode);
             _context.SaveChanges();
 
             return Ok();
@@ -131,7 +142,7 @@ namespace BarcodeAPI.Controllers
 
         // DELETE api/barcode/RemoveBarcode/{id}
         [HttpDelete("RemoveBarcode/{id}")]
-        public ActionResult RemoveBarcode(long id)
+        public async Task<ActionResult<object>> RemoveBarcode(long id)
         {
             var barcode = _context.Barcode.FirstOrDefault(b => b.Id == id);
             if (barcode == null)
@@ -139,7 +150,17 @@ namespace BarcodeAPI.Controllers
                 return NotFound();
             }
 
+            var userName = User.FindFirstValue(ClaimTypes.Name);
+
+            var appUser = await _userManager.FindByNameAsync(userName);
+
+            if (appUser == null)
+            {
+                return NotFound();
+            }
+
             _context.Barcode.Remove(barcode);
+            appUser.Barcodes.Remove(barcode);
             _context.SaveChanges();
 
             return Ok();

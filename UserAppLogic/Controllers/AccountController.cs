@@ -119,10 +119,10 @@ namespace AppUserBackend.Controllers
                     }
 
                     var jwtObject = new JwtSecurityToken(
-                            issuer: _configuration["JWT:Issuer"],
-                            audience: _configuration["JWT:Audience"],
-                            claims: claims,
-                            expires: DateTime.Now.AddDay(1),
+                        issuer: _configuration["JWT:Issuer"],
+                        audience: _configuration["JWT:Audience"],
+                        claims: claims,
+                        expires: DateTime.UtcNow.AddDays(1),
                             signingCredentials: signingCredentials);
 
                     var jwtString = new JwtSecurityTokenHandler().WriteToken(jwtObject);
