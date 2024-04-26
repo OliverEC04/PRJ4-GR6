@@ -27,6 +27,13 @@ namespace UserBackend.Data
         {
             base.OnModelCreating(modelBuilder);
 
+
+             modelBuilder.Entity<AppUser>()
+               .HasMany(e => e.Barcodes)
+               .WithOne(e => e.AppUser)
+               .HasForeignKey(e => e.AppUserId)
+               .IsRequired(false);
+ 
         }
     }
 }

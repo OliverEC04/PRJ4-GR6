@@ -3,20 +3,22 @@ using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using UserBackend.Data.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace UserAppLogic.Data
 {
     public static class DbInitializer
-    {
-        public static void SeedUsers(UserManager<AppUser> userManager)
+    {   
+        public static void SeedUsers(UserManager<AppUser> userManager, IConfiguration configuration)
         {
-            const string adminEmail = "Admin@localhost";
-            const string adminPassword = "Secret7$";
-            const string userEmail = "User@localhost";
-            const string userPassword = "Secret6$";
-
             if (userManager == null)
                 throw new ArgumentNullException(nameof(userManager));
+
+            // Get values from configuration
+            var adminEmail = configuration["Admin:adminEmail"];
+            var adminPassword = configuration["Admin:adminPassword"];
+            var userEmail = configuration["User:userEmail"];
+            var userPassword = configuration["User:userPassword"];
 
             // Seed admin user
             if (userManager.FindByNameAsync(adminEmail).Result == null)

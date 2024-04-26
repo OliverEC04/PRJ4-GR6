@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+using BarcodeAPI.Data.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Hosting;
 
 namespace UserBackend.Data.Models
 {
@@ -42,5 +44,7 @@ namespace UserBackend.Data.Models
 
         [Range(0, int.MaxValue, ErrorMessage = "Current calories must be a positive number.")]
         public int? CurrentCalories { get; set; }
+
+        public ICollection<Barcode> Barcodes { get; } = new List<Barcode>();
     }
 }

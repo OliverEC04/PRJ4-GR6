@@ -1,8 +1,11 @@
-﻿namespace BarcodeAPI.Data.Models;
+using System.Reflection.Metadata;
+using UserBackend.Data.Models;
+
+namespace BarcodeAPI.Data.Models;
 
 public class Barcode
 {
-    public int id { get; set; }
+    public int Id { get; set; }
 
     public long BarcodeId { get; set; }
 
@@ -16,6 +19,8 @@ public class Barcode
 
     public float Fat { get; set; }
 
+    public string AppUserId { get; set; } 
+    public AppUser AppUser { get; set; } = null!;
 
-    
+
 }

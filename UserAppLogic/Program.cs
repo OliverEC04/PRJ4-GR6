@@ -144,10 +144,12 @@ using (var scope = app.Services.CreateScope())
 {
     var serviceProvider = scope.ServiceProvider;
     var userManager = serviceProvider.GetService<UserManager<AppUser>>();
-    if(userManager != null)
-        DbInitializer.SeedUsers(userManager);
-    else throw new Exception("UserManager is null");
+    var configuration = serviceProvider.GetService<IConfiguration>(); 
+    if(userManager != null && configuration != null)
+        DbInitializer.SeedUsers(userManager, configuration); 
+    else throw new Exception("UserManager or IConfiguration is null");
 }
+
 
 
 
