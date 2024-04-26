@@ -19,8 +19,8 @@ export default function Home()
 
     useEffect(() => {
         // TODO: evt. update currentUser fra server her, eller gør det inde i server.
-        server.getUser(currentUser.email).then((u) => {
-            console.debug(u);
+        server.getUser().then(() => {
+            console.debug(currentUser);
 
             setName(currentUser.fullName.split(" ")[0]);
             setCalories(currentUser.calories);

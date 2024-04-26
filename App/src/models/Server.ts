@@ -61,10 +61,16 @@ class Server {
     }
 
     public async getUser(): Promise<void> {
-        const response = await fetch(this.url + `GetUser`)
-        .then((r) => {
-            currentUser.update(r);
-        });
+        await fetch(this.url + `GetUser`)
+            .then((response) => {
+                if (response.ok)
+                    return response.json();
+                else
+                    throw new Error("getUser fucked up :(");
+            })
+            .then((data) => {
+                console.debug(data);
+            });
     }
 }
 
