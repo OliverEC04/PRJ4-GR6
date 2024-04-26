@@ -59,7 +59,7 @@ class Server {
             console.error('Error logging in:', error);
         };
     }
-
+// the big user
     public async getUser(): Promise<void> {
         await fetch(this.url + `GetUser`)
             .then((response) => {
