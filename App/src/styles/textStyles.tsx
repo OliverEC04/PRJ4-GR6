@@ -7,6 +7,11 @@ const textStyles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 0,
   },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 10, // Adjust this value as needed
+  },
   button: {
     alignSelf: "center",
     justifyContent: "center",

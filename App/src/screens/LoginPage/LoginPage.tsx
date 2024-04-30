@@ -39,31 +39,21 @@ export default function LoginPage() {
       />
       <Text style={textStyles.underTitle}>Email</Text>
 
-      <TextBox
-        label="Enter your Email"
-        value={email}
-        setValue={setEmail}
-        units=""
-      />
+      <TextBox label="Enter your Email" value={email} setValue={setEmail} />
       <Text style={textStyles.underTitle}>Password</Text>
       <TextBox
         label="Enter your Password"
         value={password}
         setValue={setPassword}
-        units=""
       />
-      {/* <TextInput
-        value={password}
-        placeholder="Enter your password"
-        secureTextEntry={true}
-        onChangeText={handleChangePassword}
-      /> */}
-      <Btn style={textStyles.button} text="Log In" onClick={handleLogin} />
-      <Btn
-        style={textStyles.button}
-        text="Show token"
-        onClick={debugShowToken}
-      />
+      <View style={textStyles.buttonContainer}>
+        <Btn style={textStyles.button} text="Log In" onClick={handleLogin} />
+        <Btn
+          style={textStyles.button}
+          text="Show token"
+          onClick={debugShowToken}
+        />
+      </View>
     </View>
   );
 }

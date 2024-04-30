@@ -6,10 +6,9 @@ type TextBoxProps = {
   label: string;
   value: string;
   setValue: (text: string) => void;
-  units: string;
 };
 
-const TextBox = ({ label, value, setValue, units }: TextBoxProps) => {
+const TextBox = ({ label, value, setValue }: TextBoxProps) => {
   return (
     <View style={style.entry}>
       <TextInput
@@ -20,7 +19,6 @@ const TextBox = ({ label, value, setValue, units }: TextBoxProps) => {
         keyboardType="default"
         editable={true}
       />
-      <Text style={style.units}>{units}</Text>
     </View>
   );
 };
