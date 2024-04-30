@@ -3,6 +3,7 @@ import { textStyles } from "../../styles/textStyles";
 import { useState } from "react";
 import Server from "../../models/Server";
 import Btn from "../../components/Btn";
+import TextBox from "../../components/TextBox";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -26,32 +27,33 @@ export default function LoginPage() {
   };
 
   return (
-    <View style={textStyles.container}>
+    <View>
       <Image
         source={require("../../../assets/logo.png")}
         resizeMode="contain"
         style={textStyles.logo}
       />
-      <Text style={textStyles.pageTitle}>Login screen</Text>
-      <Text className="text-3xl">Username</Text>
-      <TextInput
-        value={username}
-        placeholder="Enter your username"
-        onChangeText={handleChangeName}
-      />
-      <Text className="text-3xl">Email</Text>
-      <TextInput
+      <Text style={textStyles.underTitle}>Email</Text>
+
+      <TextBox
+        label="Enter your Email"
         value={email}
-        placeholder="Enter your email"
-        onChangeText={handleChangeEmail}
+        setValue={setEmail}
+        units=""
       />
-      <Text className="text-3xl">Password</Text>
-      <TextInput
+      <Text style={textStyles.underTitle}>Password</Text>
+      <TextBox
+        label="Enter your Password"
+        value={password}
+        setValue={setPassword}
+        units=""
+      />
+      {/* <TextInput
         value={password}
         placeholder="Enter your password"
         secureTextEntry={true}
         onChangeText={handleChangePassword}
-      />
+      /> */}
       <Btn style={textStyles.button} text="Log In" onClick={handleLogin} />
     </View>
   );
