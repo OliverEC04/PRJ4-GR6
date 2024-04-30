@@ -22,9 +22,9 @@ export default function Home() {
   };
 
   const Difficulty = [
-    { label: "Easy", value: "1" },
-    { label: "Normal", value: "2" },
-    { label: "Hard", value: "3" },
+    { label: "Easy", value: "250" },
+    { label: "Normal", value: "500" },
+    { label: "Hard", value: "750" },
   ];
 
   const renderDifficultyDropdown = () => (
@@ -44,10 +44,10 @@ export default function Home() {
   );
 
   const Activity = [
-    { label: "Sedentary (little to no exercise)", value: "1.375" },
+    { label: "Sedentary (little to no exercise)", value: "1.2" },
     {
       label: "Lightly active (light exercise or sports 1-3 days a week)",
-      value: "1.374",
+      value: "1.375",
     },
     {
       label: "Moderately active (moderate exercise or sports 3-5 days a week)",
