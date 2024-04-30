@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, Image, ScrollView } from "react-native";
-import style from "./infoStyle";
+import style from "../../styles/infoStyle";
 import { Dropdown } from "react-native-element-dropdown";
 import TextField from "../../components/TextField";
 import Btn from "../../components/Btn";
 import { textStyles } from "../../styles/textStyles";
+import Server from "../../models/Server";
+import { currentUser } from "../../models/User";
 
-export default function Home() {
+export default function InfoPage() {
+  useEffect(()=>{
+    Server.getUser().then;
+
+    // setHeight(currentUser.)
+  }); 
+
   const [isEditing, setIsEditing] = useState(false); // edit stuff
   const [height, setHeight] = useState("170");
   const [currentWeight, setCurrentWeight] = useState("79");
-  const [targetWeight, setTargetWeight] = useState("100");
   const [age, setAge] = useState("22");
   const [gender, setGender] = useState("Helicopter");
 
@@ -31,15 +38,15 @@ export default function Home() {
   };
 
   const renderGenderDropdown = () => (
-    <View style={style.entry}>
+    <View>
       <Dropdown
-        style={[style.dropdown, isEditing && { borderColor: "gray" }]}
-        placeholderStyle={style.placeholderStyle}
-        selectedTextStyle={style.selectedTextStyle}
+        style={[style.dropdown]}
+        placeholderStyle={style.placeholderText}
+        selectedTextStyle={style.placeholderText}
         data={allGenders}
         labelField="label"
         valueField="value"
-        placeholder={!isEditing ? "Select Gender" : "Email??"}
+        placeholder={!isEditing ? "Select Gender" : "--------"}
         value={gender}
         onChange={(item) => setGender(item.value)}
         disable={!isEditing}
@@ -68,13 +75,6 @@ export default function Home() {
         isEditing={isEditing}
       />
       <TextField
-        label="Target Weight"
-        value={targetWeight}
-        setValue={setTargetWeight}
-        units="kg"
-        isEditing={isEditing}
-      />
-      <TextField
         label="Age"
         value={age}
         setValue={setAge}
@@ -84,7 +84,7 @@ export default function Home() {
       {renderGenderDropdown()}
       <View style={[{ alignItems: "center" }]}>
         <Btn
-          text={isEditing ? "Save" : "Edit"}
+          text={isEditing ? "Save" : "Edit Profile"}
           onClick={handleEditPress}
           style={style.button}
         />
