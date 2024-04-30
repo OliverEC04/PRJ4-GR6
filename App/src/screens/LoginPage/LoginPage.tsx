@@ -4,11 +4,11 @@ import { useState } from "react";
 import { currentUser } from "../../models/User";
 import Server from "../../models/Server";
 import Btn from "../../components/Btn";
+import TextBox from "../../components/TextBox";
 
 export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-
 
   function handleChangePassword(e: string) {
     setPassword(e);
@@ -28,31 +28,32 @@ export default function LoginPage() {
   const debugShowToken = () => {
     console.log("token: ");
     console.log(currentUser.token);
-  }
+  };
 
   return (
-    <View style={textStyles.container}>
+    <View>
       <Image
         source={require("../../../assets/logo.png")}
         resizeMode="contain"
         style={textStyles.logo}
       />
-      <Text style={textStyles.pageTitle}>Login screen</Text>
-      <Text className="text-3xl">Email</Text>
-      <TextInput
-        value={email}
-        placeholder="Enter your email"
-        onChangeText={handleChangeEmail}
-      />
-      <Text className="text-3xl">Password</Text>
-      <TextInput
+      <Text style={textStyles.underTitle}>Email</Text>
+
+      <TextBox label="Enter your Email" value={email} setValue={setEmail} />
+      <Text style={textStyles.underTitle}>Password</Text>
+      <TextBox
+        label="Enter your Password"
         value={password}
-        placeholder="Enter your password"
-        secureTextEntry={true}
-        onChangeText={handleChangePassword}
+        setValue={setPassword}
       />
-      <Btn style={textStyles.button} text="Log In" onClick={handleLogin} />
-      <Btn style={textStyles.button} text="Show token" onClick={debugShowToken} />
+      <View style={textStyles.buttonContainer}>
+        <Btn style={textStyles.button} text="Log In" onClick={handleLogin} />
+        <Btn
+          style={textStyles.button}
+          text="Show token"
+          onClick={debugShowToken}
+        />
+      </View>
     </View>
   );
 }

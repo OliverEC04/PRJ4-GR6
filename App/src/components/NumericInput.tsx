@@ -9,7 +9,7 @@ type TextFieldProps = {
   units: string;
 };
 
-const TargetWeight = ({ label, value, setValue, units }: TextFieldProps) => {
+const NumericInput = ({ label, value, setValue, units }: TextFieldProps) => {
   return (
     <View style={style.entry}>
       <Text style={style.label}>{label}:</Text>
@@ -19,7 +19,6 @@ const TargetWeight = ({ label, value, setValue, units }: TextFieldProps) => {
           onChangeText={setValue}
           value={value}
           keyboardType="numeric"
-          underlineColorAndroid="transparent"
         />
         <Text style={style.units}>{units}</Text>
       </View>
@@ -27,4 +26,4 @@ const TargetWeight = ({ label, value, setValue, units }: TextFieldProps) => {
   );
 };
 
-export default TargetWeight;
+export default NumericInput;

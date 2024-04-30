@@ -82,11 +82,18 @@ class Server {
         };
     }
 
-    // public async getUser(email: string): Promise<User> {
-    //     const response = await fetch(this.url + `GetUser/${email}`);
-
-    //     return new User(email, "");
-    // }
+    public async getUser(): Promise<void> {
+        await fetch(this.url + `GetUser`)
+            .then((response) => {
+                if (response.ok)
+                    return response.json();
+                else
+                    throw new Error("getUser fucked up :(");
+            })
+            .then((data) => {
+                console.debug(data);
+            });
+    }
 }
 
 

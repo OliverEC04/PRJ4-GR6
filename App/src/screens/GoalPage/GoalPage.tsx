@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Image, ScrollView } from "react-native";
 import style from "./GoalStyle";
 import { Dropdown } from "react-native-element-dropdown";
-import TargetWeight from "../../components/TargetWeight";
+import NumericInput from "../../components/NumericInput";
 import Btn from "../../components/Btn";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import StatBar from "../../components/StatBar";
@@ -92,7 +92,7 @@ export default function Home() {
     <ScrollView style={style.container}>
       <Text style={style.targetWeight}>Goals</Text>
       <Text style={style.goalType}>Goal: {userGoal}</Text>
-      <TargetWeight
+      <NumericInput
         label="Target Weight"
         value={targetWeight}
         setValue={setTargetWeight}
