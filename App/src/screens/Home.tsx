@@ -42,8 +42,9 @@ function getCalGoal(user: User): number
 export default function Home()
 {
     const [name, setName] = useState("world");
-    const [calories, setCalories] = useState(1000);
+    const [calories, setCalories] = useState(3000);
     const [calGoal, setCalGoal] = useState(2500);
+    const [calBarColors, setCalBarColors] = useState(["#98C379", "#E5C07B", "#E06C75"]);
     const [protein, setProtein] = useState(126);
     const [carbs, setCarbs] = useState(100);
     const [fats, setFats] = useState(50);
@@ -64,7 +65,18 @@ export default function Home()
 
             setCalGoal(getCalGoal(currentUser));
         });
-     });
+    });
+    
+    useEffect(() => {
+        if (calories > calGoal)
+        {
+            setCalBarColors(["#E06C75", "#E06C75"]);
+        }
+        else
+        {
+            setCalBarColors(["#98C379", "#E5C07B", "#E06C75"]);
+        }
+    }, [calories, calGoal]);
 
     return (
         <View style={HomeStyle.container}>
@@ -72,7 +84,7 @@ export default function Home()
             <Text style={{fontSize: 30, fontWeight: "200"}}>
                 {`Hello ${name}!`}
             </Text>
-            <StatBar title="Calories" val={calories} maxVal={2500} unit="kcal" height={60} colors={["#98C379", "#E5C07B", "#E06C75"]}></StatBar>
+            <StatBar title="Calories" val={calories} maxVal={calGoal} unit="kcal" height={60} colors={calBarColors}></StatBar>
             <StatBar title="Protein" val={protein} maxVal={126} unit="g" height={26}></StatBar>
             <StatBar title="Carbs" val={carbs} maxVal={126} unit="g" height={26}></StatBar>
             <StatBar title="Fats" val={fats} maxVal={126} unit="g" height={26}></StatBar>
