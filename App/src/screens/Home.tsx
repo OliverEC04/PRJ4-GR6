@@ -3,14 +3,47 @@ import StatBar from "../components/StatBar";
 import HomeStyle from "../styles/HomeStyle";
 import RoundBtn from "../components/RoundBtn";
 import server from "../models/Server";
-import { currentUser } from "../models/User";
+import { User, currentUser } from "../models/User";
 import PopupField from "../components/PopupField";
 import { useEffect, useState } from "react";
+
+function getCalGoal(user: User): number
+{
+    // Calculate BMR
+
+    let bmr: number;
+
+    if (user.gender === "male")
+    {
+        bmr = 10 * user.weight + 6.25 * user.height - 5 * user.age + 5;
+    }
+    else if (user.gender === "female")
+    {
+        bmr = 10 * user.weight + 6.25 * user.height - 5 * user.age - 161;
+    }
+    else
+    {
+        console.warn("Received gender does not exist, cannot calculate BMR.");
+        return -1;
+    }
+
+    // Calculate calorie goal
+
+    if (user.weight < user.targetWeight)
+    {
+        return bmr * user.activity + user.difficulty;
+    }
+    else
+    {
+        return bmr * user.activity - user.difficulty;
+    }
+}
 
 export default function Home()
 {
     const [name, setName] = useState("world");
     const [calories, setCalories] = useState(1000);
+    const [calGoal, setCalGoal] = useState(2500);
     const [protein, setProtein] = useState(126);
     const [carbs, setCarbs] = useState(100);
     const [fats, setFats] = useState(50);
@@ -28,6 +61,8 @@ export default function Home()
             setCarbs(currentUser.carbs);
             setFats(currentUser.fats);
             setWater(currentUser.water);
+
+            setCalGoal(getCalGoal(currentUser));
         });
      });
 
