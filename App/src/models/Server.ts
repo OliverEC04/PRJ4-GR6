@@ -32,8 +32,10 @@ class Server {
         };
     }
 
+    // en put metode til at opdatere user data
+
     public async getUserInfo(): Promise<User>  {
-        const response = await fetch('https://brief-oriole-causal.ngrok-free.app/rest_api/Account/UserInfo', {
+        const response = await fetch('https://brief-oriole-causal.ngrok-free.app/rest_api/Account/me', { // TJEK URL
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + currentUser.token,
