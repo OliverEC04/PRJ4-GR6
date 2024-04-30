@@ -6,6 +6,7 @@ class Server {
     constructor(url: string = "https://brief-oriole-causal.ngrok-free.app/rest_api/") {
         this.url = url;
     }
+    // api/me
 
     public async registerUser(nameArg: string, passwordArg: string, emailArg: string) {
         try {
@@ -29,6 +30,29 @@ class Server {
         catch (error) {
             console.error('Error registering user:', error);
         };
+    }
+
+    // en put metode til at opdatere user data
+
+    public async getUserInfo(): Promise<User>  {
+        const response = await fetch('https://brief-oriole-causal.ngrok-free.app/rest_api/Account/me', { // TJEK URL
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + currentUser.token,
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        var userInfo = new User('dummy mail', 'dummy name');
+        userInfo.calories = data.calories;
+        userInfo.proteins = data.proteins;
+        userInfo.carbs = data.carbs;
+        userInfo.fats = data.fats;
+        userInfo.water = data.water;
+        return userInfo;
     }
 
     public async loginUser(nameArg: string, passwordArg: string) {
