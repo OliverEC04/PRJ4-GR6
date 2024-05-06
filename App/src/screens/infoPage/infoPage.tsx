@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, Image, ScrollView } from "react-native";
-import style from "./infoStyle";
+import style from "../../styles/infoStyle";
 import { Dropdown } from "react-native-element-dropdown";
 import TextField from "../../components/TextField";
 import Btn from "../../components/Btn";
 import { textStyles } from "../../styles/textStyles";
+import Server from "../../models/Server";
+import { currentUser } from "../../models/User";
 
-export default function Home() {
+export default function InfoPage() {
+  useEffect(()=>{
+    Server.getUser().then;
+
+    // setHeight(currentUser.)
+  }); 
+
   const [isEditing, setIsEditing] = useState(false); // edit stuff
   const [height, setHeight] = useState("170");
   const [currentWeight, setCurrentWeight] = useState("79");
-  const [targetWeight, setTargetWeight] = useState("100");
   const [age, setAge] = useState("22");
   const [gender, setGender] = useState("Helicopter");
 
