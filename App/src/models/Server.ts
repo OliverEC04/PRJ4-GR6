@@ -77,7 +77,8 @@ class Server {
                 throw new Error("No token received");
             }
 
-            console.log("token: ", currentUser.token);
+            localStorage.setItem('jwtToken', currentUser.token);
+            
         }
         catch (error) {
             console.error('Error logging in:', error);
