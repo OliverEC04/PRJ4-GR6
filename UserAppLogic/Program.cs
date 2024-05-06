@@ -116,7 +116,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>
