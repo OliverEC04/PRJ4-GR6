@@ -1,4 +1,5 @@
 import { User, currentUser } from "./User";
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class Server {
     private url: string;
