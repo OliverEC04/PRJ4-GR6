@@ -11,7 +11,8 @@ export default function Home() {
   const [isEditing, setIsEditing] = useState(false); // edit stuff
   const [targetWeight, setTargetWeight] = useState("100");
   const [hydration, setHydration] = useState("2 Litre");
-  const [difficulty, setDiffuclty] = useState("Helicopter");
+  const [difficulty, setDiffuclty] = useState("Normal");
+  const [activity, setActivity] = useState("Sedentary (little to no exercise)");
 
   // just mock data
   const userGoal = "Gain Weight";
@@ -21,9 +22,9 @@ export default function Home() {
   };
 
   const Difficulty = [
-    { label: "Easy", value: "Easy" },
-    { label: "Normal", value: "Normal" },
-    { label: "Hard", value: "Hard" },
+    { label: "Easy", value: "250" },
+    { label: "Normal", value: "500" },
+    { label: "Hard", value: "750" },
   ];
 
   const renderDifficultyDropdown = () => (
@@ -35,9 +36,7 @@ export default function Home() {
         data={Difficulty}
         labelField="label"
         valueField="value"
-        placeholder={
-          !isEditing ? "Choose Goal Difficulty" : "Choose Goal Difficulty"
-        }
+        placeholder={"Choose Goal Difficulty"}
         value={difficulty}
         onChange={(item) => setDiffuclty(item.value)}
       />
@@ -45,11 +44,24 @@ export default function Home() {
   );
 
   const Activity = [
-    { label: "0 Hours", value: "1" },
-    { label: "1-2 Hours", value: "1.2" },
-    { label: "3-4 Hours", value: "1.4" },
-    { label: "5-6 Hours", value: "1.6" },
-    { label: "7+ Hours", value: "1.8" },
+    { label: "Sedentary (little to no exercise)", value: "1.2" },
+    {
+      label: "Lightly active (light exercise or sports 1-3 days a week)",
+      value: "1.375",
+    },
+    {
+      label: "Moderately active (moderate exercise or sports 3-5 days a week)",
+      value: "1.55",
+    },
+    {
+      label: "Very active (hard exercise or sports 6-7 days a week)",
+      value: "1.725",
+    },
+    {
+      label:
+        "Super active (very hard exercise and a physical job or training twice a day)",
+      value: "1.9",
+    },
   ];
   const renderActivityDropdown = () => (
     <View style={style.entry}>
@@ -60,9 +72,9 @@ export default function Home() {
         data={Activity}
         labelField="label"
         valueField="value"
-        placeholder={!isEditing ? "Weekly activity" : "3-4 Hours"}
-        value={difficulty}
-        onChange={(item) => setDiffuclty(item.value)}
+        placeholder={"Weekly activity"}
+        value={activity}
+        onChange={(item) => setActivity(item.value)}
       />
     </View>
   );
