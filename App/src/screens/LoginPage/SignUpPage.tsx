@@ -13,11 +13,11 @@ export default function SignUpPage() {
   function createNewUser(): void {
     console.log(
       "Creating new user with username: " +
-        username +
-        ", password: " +
-        password +
-        ", email: " +
-        email
+      username +
+      ", password: " +
+      password +
+      ", email: " +
+      email
     );
     Server.registerUser(username, password, email);
   }
@@ -45,7 +45,7 @@ export default function SignUpPage() {
       <TextBox
         label="Enter your Username"
         value={username}
-        setValue={setPassword}
+        setValue={setUsername}
       />
       <Text style={textStyles.underTitle}>Email</Text>
       <TextBox label="Enter your Email" value={email} setValue={setEmail} />
