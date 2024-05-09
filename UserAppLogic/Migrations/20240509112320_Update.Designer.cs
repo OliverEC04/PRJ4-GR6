@@ -12,8 +12,8 @@ using UserBackend.Data;
 namespace UserAppLogic.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20240419124314_UserDetails")]
-    partial class UserDetails
+    [Migration("20240509112320_Update")]
+    partial class Update
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,14 @@ namespace UserAppLogic.Migrations
 
             modelBuilder.Entity("BarcodeAPI.Data.Models.Barcode", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<long>("BarcodeId")
                         .HasColumnType("bigint");
@@ -52,7 +55,9 @@ namespace UserAppLogic.Migrations
                     b.Property<float>("Protein")
                         .HasColumnType("real");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("Barcode");
                 });
@@ -205,7 +210,37 @@ namespace UserAppLogic.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("CurrentCalories")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CurrentCarbs")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CurrentFat")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CurrentProtein")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("CurrentWater")
+                        .HasColumnType("float");
+
                     b.Property<double?>("CurrentWeight")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("DailyCalories")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DailyCarbs")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DailyFat")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DailyProtein")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("DailyWater")
                         .HasColumnType("float");
 
                     b.Property<string>("Email")
@@ -261,6 +296,12 @@ namespace UserAppLogic.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<double?>("activityLevel")
+                        .HasColumnType("float");
+
+                    b.Property<string>("difficultyLevel")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -272,6 +313,15 @@ namespace UserAppLogic.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("BarcodeAPI.Data.Models.Barcode", b =>
+                {
+                    b.HasOne("UserBackend.Data.Models.AppUser", "AppUser")
+                        .WithMany("Barcodes")
+                        .HasForeignKey("AppUserId");
+
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -323,6 +373,11 @@ namespace UserAppLogic.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("UserBackend.Data.Models.AppUser", b =>
+                {
+                    b.Navigation("Barcodes");
                 });
 #pragma warning restore 612, 618
         }
