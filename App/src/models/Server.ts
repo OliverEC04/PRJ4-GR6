@@ -4,9 +4,7 @@ import { User, currentUser } from "./User";
 class Server {
   private url: string;
 
-  constructor(
-    url: string = "https://brief-oriole-causal.ngrok-free.app/"
-  ) {
+  constructor(url: string = "https://brief-oriole-causal.ngrok-free.app/") {
     this.url = url;
   }
   // api/me
@@ -41,15 +39,13 @@ class Server {
   // en put metode til at opdatere user data
 
   public async getUserInfo(): Promise<User> {
-    const response = await fetch(`${this.url}AppUser/me`,
-      {
-        // TJEK URL
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + currentUser.token,
-        },
-      }
-    );
+    const response = await fetch(`${this.url}AppUser/me`, {
+      // TJEK URL
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + currentUser.token,
+      },
+    });
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -69,15 +65,15 @@ class Server {
     try {
       console.log("logging in with url: ", this.url + "Account/Login");
       const response = await fetch(this.url + "Account/Login", {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Accept': '*/*',
-          'Content-Type': 'application/json'
+          Accept: "*/*",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           userName: nameArg,
           password: passwordArg,
-        })
+        }),
       });
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -86,13 +82,9 @@ class Server {
       if (currentUser.token === "") {
         throw new Error("No token received");
       }
-
-      localStorage.setItem('jwtToken', currentUser.token);
-
+    } catch (error) {
+      console.error("Error logging in:", error);
     }
-    catch (error) {
-      console.error('Error logging in:', error);
-    };
   }
 
   public async getUser(): Promise<void> {
