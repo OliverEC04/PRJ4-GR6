@@ -7,6 +7,12 @@ const styles = StyleSheet.create({
         padding: 20,
         justifyContent: 'space-around',
     },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        paddingHorizontal: 10, // Optional: Adds padding on the sides
+    },
     dropdown: {
         height: 45,
         backgroundColor: 'white',
@@ -45,17 +51,13 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         alignSelf: 'center',
         width: '85%',
-        height: 60,
+        height: 45,
         backgroundColor: 'white',
     },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     addButton: {
-        backgroundColor: '#4169e1', 
+        backgroundColor: '#61AFEF', 
         width: "41.5%",
+        marginRight: -5,
         borderRadius: 20,
     },
     submitButton: {
@@ -65,8 +67,9 @@ const styles = StyleSheet.create({
     },
 
     deleteButton: {
-        backgroundColor: '#fa8072', 
+        backgroundColor: '#E06C75', 
         width: "41.5%",
+        marginLeft: -5,
         borderRadius: 20,
     },
 });

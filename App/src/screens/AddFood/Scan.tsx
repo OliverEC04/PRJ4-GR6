@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button, Modal, ScrollView } from 'react-native';
-import { Camera } from 'expo-camera';
+import { Text, View, StyleSheet, Button, Modal, ScrollView, Alert } from 'react-native';
+import { Camera, CameraType } from 'expo-camera';
+import { useIsFocused } from '@react-navigation/native';
 import AddTextField from "../../components/AddTextField";
-import { User, currentUser } from "../../models/User";
 import Btn from "../../components/Btn";
+import styles from "./ScanStyle"
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -16,11 +17,24 @@ export default function App() {
   const [carbs, setCarbs] = useState('');
   const [fat, setFat] = useState('');
   const [scannedBarcode, setScannedBarcode] = useState('');
+  const isFocused = useIsFocused();
 
   const askForCameraPermission = async () => {
     const { status } = await Camera.requestCameraPermissionsAsync();
     setHasPermission(status === 'granted');
   };
+
+
+  
+  function toggleCameraType() {
+    setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
+  }
+
+  function Profile() {
+    const isFocused = useIsFocused();
+  
+    return <Text>{isFocused ? 'focused' : 'unfocused'}</Text>;
+  }
 
   useEffect(() => {
     askForCameraPermission();
@@ -116,12 +130,14 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+    {isFocused && hasPermission && (
       <View style={styles.cameraContainer}>
         <Camera
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
           style={styles.camera}
         />
       </View>
+    )}
       {loading ? (
         <Text>Loading...</Text>
       ) : (
@@ -214,86 +230,3 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  cameraContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 300,
-    width: 300,
-    overflow: 'hidden',
-    borderRadius: 30,
-    backgroundColor: 'tomato',
-    marginBottom: 20,
-  },
-  camera: {
-    height: '100%',
-    width: '100%',
-  },
-  resultContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    marginBottom: 20,
-    maxHeight: 400,
-  },
-  resultText: {
-    fontSize: 14,
-    fontFamily: 'monospace',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-},
-  EnterButton: {
-    backgroundColor: '#333', 
-    width: "45%",
-    borderRadius: 20,
-}, 
-
-barcodeText: {
-  fontSize: 18,
-  fontWeight: 'bold',
-  marginBottom: 10,
-},
-cancelButton: {
-    backgroundColor: '#fa8072', 
-    width: "45%",
-    borderRadius: 20,
-},
-  modalBackground: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContainer: {
-    backgroundColor: 'white',
-    borderRadius: 10,
-    width: '90%', 
-    height: '55%', 
-    marginBottom: 10,
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    borderWidth: 1,
-    borderColor: "black",
-
-  },
-  modalTitle: {
-    fontSize: 17,
-    fontWeight: 'normal',
-    includeFontPadding: false,
-    textDecorationLine: 'underline',
-    marginBottom: -50,
-    textAlign: 'center',
-  }
-});

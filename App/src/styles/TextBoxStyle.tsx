@@ -6,7 +6,7 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 10,
-    paddingVertical: 8,
+    paddingVertical: 15,
     paddingHorizontal: 15,
     borderWidth: 1,
     borderColor: "darkgray",
@@ -19,11 +19,10 @@ export default StyleSheet.create({
     color: "gray",
   },
   input: {
-    width: "100%",
     fontSize: 18,
     fontWeight: "bold",
     color: "black",
-    textAlign: "left",
+    textAlign: "right",
   },
   units: {
     fontSize: 18,

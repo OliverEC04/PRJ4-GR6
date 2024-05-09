@@ -69,6 +69,7 @@ export default function AddFoodPage() {
             });
             if (response.ok) {
                 Alert.alert('Success', 'New food added successfully!');
+                setId(null);
                 setFoodName('');
                 setCalories('');
                 setProtein('');
@@ -101,14 +102,16 @@ export default function AddFoodPage() {
                 fetchMeals();
             } else {
                 Alert.alert('Error', 'Failed to delete food. Please try again later.');
+                fetchMeals();
             }
         } catch (error) {
             Alert.alert('Error', 'Failed to delete food. Please check your network connection and try again.');
+            fetchMeals();
         }
     };
 
     return (
-        <ScrollView style={{paddingTop: 60}}>
+        <ScrollView style={{paddingTop: 55}}>
             <Dropdown
                 style={styles.dropdown}
                 data={meals}
