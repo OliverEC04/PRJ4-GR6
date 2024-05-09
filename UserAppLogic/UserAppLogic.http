@@ -1,6 +1,0 @@
-@UserAppLogic_HostAddress = http://localhost:5085
-
-GET {{UserAppLogic_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
