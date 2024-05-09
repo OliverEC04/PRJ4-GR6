@@ -4,8 +4,8 @@ import style from '../styles/TextFieldStyle';
 
 type TextFieldProps = {
   label: string,
-  value: string,
-  setValue: (text: string) => void,
+  value: any,
+  setValue: (text: any) => void,
   units: string,
   isEditing: boolean,
 };

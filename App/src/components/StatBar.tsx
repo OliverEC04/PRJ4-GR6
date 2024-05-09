@@ -1,4 +1,4 @@
-import { View, Text, ColorValue } from "react-native";
+import { View, Text, ColorValue, DimensionValue } from "react-native";
 import StatBarStyle from "../styles/StatBarStyle";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -9,6 +9,7 @@ type StatBarProps = {
     maxVal: number;
     unit?: string;
     height?: number;
+    width?: DimensionValue;
     colors?: string[]
 };
 
@@ -19,13 +20,14 @@ export default function StatBar({
     maxVal,
     unit = "",
     height = 20,
+    width = 300,
     colors = ["#E06C75", "#E5C07B", "#98C379"]
 }: StatBarProps)
 {
     let progress = val / (maxVal - minVal) * 100;
 
     return (
-        <View style={StatBarStyle.container}>
+        <View style={[{width: width}]}>
             <Text style={StatBarStyle.title}>
                 {title}
             </Text>
