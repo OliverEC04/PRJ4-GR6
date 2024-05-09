@@ -16,7 +16,7 @@ const style = StyleSheet.create({
   dropdown: {
     borderColor: "darkgray",
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 15,
     marginBottom: 10,
