@@ -39,8 +39,8 @@ class Server {
   // en put metode til at opdatere user data
 
   public async getUserInfo(): Promise<User> {
+    console.log("fetch this");
     const response = await fetch(`${this.url}AppUser/me`, {
-      // TJEK URL
       method: "GET",
       headers: {
         Authorization: "Bearer " + currentUser.token,
@@ -50,15 +50,27 @@ class Server {
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
+
     const data = await response.json();
-    var userInfo = new User("dummy mail", "dummy name");
-    userInfo.calories = data.calories;
-    userInfo.proteins = data.proteins;
-    userInfo.carbs = data.carbs;
-    userInfo.fats = data.fats;
-    userInfo.water = data.water;
-    userInfo.targetWeight = data.targetWeight;
-    return userInfo;
+    console.log("respons:", data);
+
+    currentUser.email = data.email;
+    currentUser.fullName = data.fullName;
+    currentUser.height = data.height;
+    currentUser.gender = data.gender;
+    currentUser.weight = data.currentWeight;
+    currentUser.targetWeight = data.targetWeight;
+    currentUser.activity = data.activityLevel;
+    currentUser.difficulty = data.difficultyLevel;
+    currentUser.calories = data.dailyCalories;
+    currentUser.proteins = data.dailyProtein;
+    currentUser.carbs = data.dailyCarbs;
+    currentUser.fats = data.dailyFat;
+    currentUser.water = data.currentWater;
+    currentUser.age = data.age;
+
+    console.log("updated current user with: ", currentUser);
+    return currentUser;
   }
 
   public async loginUser(nameArg: string, passwordArg: string) {
