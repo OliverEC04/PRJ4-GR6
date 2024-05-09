@@ -12,7 +12,7 @@ export default StyleSheet.create({
     borderColor: "darkgray",
     borderRadius: 5,
     width: "95%",
-    marginLeft: "2%",
+    marginLeft: "2.5%", // ikke tænk
   },
   label: {
     fontSize: 18,

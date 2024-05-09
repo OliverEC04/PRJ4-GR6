@@ -1,4 +1,4 @@
-import {StyleSheet} from "react-native";
+import { StyleSheet } from "react-native";
 
 const style = StyleSheet.create({
   container: {
@@ -19,9 +19,9 @@ const style = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 5,
     paddingHorizontal: 15,
-    flex: 1,
-    justifyContent: "space-between",
     marginBottom: 10,
+    alignSelf: "center",
+    width: "95%",
   },
   placeholderText: {
     color: "gray",
@@ -34,10 +34,10 @@ const style = StyleSheet.create({
   button: {
     borderRadius: 20,
     marginBottom: 50,
-    backgroundColor: 'black',
-    width: "100%",
+    backgroundColor: "black",
+    width: "95%",
     height: 50,
-  }
+  },
 });
 
 export default style;

@@ -9,14 +9,14 @@ import Server from "../../models/Server";
 import { currentUser } from "../../models/User";
 
 export default function InfoPage() {
-  useEffect(()=>{
+  useEffect(() => {
     Server.getUser().then(() => {
-          setHeight(currentUser.height);
-          setCurrentWeight(currentUser.weight);
-          setAge(currentUser.age);
-          setGender(currentUser.gender);
+      setHeight(currentUser.height);
+      setCurrentWeight(currentUser.weight);
+      setAge(currentUser.age);
+      setGender(currentUser.gender);
     });
-  }); 
+  });
 
   const [isEditing, setIsEditing] = useState(false); // edit stuff
   const [height, setHeight] = useState(170);
