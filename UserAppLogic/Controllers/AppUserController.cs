@@ -132,8 +132,70 @@ namespace AppUserBackend.Controllers
         }
 
         //update daily intake
+        [HttpPut("updateDailyIntake")]
+        [Authorize("User")]
+        public async Task<IActionResult> UpdateDailyIntake(DailyIntakeDTO dailyIntake)
+        {
+            try
+            {
+                var userName = User.FindFirstValue(ClaimTypes.Name);
+
+                var user = await _userManager.FindByNameAsync(userName);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                user.CurrentCalories = dailyIntake.CurrentCalories;
+                user.CurrentProtein = dailyIntake.CurrentProtein;
+                user.CurrentCarbs = dailyIntake.CurrentCarbs;
+                user.CurrentFat = dailyIntake.CurrentFat;
+                user.CurrentWater = dailyIntake.CurrentWater;
+
+                await _userManager.UpdateAsync(user);
+
+                return NoContent();
+            }
+
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         //reset daily intake
+        [HttpPut("resetDailyIntake")]
+        [Authorize("User")]
+        public async Task<IActionResult> ResetDailyIntake()
+        {
+            try
+            {
+                var userName = User.FindFirstValue(ClaimTypes.Name);
+
+                var user = await _userManager.FindByNameAsync(userName);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                user.CurrentCalories = 0;
+                user.CurrentProtein = 0;
+                user.CurrentCarbs = 0;
+                user.CurrentFat = 0;
+                user.CurrentWater = 0;
+
+                await _userManager.UpdateAsync(user);
+
+                return NoContent();
+            }
+
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         // POST: api/AppUser
         [HttpPost]
