@@ -6,9 +6,32 @@ import AddFood from "../screens/AddFood/AddFood";
 import InfoPage from "../screens/infoPage/infoPage";
 import LoginNav from "../screens/LoginPage/LoginNav";
 import GoalPage from "../screens/GoalPage/GoalPage";
+import { TouchableOpacity } from "react-native";
 
 export default function TabFooter() {
   const Tab = createMaterialBottomTabNavigator();
+
+  interface TabBarItemProps {
+    onPress: () => void;
+    icon: any;
+    color: string;
+  }
+
+  const TabBarItem: React.FC<TabBarItemProps> = ({
+    onPress,
+    icon,
+    color,
+  }) => {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          onPress();
+        }}
+      >
+        <MaterialCommunityIcons name={icon} color={color} size={24} />
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <Tab.Navigator initialRouteName="Home">
@@ -18,7 +41,8 @@ export default function TabFooter() {
         options={{
           tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="home" color={color} size={24} />
+            <TabBarItem icon="home" color={color} onPress={() => {console.log("heSSj");
+            }} />
           ),
         }}
       />
