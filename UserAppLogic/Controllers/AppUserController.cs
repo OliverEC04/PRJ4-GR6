@@ -86,8 +86,8 @@ namespace AppUserBackend.Controllers
 
 
         // PUT: api/AppUser/5
-        [Authorize("User")]
         [HttpPut("me")]
+        [Authorize("User")]
         public async Task<IActionResult> PutAppUser(AppUserDTO appUser)
         {
             try
@@ -137,6 +137,7 @@ namespace AppUserBackend.Controllers
 
         // POST: api/AppUser
         [HttpPost]
+        [Authorize("AdminOnly")]
         public async Task<ActionResult<AppUser>> PostAppUser(AppUser appUser)
         {
             db.Users.Add(appUser);
@@ -147,6 +148,7 @@ namespace AppUserBackend.Controllers
 
         // DELETE: api/AppUser/5
         [HttpDelete("{id}")]
+        [Authorize("AdminOnly")]
         public async Task<IActionResult> DeleteAppUser(string id)
         {
             var appUser = await db.Users.FindAsync(id);
@@ -161,9 +163,5 @@ namespace AppUserBackend.Controllers
             return NoContent();
         }
 
-        private bool AppUserExists(string id)
-        {
-            return db.Users.Any(e => e.Id == id);
-        }
     }
 }

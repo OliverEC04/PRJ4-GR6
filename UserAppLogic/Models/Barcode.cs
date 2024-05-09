@@ -1,4 +1,5 @@
 using System.Reflection.Metadata;
+using System.Text.Json.Serialization;
 using UserBackend.Data.Models;
 
 namespace BarcodeAPI.Data.Models;
@@ -21,7 +22,7 @@ public class Barcode
 
     public string AppUserId { get; set; } 
     
-    
+    [JsonIgnore]
     public AppUser AppUser { get; set; } = null!;
 
 
