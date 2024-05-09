@@ -55,18 +55,24 @@ namespace AppUserBackend.Controllers
 
                 var result = new 
                 {
-                    
+                    appUser.Email,
                     appUser.FullName,
                     appUser.Height,
+                    appUser.Gender,
                     appUser.CurrentWeight,
                     appUser.TargetWeight,
-                    appUser.Age,
-                    appUser.Gender,
+                    appUser.activityLevel,
+                    appUser.difficultyLevel,
+                    appUser.CurrentCalories,
                     appUser.DailyCalories,
+                    appUser.CurrentProtein,
                     appUser.DailyProtein,
+                    appUser.CurrentCarbs,
                     appUser.DailyCarbs,
+                    appUser.CurrentFat,
                     appUser.DailyFat,
-                    appUser.CurrentCalories
+                    appUser.CurrentWater,
+                    appUser.Age
                 };
 
                 return result;
@@ -95,17 +101,24 @@ namespace AppUserBackend.Controllers
                     return NotFound();
                 }
 
+                user.Email = appUser.Email;
                 user.FullName = appUser.FullName;
                 user.Height = appUser.Height;
+                user.Gender = appUser.Gender;
                 user.CurrentWeight = appUser.CurrentWeight;
                 user.TargetWeight = appUser.TargetWeight;
-                user.Age = appUser.Age;
-                user.Gender = appUser.Gender;
-                user.DailyCalories = appUser.DailyCalories;
-                user.DailyProtein = appUser.DailyProtein;
-                user.DailyCarbs = appUser.DailyCarbs;
-                user.DailyFat = appUser.DailyFat;
+                user.activityLevel = appUser.activityLevel;
+                user.difficultyLevel = appUser.difficultyLevel;
                 user.CurrentCalories = appUser.CurrentCalories;
+                user.DailyCalories = appUser.DailyCalories;
+                user.CurrentProtein = appUser.CurrentProtein;
+                user.DailyProtein = appUser.DailyProtein;
+                user.CurrentCarbs = appUser.CurrentCarbs;
+                user.DailyCarbs = appUser.DailyCarbs;
+                user.CurrentFat = appUser.CurrentFat;
+                user.DailyFat = appUser.DailyFat;
+                user.CurrentWater = appUser.CurrentWater;
+                user.Age = appUser.Age;
             
                 await _userManager.UpdateAsync(user);
             

@@ -4,6 +4,9 @@ namespace UserBackend.Data.DTO
 {
     public class AppUserDTO
     {
+        [EmailAddress]
+        public string? Email { get; set; }
+
         [MaxLength(100)]
         public string? FullName { get; set; }
 
