@@ -52,6 +52,8 @@ export default function Home()
     const [addWaterPopupVisible, setAddWaterPopupVisible] = useState(false);
 
     useEffect(() => {
+        console.log("Home enter");
+        
         // TODO: evt. update currentUser fra server her, eller gør det inde i server.
         server.getUser().then(() => {
             console.debug(currentUser);
