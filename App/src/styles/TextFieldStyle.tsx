@@ -6,7 +6,7 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 10,
-    paddingVertical: 15,
+    paddingVertical: 8,
     paddingHorizontal: 15,
     borderWidth: 1,
     borderColor: "darkgray",

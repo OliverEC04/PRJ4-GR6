@@ -3,7 +3,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import Home from "../screens/Home";
 import AddFood from "../screens/AddFood/AddFood";
-import infoPage from "../screens/infoPage/infoPage";
+import InfoPage from "../screens/infoPage/infoPage";
 import LoginNav from "../screens/LoginPage/LoginNav";
 import GoalPage from "../screens/GoalPage/GoalPage";
 
@@ -49,7 +49,7 @@ export default function TabFooter() {
       />
       <Tab.Screen
         name="infoPage"
-        component={infoPage}
+        component={InfoPage}
         options={{
           tabBarLabel: "Info",
           tabBarIcon: ({ color }) => (

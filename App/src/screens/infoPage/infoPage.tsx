@@ -10,16 +10,19 @@ import { currentUser } from "../../models/User";
 
 export default function InfoPage() {
   useEffect(()=>{
-    Server.getUser().then;
-
-    // setHeight(currentUser.)
+    Server.getUser().then(() => {
+          setHeight(currentUser.height);
+          setCurrentWeight(currentUser.weight);
+          setAge(currentUser.age);
+          setGender(currentUser.gender);
+    });
   }); 
 
   const [isEditing, setIsEditing] = useState(false); // edit stuff
-  const [height, setHeight] = useState("170");
-  const [currentWeight, setCurrentWeight] = useState("79");
-  const [age, setAge] = useState("22");
-  const [gender, setGender] = useState("Helicopter");
+  const [height, setHeight] = useState(170);
+  const [currentWeight, setCurrentWeight] = useState(79);
+  const [age, setAge] = useState(22);
+  const [gender, setGender] = useState("null");
 
   const allGenders = [
     { label: "Male", value: "male" },

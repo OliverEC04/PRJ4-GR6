@@ -17,7 +17,7 @@ const style = StyleSheet.create({
     borderColor: "darkgray",
     borderWidth: 1,
     borderRadius: 8,
-    paddingVertical: 10,
+    paddingVertical: 5,
     paddingHorizontal: 15,
     flex: 1,
     justifyContent: "space-between",
@@ -32,6 +32,7 @@ const style = StyleSheet.create({
     height: 20,
   },
   button: {
+    borderRadius: 20,
     marginBottom: 50,
     backgroundColor: 'black',
     width: "100%",
