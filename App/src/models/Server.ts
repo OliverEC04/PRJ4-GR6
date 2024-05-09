@@ -5,7 +5,7 @@ class Server {
   private url: string;
 
   constructor(
-    url: string = "https://brief-oriole-causal.ngrok-free.app/rest_api/"
+    url: string = "https://brief-oriole-causal.ngrok-free.app/"
   ) {
     this.url = url;
   }
