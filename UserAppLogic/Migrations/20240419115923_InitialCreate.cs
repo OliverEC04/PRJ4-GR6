@@ -31,23 +31,6 @@ namespace UserAppLogic.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Height = table.Column<double>(type: "float", nullable: true),
-                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CurrentWeight = table.Column<double>(type: "float", nullable: true),
-                    TargetWeight = table.Column<double>(type: "float", nullable: true),
-                    activityLevel = table.Column<double>(type: "float", nullable: true),
-                    difficultyLevel = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CurrentCalories = table.Column<int>(type: "int", nullable: true),
-                    DailyCalories = table.Column<int>(type: "int", nullable: true),
-                    DailyProtein = table.Column<int>(type: "int", nullable: true),
-                    CurrentProtein = table.Column<int>(type: "int", nullable: true),
-                    DailyCarbs = table.Column<int>(type: "int", nullable: true),
-                    CurrentCarbs = table.Column<int>(type: "int", nullable: true),
-                    DailyFat = table.Column<int>(type: "int", nullable: true),
-                    CurrentFat = table.Column<int>(type: "int", nullable: true),
-                    Age = table.Column<int>(type: "int", nullable: true),
-                    DailyWater = table.Column<int>(type: "int", nullable: true),
-                    CurrentWater = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -66,6 +49,24 @@ namespace UserAppLogic.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Barcode",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BarcodeId = table.Column<long>(type: "bigint", nullable: false),
+                    MealName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Calories = table.Column<float>(type: "real", nullable: false),
+                    Protein = table.Column<float>(type: "real", nullable: false),
+                    Carbs = table.Column<float>(type: "real", nullable: false),
+                    Fat = table.Column<float>(type: "real", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Barcode", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -174,30 +175,6 @@ namespace UserAppLogic.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Barcode",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BarcodeId = table.Column<long>(type: "bigint", nullable: false),
-                    MealName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Calories = table.Column<float>(type: "real", nullable: false),
-                    Protein = table.Column<float>(type: "real", nullable: false),
-                    Carbs = table.Column<float>(type: "real", nullable: false),
-                    Fat = table.Column<float>(type: "real", nullable: false),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Barcode", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Barcode_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -236,11 +213,6 @@ namespace UserAppLogic.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Barcode_AppUserId",
-                table: "Barcode",
-                column: "AppUserId");
         }
 
         /// <inheritdoc />
