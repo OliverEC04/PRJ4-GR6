@@ -42,32 +42,34 @@ namespace BarcodeAPI.Controllers
         // Get list of barcode for a specific user
 
         [HttpGet("ListOfBarcodesForUser")]
-
         public async Task<ActionResult<object>> GetListOfBarcodesForUser()
         {
             try
             {
                 var userName = User.FindFirstValue(ClaimTypes.Name);
 
-                var appUser = await _userManager.FindByNameAsync(userName);
+                var appUser = await _userManager.Users
+                    .Include(u => u.Barcodes) // Eager loading of Barcodes collection
+                    .FirstOrDefaultAsync(u => u.UserName == userName);
 
                 if (appUser == null)
                 {
                     return NotFound();
                 }
                 
-                var barcodes = appUser.Barcodes.ToList();
+                var barcodes = appUser.Barcodes;
                 return Ok(barcodes);
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
-
         }
 
 
+
         // POST api/barcode/AddBarcode
+        
         [HttpPost("AddMealWithBarcode")]
         public async Task<ActionResult<object>> AddMealWithBarcode(long barcodeId, string mealName, float calories, float protein, float carbs, float fat)
         {

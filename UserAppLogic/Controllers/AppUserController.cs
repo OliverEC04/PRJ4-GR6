@@ -55,6 +55,7 @@ namespace AppUserBackend.Controllers
 
                 var result = new 
                 {
+                    
                     appUser.FullName,
                     appUser.Height,
                     appUser.CurrentWeight,
@@ -116,6 +117,10 @@ namespace AppUserBackend.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        //update daily intake
+
+        //reset daily intake
 
         // POST: api/AppUser
         [HttpPost]

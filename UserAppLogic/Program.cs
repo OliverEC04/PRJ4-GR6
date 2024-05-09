@@ -28,7 +28,7 @@ builder.Services.AddSwaggerGen(options =>
     {
         Title = "UserAPI",
         Version = "v1",
-        Description = "API to mange Users"
+        Description = "API to manage Users"
     });
 
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
