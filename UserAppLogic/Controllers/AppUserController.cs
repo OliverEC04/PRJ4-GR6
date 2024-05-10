@@ -134,7 +134,7 @@ namespace AppUserBackend.Controllers
         //update daily intake
         [HttpPut("updateDailyIntake")]
         [Authorize("User")]
-        public async Task<IActionResult> UpdateDailyIntake(DailyIntakeDTO dailyIntake)
+        public async Task<IActionResult> UpdateDailyIntake(float calories, float protein, float carbs, float fat, float water)
         {
             try
             {
@@ -147,12 +147,12 @@ namespace AppUserBackend.Controllers
                     return NotFound();
                 }
 
-                user.CurrentCalories = dailyIntake.CurrentCalories;
-                user.CurrentProtein = dailyIntake.CurrentProtein;
-                user.CurrentCarbs = dailyIntake.CurrentCarbs;
-                user.CurrentFat = dailyIntake.CurrentFat;
-                user.CurrentWater = dailyIntake.CurrentWater;
-
+                user.CurrentCalories += calories;
+                user.CurrentProtein += protein;
+                user.CurrentCarbs += carbs;
+                user.CurrentFat += fat;
+                user.CurrentWater += water;
+                
                 await _userManager.UpdateAsync(user);
 
                 return NoContent();

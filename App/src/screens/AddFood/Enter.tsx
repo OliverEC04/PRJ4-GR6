@@ -19,9 +19,14 @@ export default function AddFoodPage() {
     const [value, setValue] = useState(null);
     const [meals, setMeals] = useState([]);
 
+
+
     useEffect(() => {
         fetchMeals();
     }, []);
+
+
+
 
     const fetchMeals = async () => {
         try {
@@ -87,6 +92,33 @@ export default function AddFoodPage() {
         }
       };
       
+
+      const updateDailyIntake = async () => {
+        try {
+            const response = await fetch('https://brief-oriole-causal.ngrok-free.app/AppUser/updateDailyIntake', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + currentUser.token
+                },
+                body: JSON.stringify({
+                    calories: parseFloat(calories),
+                    protein: parseFloat(protein),
+                    carbs: parseFloat(carbs),
+                    fat: parseFloat(fat),
+                    water: 0 // Water is always 0
+                })
+            });
+    
+            if (response.ok) {
+                Alert.alert('Success', 'Daily intake updated successfully!');
+            } else {
+                Alert.alert('Error', 'Failed to update daily intake. Please try again later.');
+            }
+        } catch (error) {
+            Alert.alert('Error', 'Failed to update daily intake. Please check your network connection and try again.');
+        }
+    };
 
     const handleDeleteNewFood = async () => {
         try {
@@ -172,7 +204,7 @@ export default function AddFoodPage() {
     />  
             {/* Button container for action buttons */}
             <View style={styles.buttonContainer}>
-                <Btn onClick={() => {}} text='Enter' style={styles.submitButton}/> 
+                <Btn onClick={updateDailyIntake} text='Enter' style={styles.submitButton}/> 
             </View>
             <View style={styles.buttonContainer}>
                 <Btn onClick={handleAddNewFood} text='Add New Food' style={styles.addButton}/>

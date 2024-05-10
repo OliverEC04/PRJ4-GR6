@@ -29,31 +29,31 @@ namespace UserBackend.Data.Models
         public string? difficultyLevel { get; set; }
         
         [Range(0, int.MaxValue, ErrorMessage = "Current calories must be a positive number.")]
-        public int? CurrentCalories { get; set; }
+        public float CurrentCalories { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage = "Daily calories must be a positive number.")]
-        public int? DailyCalories { get; set; }
+        public float DailyCalories { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage = "Daily protein must be a positive number.")]
-        public int? DailyProtein { get; set; }
+        public float DailyProtein { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage = "Current protein must be a positive number.")]
-        public int? CurrentProtein { get; set; }
+        public float CurrentProtein { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage = "Daily carbs must be a positive number.")]
-        public int? DailyCarbs { get; set; }
+        public float DailyCarbs { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage = "Current carbs must be a positive number.")]
-        public int? CurrentCarbs { get; set; }
+        public float CurrentCarbs { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage = "Daily fat must be a positive number.")]
-        public int? DailyFat { get; set; }
+        public float DailyFat { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage = "Current fat must be a positive number.")]
-        public int? CurrentFat { get; set; }
+        public float CurrentFat { get; set; }
         
         [Range(0, int.MaxValue, ErrorMessage = "Age must be a positive number.")]
-        public int? Age { get; set; }
+        public int Age { get; set; }
 
         [Range(0, double.MaxValue, ErrorMessage = "Daily water must be a positive number.")]
         public double? DailyWater { get; set; }
