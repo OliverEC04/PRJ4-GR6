@@ -43,9 +43,13 @@ class Server {
       // TJEK URL
       method: "GET",
       headers: {
-        Authorization: "Bearer " + currentUser.token,
+        Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
+
+    console.log(localStorage.getItem("token"));
+
+    console.log(response);
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
