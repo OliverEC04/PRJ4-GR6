@@ -92,26 +92,25 @@ export default function AddFoodPage() {
         }
       };
       
-
       const updateDailyIntake = async () => {
         try {
-            const response = await fetch('https://brief-oriole-causal.ngrok-free.app/AppUser/updateDailyIntake', {
+            const url = `https://brief-oriole-causal.ngrok-free.app/AppUser/updateDailyIntake?calories=${calories}&protein=${protein}&carbs=${carbs}&fat=${fat}&water=0`;
+            const response = await fetch(url, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + currentUser.token
-                },
-                body: JSON.stringify({
-                    calories: parseFloat(calories),
-                    protein: parseFloat(protein),
-                    carbs: parseFloat(carbs),
-                    fat: parseFloat(fat),
-                    water: 0 // Water is always 0
-                })
+                }
             });
     
             if (response.ok) {
                 Alert.alert('Success', 'Daily intake updated successfully!');
+                console.log(currentUser.token);
+                setFoodName('');
+                setCalories('');
+                setProtein('');
+                setCarbs('');
+                setFat('');
+                fetchMeals();
             } else {
                 Alert.alert('Error', 'Failed to update daily intake. Please try again later.');
             }
@@ -119,6 +118,7 @@ export default function AddFoodPage() {
             Alert.alert('Error', 'Failed to update daily intake. Please check your network connection and try again.');
         }
     };
+    
 
     const handleDeleteNewFood = async () => {
         try {
