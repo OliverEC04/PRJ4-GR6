@@ -49,8 +49,15 @@ export default function Home()
     const [addWaterPopupVisible, setAddWaterPopupVisible] = useState(false);
 
     useFocusEffect(() => {      
-        // TODO: evt. update currentUser fra server her, eller gør det inde i server.
         server.getUserInfo().then((r) => {
+            console.log(currentUser.token);
+            
+            if (currentUser.token == undefined || currentUser.token == "")
+            {
+                setName("please log in");
+                return;
+            }
+
             setName(currentUser.fullName.split(" ")[0]);
             setCalories(currentUser.currentCalories);
             setProtein(currentUser.currentProtein);
@@ -91,7 +98,10 @@ export default function Home()
                 <RoundBtn onClick={() => {setAddWaterPopupVisible(true)}} icon={"plus"} size={60} style={HomeStyle.waterBtn}/>
             </View>
             <PopupField
-                onEnter={v => currentUser.addWater(+v)}
+                onEnter={v => {
+                    currentUser.addWater(+v);
+                    server.putWater(currentUser.currentWater);
+                }}
                 visible={addWaterPopupVisible}
                 setVisible={setAddWaterPopupVisible}
                 fieldPlaceholder="Enter liters of water to add"

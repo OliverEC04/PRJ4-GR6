@@ -59,15 +59,24 @@ class Server {
   }
 
   public async putWater(liters: number) {
-    const response = fetch(`${this.url}AppUser/me`, {
+    fetch(`${this.url}AppUser/me`, {
       method: "PUT",
       headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
         Authorization: "Bearer " + currentUser.token,
       },
       body: JSON.stringify({
         currentWater: liters,
       }),
-    });
+    })
+      .then((r) => {
+        return r;
+      })
+      .catch((e) => {
+        console.warn(e);
+        throw new Error(`putWater error ${e.status}`);
+      });
   }
 
   public async loginUser(nameArg: string, passwordArg: string) {
@@ -95,17 +104,6 @@ class Server {
       console.error("Error logging in:", error);
     }
   }
-
-  // public async getUser(): Promise<void> {
-  //   await fetch(this.url + `GetUser`)
-  //     .then((response) => {
-  //       if (response.ok) return response.json();
-  //       else throw new Error("getUser fucked up :(");
-  //     })
-  //     .then((data) => {
-  //       console.debug(data);
-  //     });
-  // }
 }
 
 export default new Server();
