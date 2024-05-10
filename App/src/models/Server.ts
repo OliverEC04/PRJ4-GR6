@@ -43,11 +43,11 @@ class Server {
       // TJEK URL
       method: "GET",
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
+        Authorization: "Bearer " + currentUser.token,
       },
     });
 
-    console.log(localStorage.getItem("token"));
+    console.log(currentUser.token);
 
     console.log(response);
 
@@ -89,9 +89,6 @@ class Server {
       currentUser.token = await response.text();
       if (currentUser.token === "") {
         throw new Error("No token received");
-      }
-      else {
-        localStorage.setItem("token", currentUser.token);
       }
     } catch (error) {
       console.error("Error logging in:", error);
