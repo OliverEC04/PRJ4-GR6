@@ -9,23 +9,6 @@ import Server from "../../models/Server";
 import { currentUser } from "../../models/User";
 
 export default function InfoPage() {
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     await Server.getUserInfo()
-  //       .then((userInfo) => {
-  //         currentUser.update(userInfo);
-  //         setHeight(userInfo.height);
-  //         setCurrentWeight(userInfo.weight);
-  //         setAge(userInfo.age);
-  //         setGender(userInfo.gender);
-  //       })
-  //       .catch((error) => console.error("fetch fail: ", error));
-  //   };
-
-  //   fetchUserData();
-  //   console.log("fected for info");
-  // }, []);
-
   const [isEditing, setIsEditing] = useState(false); // edit stuff
   const [height, setHeight] = useState(170);
   const [currentWeight, setCurrentWeight] = useState(79);
@@ -35,14 +18,28 @@ export default function InfoPage() {
   const allGenders = [
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
-    { label: "Email", value: "email" },
   ];
 
   // just mock data
-  const userName = "Albert Einstein";
-  const userGoal = "Lose Weight";
   const profilePicture =
     "https://hips.hearstapps.com/hmg-prod/images/albert-einstein-sticks-out-his-tongue-when-asked-by-news-photo-1681316749.jpg";
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userData = await Server.getUserInfo();
+        currentUser.update(userData);
+        setHeight(userData.height);
+        setCurrentWeight(userData.currentWeight);
+        setAge(userData.age);
+        setGender(userData.gender);
+      } catch (error) {
+        console.error("fetch failed: ", error);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const handleEditPress = () => {
     setIsEditing(!isEditing);
@@ -68,27 +65,27 @@ export default function InfoPage() {
   return (
     <ScrollView style={style.container}>
       <Image source={{ uri: profilePicture }} style={style.profilePic} />
-      <Text style={textStyles.userName}>{userName}</Text>
-      <Text style={textStyles.goalType}>Goal: {userGoal}</Text>
+      <Text style={textStyles.userName}>{currentUser.fullName}</Text>
+      <Text style={textStyles.goalType}>Goal: {currentUser.targetWeight}</Text>
 
       <TextField
         label="Height"
-        value={height}
-        setValue={setHeight}
+        value={height.toString()}
+        setValue={(value) => setHeight(Number(value))}
         units="cm"
         isEditing={isEditing}
       />
       <TextField
         label="Current Weight"
-        value={currentWeight}
-        setValue={setCurrentWeight}
+        value={currentWeight.toString()}
+        setValue={(value) => setCurrentWeight(Number(value))}
         units="kg"
         isEditing={isEditing}
       />
       <TextField
         label="Age"
-        value={age}
-        setValue={setAge}
+        value={age.toString()}
+        setValue={(value) => setAge(Number(value))}
         units="years"
         isEditing={isEditing}
       />
