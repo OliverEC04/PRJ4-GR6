@@ -1,11 +1,172 @@
-import { View, Text } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { ScrollView, View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import AddTextField from "../../components/AddTextField";
+import styles from './EnterStyle';
+import { User, currentUser } from "../../models/User";
+import Btn from "../../components/Btn";
+import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 
+export default function AddFoodPage() {
+    const [isEditing, setIsEditing] = useState(false); 
+    const [foodName, setFoodName] = useState('');
+    const [calories, setCalories] = useState('');
+    const [protein, setProtein] = useState('');
+    const [carbs, setCarbs] = useState('');
+    const [fat, setFat] = useState('');
+    const [id, setId] = useState(null);
+    const [value, setValue] = useState(null);
+    const [meals, setMeals] = useState([]);
 
-export default function Enter()
-{
+    useEffect(() => {
+        fetchMeals();
+    }, []);
+
+    const fetchMeals = async () => {
+        try {
+            const headers = { 'Authorization': 'Bearer ' + currentUser.token};
+            const response = await fetch('https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/ListOfBarcodes', { headers });
+            const data = await response.json();
+            setMeals(data);
+        } catch (error) {
+            console.error('Error fetching meals:', error);
+        }
+        
+    };
+
+    const handleMealSelect = (selectedMeal:any) => {
+        setId(selectedMeal.id.toString());
+        setValue(selectedMeal.mealName);
+        setFoodName(selectedMeal.mealName);
+        setCalories(selectedMeal.calories.toString());
+        setProtein(selectedMeal.protein.toString());
+        setCarbs(selectedMeal.carbs.toString());
+        setFat(selectedMeal.fat.toString());
+    };
+
+    const renderItem = (item:any) => (
+        <TouchableOpacity onPress={() => handleMealSelect(item)}>
+            <View style={styles.item}>
+                <Text style={styles.textItem}>{item.mealName}</Text>
+                {item.mealName === value && (
+                    <AntDesign name="checkcircle" size={20} color="black" />
+                )}
+            </View>
+        </TouchableOpacity>
+    );
+
+    const handleEditPress = () => {
+        setIsEditing(!isEditing);
+      };
+
+      const handleAddNewFood = async () => {
+        try {
+            const headers = { 'Authorization': 'Bearer ' + currentUser.token };
+            const response = await fetch(`https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/AddMealWithNoBarcode?mealName=${foodName}&calories=${calories}&protein=${protein}&carbs=${carbs}&fat=${fat}`, {
+                method: 'POST',
+                headers: headers
+            });
+            if (response.ok) {
+                Alert.alert('Success', 'New food added successfully!');
+                setId(null);
+                setFoodName('');
+                setCalories('');
+                setProtein('');
+                setCarbs('');
+                setFat('');
+                fetchMeals();
+            } else {
+                Alert.alert('Error', 'Failed to add new food. Please try again later.');
+            }
+        } catch (error) {
+            Alert.alert('Error', 'Failed to add new food. Please check your network connection and try again.');
+        }
+    };
+    
+
+    const handleDeleteNewFood = async () => {
+        try {
+            const headers = { 'Authorization': 'Bearer ' + currentUser.token};
+            const response = await fetch(`https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/RemoveBarcode/${id}`, {
+                method: 'DELETE',
+                headers: headers
+            });
+            if (response.ok) {
+                Alert.alert('Success', 'Food deleted successfully!');
+                setFoodName('');
+                setCalories('');
+                setProtein('');
+                setCarbs('');
+                setFat('');
+                fetchMeals();
+            } else {
+                Alert.alert('Error', 'Failed to delete food. Please try again later.');
+                fetchMeals();
+            }
+        } catch (error) {
+            Alert.alert('Error', 'Failed to delete food. Please check your network connection and try again.');
+            fetchMeals();
+        }
+    };
+
     return (
-        <View>
-            <Text className="italic text-orange-600">Enter screen</Text>
-        </View>
+        <ScrollView style={{paddingTop: 55}}>
+            <Dropdown
+                style={styles.dropdown}
+                data={meals}
+                labelField="mealName"
+                valueField="id"
+                placeholder="Select meal"
+                value={value}
+                onChange={(item) => setValue(item.mealName)}
+                renderItem={renderItem}
+            />
+            
+    {/* Input fields for food information */}
+    <AddTextField
+    value={foodName}
+    onChangeText={setFoodName}
+    placeholder="Enter food name"
+    keyboardType="default" // This can be omitted since 'default' is the default value
+    unit="" // No unit for the food name
+    />       
+    
+    {/* Protein Input with Unit */}
+    <AddTextField
+    value={protein}
+    onChangeText={setProtein}
+    placeholder="Enter protein amount"
+    keyboardType="numeric" 
+    unit="g" 
+    />  
+    
+    {/* Carbs Input with Unit */}
+    <AddTextField
+    value={carbs}
+    onChangeText={setCarbs}
+    placeholder="Enter carbs amount"
+    keyboardType="numeric" 
+    unit="g" 
+    />  
+
+    {/* Fat Input with Unit */}
+    <AddTextField
+    value={fat}
+    onChangeText={setFat}
+    placeholder="Enter fat amount"
+    keyboardType="numeric" 
+    unit="g" 
+    />  
+            {/* Button container for action buttons */}
+            <View style={styles.buttonContainer}>
+                <Btn onClick={() => {}} text='Enter' style={styles.submitButton}/> 
+            </View>
+            <View style={styles.buttonContainer}>
+                <Btn onClick={handleAddNewFood} text='Add New Food' style={styles.addButton}/>
+                <Btn onClick={handleDeleteNewFood} text='Delete Food' style={styles.deleteButton}/>
+            </View>
+        </ScrollView>
     );
 }
+
