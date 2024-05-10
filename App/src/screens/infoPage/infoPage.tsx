@@ -9,22 +9,22 @@ import Server from "../../models/Server";
 import { currentUser } from "../../models/User";
 
 export default function InfoPage() {
-  useEffect(() => {
-    const fetchUserData = async () => {
-      await Server.getUserInfo()
-        .then((userInfo) => {
-          currentUser.update(userInfo);
-          setHeight(userInfo.height);
-          setCurrentWeight(userInfo.weight);
-          setAge(userInfo.age);
-          setGender(userInfo.gender);
-        })
-        .catch((error) => console.error("fetch fail: ", error));
-    };
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     await Server.getUserInfo()
+  //       .then((userInfo) => {
+  //         currentUser.update(userInfo);
+  //         setHeight(userInfo.height);
+  //         setCurrentWeight(userInfo.weight);
+  //         setAge(userInfo.age);
+  //         setGender(userInfo.gender);
+  //       })
+  //       .catch((error) => console.error("fetch fail: ", error));
+  //   };
 
-    fetchUserData();
-    console.log("fected for info");
-  }, []);
+  //   fetchUserData();
+  //   console.log("fected for info");
+  // }, []);
 
   const [isEditing, setIsEditing] = useState(false); // edit stuff
   const [height, setHeight] = useState(170);
