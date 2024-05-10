@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UserBackend.Data;
 
@@ -11,9 +12,11 @@ using UserBackend.Data;
 namespace UserAppLogic.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240510084932_yadayada")]
+    partial class yadayada
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -200,24 +203,24 @@ namespace UserAppLogic.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("Age")
+                    b.Property<int?>("Age")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("CurrentCalories")
-                        .HasColumnType("real");
+                    b.Property<int?>("CurrentCalories")
+                        .HasColumnType("int");
 
-                    b.Property<float>("CurrentCarbs")
-                        .HasColumnType("real");
+                    b.Property<int?>("CurrentCarbs")
+                        .HasColumnType("int");
 
-                    b.Property<float>("CurrentFat")
-                        .HasColumnType("real");
+                    b.Property<int?>("CurrentFat")
+                        .HasColumnType("int");
 
-                    b.Property<float>("CurrentProtein")
-                        .HasColumnType("real");
+                    b.Property<int?>("CurrentProtein")
+                        .HasColumnType("int");
 
                     b.Property<double?>("CurrentWater")
                         .HasColumnType("float");
@@ -225,17 +228,17 @@ namespace UserAppLogic.Migrations
                     b.Property<double?>("CurrentWeight")
                         .HasColumnType("float");
 
-                    b.Property<float>("DailyCalories")
-                        .HasColumnType("real");
+                    b.Property<int?>("DailyCalories")
+                        .HasColumnType("int");
 
-                    b.Property<float>("DailyCarbs")
-                        .HasColumnType("real");
+                    b.Property<int?>("DailyCarbs")
+                        .HasColumnType("int");
 
-                    b.Property<float>("DailyFat")
-                        .HasColumnType("real");
+                    b.Property<int?>("DailyFat")
+                        .HasColumnType("int");
 
-                    b.Property<float>("DailyProtein")
-                        .HasColumnType("real");
+                    b.Property<int?>("DailyProtein")
+                        .HasColumnType("int");
 
                     b.Property<double?>("DailyWater")
                         .HasColumnType("float");

@@ -58,9 +58,17 @@ class Server {
     return data;
   }
 
-  // public async putWater(liters: number) {
-  // 	const response = fetch(`${this.url}AppUser/me`)
-  // }
+  public async putWater(liters: number) {
+    const response = fetch(`${this.url}AppUser/me`, {
+      method: "PUT",
+      headers: {
+        Authorization: "Bearer " + currentUser.token,
+      },
+      body: JSON.stringify({
+        currentWater: liters,
+      }),
+    });
+  }
 
   public async loginUser(nameArg: string, passwordArg: string) {
     try {

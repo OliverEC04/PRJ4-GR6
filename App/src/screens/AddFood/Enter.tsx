@@ -19,9 +19,14 @@ export default function AddFoodPage() {
     const [value, setValue] = useState(null);
     const [meals, setMeals] = useState([]);
 
+
+
     useEffect(() => {
         fetchMeals();
     }, []);
+
+
+
 
     const fetchMeals = async () => {
         try {
@@ -87,6 +92,33 @@ export default function AddFoodPage() {
         }
       };
       
+      const updateDailyIntake = async () => {
+        try {
+            const url = `https://brief-oriole-causal.ngrok-free.app/AppUser/updateDailyIntake?calories=${calories}&protein=${protein}&carbs=${carbs}&fat=${fat}&water=0`;
+            const response = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + currentUser.token
+                }
+            });
+    
+            if (response.ok) {
+                Alert.alert('Success', 'Daily intake updated successfully!');
+                console.log(currentUser.token);
+                setFoodName('');
+                setCalories('');
+                setProtein('');
+                setCarbs('');
+                setFat('');
+                fetchMeals();
+            } else {
+                Alert.alert('Error', 'Failed to update daily intake. Please try again later.');
+            }
+        } catch (error) {
+            Alert.alert('Error', 'Failed to update daily intake. Please check your network connection and try again.');
+        }
+    };
+    
 
     const handleDeleteNewFood = async () => {
         try {
@@ -172,7 +204,7 @@ export default function AddFoodPage() {
     />  
             {/* Button container for action buttons */}
             <View style={styles.buttonContainer}>
-                <Btn onClick={() => {}} text='Enter' style={styles.submitButton}/> 
+                <Btn onClick={updateDailyIntake} text='Enter' style={styles.submitButton}/> 
             </View>
             <View style={styles.buttonContainer}>
                 <Btn onClick={handleAddNewFood} text='Add New Food' style={styles.addButton}/>
