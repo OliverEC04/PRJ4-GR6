@@ -52,13 +52,17 @@ class Server {
     }
     const data = await response.json();
     var userInfo = new User("dummy mail", "dummy name");
+    userInfo.fullName = data.fullName;
     userInfo.calories = data.calories;
     userInfo.proteins = data.proteins;
     userInfo.carbs = data.carbs;
     userInfo.fats = data.fats;
     userInfo.water = data.water;
     userInfo.targetWeight = data.targetWeight;
-    return userInfo;
+
+    console.debug(data);
+
+    return data;
   }
 
   public async loginUser(nameArg: string, passwordArg: string) {
@@ -87,16 +91,16 @@ class Server {
     }
   }
 
-  public async getUser(): Promise<void> {
-    await fetch(this.url + `GetUser`)
-      .then((response) => {
-        if (response.ok) return response.json();
-        else throw new Error("getUser fucked up :(");
-      })
-      .then((data) => {
-        console.debug(data);
-      });
-  }
+  // public async getUser(): Promise<void> {
+  //   await fetch(this.url + `GetUser`)
+  //     .then((response) => {
+  //       if (response.ok) return response.json();
+  //       else throw new Error("getUser fucked up :(");
+  //     })
+  //     .then((data) => {
+  //       console.debug(data);
+  //     });
+  // }
 }
 
 export default new Server();

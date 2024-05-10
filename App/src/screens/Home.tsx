@@ -48,11 +48,11 @@ export default function Home()
     const [water, setWater] = useState(2);
     const [addWaterPopupVisible, setAddWaterPopupVisible] = useState(false);
 
-    useEffect(() => {
-        console.log("Home enter");
-        
+    useFocusEffect(() => {        
         // TODO: evt. update currentUser fra server her, eller gør det inde i server.
-        server.getUser().then(() => {
+        server.getUserInfo().then((r) => {
+            currentUser.update(r);
+
             console.debug(currentUser);
 
             setName(currentUser.fullName.split(" ")[0]);
@@ -63,7 +63,11 @@ export default function Home()
             setWater(currentUser.water);
 
             setCalGoal(getCalGoal(currentUser));
-        });
+        }).catch((e) => {
+            setName("FETCH FAILED");
+            console.debug("");
+         }
+        );
     });
     
     useEffect(() => {
@@ -76,10 +80,6 @@ export default function Home()
             setCalBarColors(["#98C379", "#E5C07B", "#E06C75"]);
         }
     }, [calories, calGoal]);
-
-    useFocusEffect(() => {
-        console.log("hej");
-    });
 
     return (
         <View style={HomeStyle.container}>
