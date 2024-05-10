@@ -90,6 +90,9 @@ class Server {
       if (currentUser.token === "") {
         throw new Error("No token received");
       }
+      else {
+        localStorage.setItem("token", currentUser.token);
+      }
     } catch (error) {
       console.error("Error logging in:", error);
     }
