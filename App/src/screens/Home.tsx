@@ -99,8 +99,11 @@ export default function Home()
             </View>
             <PopupField
                 onEnter={v => {
-                    currentUser.addWater(+v);
-                    server.putWater(currentUser.currentWater);
+                    const water = Number(v);
+
+                    currentUser.currentWater += water;
+                    setWater(currentUser.currentWater);
+                    server.putWater(water);
                 }}
                 visible={addWaterPopupVisible}
                 setVisible={setAddWaterPopupVisible}

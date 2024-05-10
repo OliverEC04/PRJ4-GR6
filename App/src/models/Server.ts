@@ -59,16 +59,13 @@ class Server {
 	}
 
 	public async putWater(liters: number) {
-		fetch(`${this.url}AppUser/me`, {
+		fetch(`${this.url}AppUser/updateDailyIntake?water=${liters}`, {
 			method: "PUT",
 			headers: {
 				Accept: "*/*",
 				"Content-Type": "application/json",
 				Authorization: "Bearer " + currentUser.token,
 			},
-			body: JSON.stringify({
-				currentWater: liters,
-			})
 		})
 			.then((r) => {
 				return r;
