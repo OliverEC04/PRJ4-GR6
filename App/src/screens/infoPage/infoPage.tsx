@@ -32,7 +32,7 @@ export default function InfoPage() {
         setHeight(userData.height);
         setCurrentWeight(userData.currentWeight);
         setAge(userData.age);
-        setGender(userData.gender);
+        setGender(userData.gender.toLocaleLowerCase());
       } catch (error) {
         console.error("fetch failed: ", error);
       }
@@ -43,6 +43,16 @@ export default function InfoPage() {
 
   const handleEditPress = () => {
     setIsEditing(!isEditing);
+  };
+
+  const findGoal = () => {
+    if (currentWeight > currentUser.targetWeight) {
+      return "Losing Weight";
+    } else if (currentWeight < currentUser.targetWeight) {
+      return "Gaining Weight";
+    } else {
+      return "Maintaining Weight";
+    }
   };
 
   const renderGenderDropdown = () => (
@@ -66,7 +76,7 @@ export default function InfoPage() {
     <ScrollView style={style.container}>
       <Image source={{ uri: profilePicture }} style={style.profilePic} />
       <Text style={textStyles.userName}>{currentUser.fullName}</Text>
-      <Text style={textStyles.goalType}>Goal: {currentUser.targetWeight}</Text>
+      <Text style={textStyles.goalType}>Goal: {findGoal()}</Text>
 
       <TextField
         label="Height"
