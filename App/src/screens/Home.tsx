@@ -6,6 +6,7 @@ import server from "../models/Server";
 import { User, currentUser } from "../models/User";
 import PopupField from "../components/PopupField";
 import { useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 
 function getCalGoal(user: User): number
 {
@@ -14,13 +15,11 @@ function getCalGoal(user: User): number
     let bmr: number;
 
     if (user.gender === "male")
-    {
         bmr = 10 * user.weight + 6.25 * user.height - 5 * user.age + 5;
-    }
+
     else if (user.gender === "female")
-    {
         bmr = 10 * user.weight + 6.25 * user.height - 5 * user.age - 161;
-    }
+    
     else
     {
         console.warn("Received gender does not exist, cannot calculate BMR.");
@@ -30,13 +29,11 @@ function getCalGoal(user: User): number
     // Calculate calorie goal
 
     if (user.weight < user.targetWeight)
-    {
         return bmr * user.activity + user.difficulty;
-    }
+    
     else
-    {
         return bmr * user.activity - user.difficulty;
-    }
+    
 }
 
 export default function Home()
@@ -79,6 +76,10 @@ export default function Home()
             setCalBarColors(["#98C379", "#E5C07B", "#E06C75"]);
         }
     }, [calories, calGoal]);
+
+    useFocusEffect(() => {
+        console.log("hej");
+    });
 
     return (
         <View style={HomeStyle.container}>

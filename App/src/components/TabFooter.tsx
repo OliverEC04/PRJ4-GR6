@@ -11,28 +11,6 @@ import { TouchableOpacity } from "react-native";
 export default function TabFooter() {
   const Tab = createMaterialBottomTabNavigator();
 
-  interface TabBarItemProps {
-    onPress: () => void;
-    icon: any;
-    color: string;
-  }
-
-  const TabBarItem: React.FC<TabBarItemProps> = ({
-    onPress,
-    icon,
-    color,
-  }) => {
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          onPress();
-        }}
-      >
-        <MaterialCommunityIcons name={icon} color={color} size={24} />
-      </TouchableOpacity>
-    );
-  };
-
   return (
     <Tab.Navigator initialRouteName="Home">
       <Tab.Screen
@@ -41,8 +19,7 @@ export default function TabFooter() {
         options={{
           tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
-            <TabBarItem icon="home" color={color} onPress={() => {console.log("heSSj");
-            }} />
+            <MaterialCommunityIcons name={"home"} color={color} size={24} />
           ),
         }}
       />
