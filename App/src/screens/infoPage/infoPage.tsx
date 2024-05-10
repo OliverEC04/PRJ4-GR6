@@ -80,22 +80,22 @@ export default function InfoPage() {
 
       <TextField
         label="Height"
-        value={height.toString()}
-        setValue={(value) => setHeight(Number(value))}
+        value={height}
+        setValue={setHeight}
         units="cm"
         isEditing={isEditing}
       />
       <TextField
         label="Current Weight"
-        value={currentWeight.toString()}
-        setValue={(value) => setCurrentWeight(Number(value))}
+        value={currentWeight}
+        setValue={setCurrentWeight}
         units="kg"
         isEditing={isEditing}
       />
       <TextField
         label="Age"
-        value={age.toString()}
-        setValue={(value) => setAge(Number(value))}
+        value={age}
+        setValue={setAge}
         units="years"
         isEditing={isEditing}
       />
