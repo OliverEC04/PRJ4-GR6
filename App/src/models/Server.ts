@@ -59,8 +59,6 @@ class Server {
 	}
 
 	public async putWater(liters: number) {
-		console.log("wwwwwww");
-
 		fetch(`${this.url}AppUser/me`, {
 			method: "PUT",
 			headers: {
@@ -73,8 +71,6 @@ class Server {
 			})
 		})
 			.then((r) => {
-				console.log(r);
-
 				return r;
 			})
 			.catch((e) => {
