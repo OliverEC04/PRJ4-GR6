@@ -101,24 +101,25 @@ class Server {
 		try {
 			const token = await AsyncStorage.getItem("token");
 			if (token !== null) {
-				currentUser.token = token;
+			currentUser.token = token; // directly assign the token
+			return { token: token }; // return an object with a token property
 			}
 		} catch (error) {
 			console.error("Error checking token, user should log in:", error);
 		}
-	
 	}
 
-	// public async getUser(): Promise<void> {
-	//   await fetch(this.url + `GetUser`)
-	//     .then((response) => {
-	//       if (response.ok) return response.json();
-	//       else throw new Error("getUser fucked up :(");
-	//     })
-	//     .then((data) => {
-	//       console.debug(data);
-	//     });
-	// }
+	public async getUser(): Promise<void> {
+	    await fetch(this.url + `GetUser`)
+	       .then((response) => {
+	       if (response.ok) return response.json();
+	       else throw new Error("getUser fucked up :(");
+	    })
+	     .then((data) => {
+	       console.debug(data);
+	    });
+	}
+
 }
 
 export default new Server();
