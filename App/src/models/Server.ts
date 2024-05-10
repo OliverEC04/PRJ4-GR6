@@ -58,6 +58,10 @@ class Server {
 		return data;
 	}
 
+	// public async putWater(liters: number) {
+	// 	const response = fetch(`${this.url}AppUser/me`)
+	// }
+
 	public async loginUser(nameArg: string, passwordArg: string) {
 		try {
 			console.log("logging in with url: ", this.url + "Account/Login");
