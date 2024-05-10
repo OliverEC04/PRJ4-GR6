@@ -55,11 +55,11 @@ namespace UserBackend.Data.Models
         [Range(0, int.MaxValue, ErrorMessage = "Age must be a positive number.")]
         public int? Age { get; set; }
 
-        [Range(0, int.MaxValue, ErrorMessage = "Daily water must be a positive number.")]
-        public int? DailyWater { get; set; }
+        [Range(0, double.MaxValue, ErrorMessage = "Daily water must be a positive number.")]
+        public double? DailyWater { get; set; }
 
-        [Range(0, int.MaxValue, ErrorMessage = "Current water must be a positive number.")]
-        public int? CurrentWater { get; set; }
+        [Range(0, double.MaxValue, ErrorMessage = "Current water must be a positive number.")]
+        public double? CurrentWater { get; set; }
 
         public ICollection<Barcode> Barcodes { get; set;} = new List<Barcode>();
     }

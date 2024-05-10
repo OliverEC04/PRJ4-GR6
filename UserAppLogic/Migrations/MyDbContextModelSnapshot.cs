@@ -219,8 +219,8 @@ namespace UserAppLogic.Migrations
                     b.Property<int?>("CurrentProtein")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CurrentWater")
-                        .HasColumnType("int");
+                    b.Property<double?>("CurrentWater")
+                        .HasColumnType("float");
 
                     b.Property<double?>("CurrentWeight")
                         .HasColumnType("float");
@@ -237,8 +237,8 @@ namespace UserAppLogic.Migrations
                     b.Property<int?>("DailyProtein")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DailyWater")
-                        .HasColumnType("int");
+                    b.Property<double?>("DailyWater")
+                        .HasColumnType("float");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)

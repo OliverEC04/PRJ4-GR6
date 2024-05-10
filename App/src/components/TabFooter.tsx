@@ -6,6 +6,7 @@ import AddFood from "../screens/AddFood/AddFood";
 import InfoPage from "../screens/infoPage/infoPage";
 import LoginNav from "../screens/LoginPage/LoginNav";
 import GoalPage from "../screens/GoalPage/GoalPage";
+import { TouchableOpacity } from "react-native";
 
 export default function TabFooter() {
   const Tab = createMaterialBottomTabNavigator();
@@ -18,7 +19,7 @@ export default function TabFooter() {
         options={{
           tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="home" color={color} size={24} />
+            <MaterialCommunityIcons name={"home"} color={color} size={24} />
           ),
         }}
       />

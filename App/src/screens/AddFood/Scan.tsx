@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button, Modal, ScrollView, Alert } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import { useIsFocused } from '@react-navigation/native';
+import {currentUser} from "../../models/User";
 import AddTextField from "../../components/AddTextField";
 import Btn from "../../components/Btn";
 import styles from "./ScanStyle"
@@ -14,6 +15,7 @@ export default function App() {
   const [modalVisible, setModalVisible] = useState(false);
   const [foodName, setFoodName] = useState('');
   const [protein, setProtein] = useState('');
+  const [calories, setCalories] = useState('');
   const [carbs, setCarbs] = useState('');
   const [fat, setFat] = useState('');
   const [scannedBarcode, setScannedBarcode] = useState('');
@@ -42,7 +44,7 @@ export default function App() {
 
   const fetchFoodInfo = async (barcode) => {
     setLoading(true);
-    
+  
     const options = {
       method: 'GET',
       url: 'https://barcodes1.p.rapidapi.com/',
@@ -66,23 +68,35 @@ export default function App() {
       let result = await response.json();
   
       if (!result || !result.product) {
-        const headers = { 'Authorization': 'Bearer ' + currentUser.token};
-        const localResponse = await fetch(`https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/GetBarcodeInfo/${barcode}`, { headers });
-        result = await localResponse.json();
+        const options = {
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer ' + currentUser.token
+          }
+        };
+        try {
+          const response = await fetch(`https://brief-oriole-causal.ngrok-free.app/api/Barcode/GetBarcodeInfo/${barcode}`, options);
   
-        if (!foodName.trim() || !carbs.trim() || !protein.trim() || !fat.trim()) {
-          setModalVisible(true);
-          return;
+          if (response.ok) {
+            const result = await response.json();
+            setFoodInfo(result);
+            setScannedBarcode(barcode);
+          } else {
+            setModalVisible(true);
+          }
+        } catch (error) {
+          console.error(error);
+          Alert.alert('Error', 'Failed to fetch food information. Please check your network connection and try again.');
+        } finally {
+          setLoading(false);
         }
       }
-      setFoodInfo(result);
-      setScannedBarcode(barcode); 
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false);
+      Alert.alert('Error', 'Failed to fetch food information. Please check your network connection and try again.');
     }
   };
+  
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
@@ -91,26 +105,28 @@ export default function App() {
   };
 
   const handleAddNewFood = async () => {
-    const headers = { 'Authorization': 'Bearer ' + currentUser.token};
     try {
-        const response = await fetch(`https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/AddMealWithBarcode?BarcodeId=${scannedBarcode}&mealName=${foodName}&calories=${calories}&protein=${protein}&carbs=${carbs}&fat=${fat}`, {
+        const response = await fetch(`https://brief-oriole-causal.ngrok-free.app/api/Barcode/AddMealWithBarcode?BarcodeId=${scannedBarcode}&mealName=${foodName}&calories=${calories}&protein=${protein}&carbs=${carbs}&fat=${fat}`, {
             method: 'POST',
-            headers: headers
+            headers: { 'Authorization': 'Bearer ' + currentUser.token}
         });
+  
+        
         if (response.ok) {
             Alert.alert('Success', 'New barcode added successfully!');
             setFoodName('');
             setProtein('');
             setCarbs('');
             setFat('');
+            setCalories(''); // Clear calorie input field after successful addition
         } else {
             Alert.alert('Error', 'Failed to add new food. Please try again later.');
         }
     } catch (error) {
         Alert.alert('Error', 'Failed to add new food. Please check your network connection and try again.');
     }
-};
-
+  };
+  
   if (hasPermission === null) {
     return (
       <View style={styles.container}>
@@ -196,6 +212,15 @@ export default function App() {
               keyboardType="default"
               unit=""
             />
+            <AddTextField
+  value={calories}
+  onChangeText={setCalories}
+  placeholder="Enter calorie amount"
+  keyboardType="numeric"
+  unit="cal"
+/>
+
+
             <AddTextField
               value={protein}
               onChangeText={setProtein}

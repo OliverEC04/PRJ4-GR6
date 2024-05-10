@@ -6,6 +6,7 @@ import server from "../models/Server";
 import { User, currentUser } from "../models/User";
 import PopupField from "../components/PopupField";
 import { useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 
 function getCalGoal(user: User): number
 {
@@ -13,14 +14,12 @@ function getCalGoal(user: User): number
 
     let bmr: number;
 
-    if (user.gender === "male")
-    {
-        bmr = 10 * user.weight + 6.25 * user.height - 5 * user.age + 5;
-    }
-    else if (user.gender === "female")
-    {
-        bmr = 10 * user.weight + 6.25 * user.height - 5 * user.age - 161;
-    }
+    if (user.gender === "Male")
+        bmr = 10 * user.currentWeight + 6.25 * user.height - 5 * user.age + 5;
+
+    else if (user.gender === "Female")
+        bmr = 10 * user.currentWeight + 6.25 * user.height - 5 * user.age - 161;
+    
     else
     {
         console.warn("Received gender does not exist, cannot calculate BMR.");
@@ -29,14 +28,12 @@ function getCalGoal(user: User): number
 
     // Calculate calorie goal
 
-    if (user.weight < user.targetWeight)
-    {
-        return bmr * user.activity + user.difficulty;
-    }
+    if (user.currentWeight < user.targetWeight)
+        return bmr * user.activityLevel + user.difficultyLevel;
+    
     else
-    {
-        return bmr * user.activity - user.difficulty;
-    }
+        return bmr * user.activityLevel - user.difficultyLevel;
+    
 }
 
 export default function Home()
@@ -51,20 +48,21 @@ export default function Home()
     const [water, setWater] = useState(2);
     const [addWaterPopupVisible, setAddWaterPopupVisible] = useState(false);
 
-    useEffect(() => {
+    useFocusEffect(() => {      
         // TODO: evt. update currentUser fra server her, eller gør det inde i server.
-        server.getUser().then(() => {
-            console.debug(currentUser);
-
+        server.getUserInfo().then((r) => {
             setName(currentUser.fullName.split(" ")[0]);
-            setCalories(currentUser.calories);
-            setProtein(currentUser.proteins);
-            setCarbs(currentUser.carbs);
-            setFats(currentUser.fats);
-            setWater(currentUser.water);
+            setCalories(currentUser.currentCalories);
+            setProtein(currentUser.currentProtein);
+            setCarbs(currentUser.currentCarbs);
+            setFats(currentUser.currentFat);
+            setWater(currentUser.currentWater);
 
             setCalGoal(getCalGoal(currentUser));
-        });
+        }).catch((e) => {
+            setName("FETCH FAILED");
+         }
+        );
     });
     
     useEffect(() => {
