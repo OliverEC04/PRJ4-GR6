@@ -1,5 +1,5 @@
 import { User, currentUser } from "./User";
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class Server {
 	private url: string;
@@ -91,9 +91,22 @@ class Server {
 			if (currentUser.token === "") {
 				throw new Error("No token received");
 			}
+			await AsyncStorage.setItem("token", currentUser.token);
 		} catch (error) {
 			console.error("Error logging in:", error);
 		}
+	}
+
+	public async checkUserToken() {
+		try {
+			const token = await AsyncStorage.getItem("token");
+			if (token !== null) {
+				currentUser.token = token;
+			}
+		} catch (error) {
+			console.error("Error checking token, user should log in:", error);
+		}
+	
 	}
 
 	// public async getUser(): Promise<void> {

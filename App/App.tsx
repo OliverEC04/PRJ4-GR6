@@ -3,7 +3,10 @@ import TabFooter from './src/components/TabFooter';
 import { StatusBar } from 'expo-status-bar';
 import { View, StyleSheet } from 'react-native';
 import Server from './src/models/Server';
+import { AppRegistry } from 'react-native';
 
+
+AppRegistry.registerComponent('main', () => App);
 
 export default function App()
 {
