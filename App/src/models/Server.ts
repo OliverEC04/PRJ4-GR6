@@ -38,7 +38,7 @@ class Server {
 
   // en put metode til at opdatere user data
   public async putInfoPage(userInfo: { height: number; gender: string; currentWeight: number; age: number }): Promise<void> {
-    const url = `${this.url}AppUser/UpdateInfo`;
+    const url = `${this.url}AppUser/UpdateInfo?Gender=${gender}&Age=${age}&Height=${height}&CurrentWeight=${currentWeight}`;
     try {
       const response = await fetch(url, {
         method: 'PUT',
@@ -46,7 +46,6 @@ class Server {
           'Authorization': 'Bearer ' + currentUser.token,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(userInfo),
       });
 
       if (!response.ok) {
