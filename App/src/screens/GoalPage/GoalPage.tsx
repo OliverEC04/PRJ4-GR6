@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Image, ScrollView } from "react-native";
+import { View, Text, TextInput, Image, ScrollView, Alert } from "react-native";
 import style from "./GoalStyle";
 import { Dropdown } from "react-native-element-dropdown";
 import NumericInput from "../../components/NumericInput";
+import { currentUser } from "../../models/User";
 import Btn from "../../components/Btn";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import StatBar from "../../components/StatBar";
@@ -10,15 +11,44 @@ import StatBar from "../../components/StatBar";
 export default function Home() {
   const [isEditing, setIsEditing] = useState(false); // edit stuff
   const [targetWeight, setTargetWeight] = useState("100");
-  const [hydration, setHydration] = useState("2 Litre");
-  const [difficulty, setDiffuclty] = useState("Normal");
-  const [activity, setActivity] = useState("Sedentary (little to no exercise)");
+  const [hydration, setHydration] = useState("2");
+  const [difficulty, setDiffuclty] = useState("500");
+  const [activity, setActivity] = useState("1.2");
 
   // just mock data
   const userGoal = "Gain Weight";
 
-  const handleEditPress = () => {
-    setIsEditing(!isEditing);
+  const handleSavePress = async () => {
+    const newdifficulty = parseFloat(difficulty);
+    const newactivity = parseFloat(activity);
+    const newhydration = parseFloat(hydration);
+    const newtargetWeight = parseFloat(targetWeight);
+    try {
+      const response = await fetch(
+        `https://brief-oriole-causal.ngrok-free.app/AppUser/me/GoalPage/TargetWeight=${newtargetWeight}/activityLevel=${newactivity}/difficultyLevel=${newdifficulty}/DailyWater=${newhydration}`,
+        {
+          method: "PUT",
+          headers: { Authorization: "Bearer " + currentUser.token },
+
+          // body: JSON.stringify({
+          //   TargetWeight: newtargetWeight,
+          //   DailyWater: newhydration,
+          //   difficultyLevel: newdifficulty,
+          //   activityLevel: newactivity,
+          // }),
+        }
+      );
+      if (response.ok) {
+        Alert.alert("Success", "New food added successfully!");
+      } else {
+        Alert.alert("Error", "Failed to add new food. Please try again later.");
+      }
+    } catch (error) {
+      Alert.alert(
+        "Error",
+        "Failed to add new food. Please check your network connection and try again."
+      );
+    }
   };
 
   const Difficulty = [
@@ -79,9 +109,9 @@ export default function Home() {
     </View>
   );
   const Hydration = [
-    { label: "1 Litre", value: "1 Litre" },
-    { label: "2 Litre", value: "2 Litre" },
-    { label: "3 Litre", value: "3 Litre" },
+    { label: "1 Litre", value: "1" },
+    { label: "2 Litre", value: "2" },
+    { label: "3 Litre", value: "3" },
   ];
 
   const renderHydrationDropdown = () => (
@@ -113,6 +143,7 @@ export default function Home() {
       {renderDifficultyDropdown()}
       {renderActivityDropdown()}
       {renderHydrationDropdown()}
+      <Btn text={"Save"} onClick={handleSavePress} style={style.button} />
     </ScrollView>
   );
 }
