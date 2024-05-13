@@ -131,6 +131,40 @@ namespace AppUserBackend.Controllers
             }
         }
 
+         // PUT: api/AppUser/5
+        [HttpPut("me/GoalPage")]
+        [Authorize("User")]
+        public async Task<IActionResult> PutAppUserGoalPage(AppUserGoalDTO appUser)
+        {
+            try
+            {
+                var userName = User.FindFirstValue(ClaimTypes.Name);
+
+                var user = await _userManager.FindByNameAsync(userName);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+
+                user.TargetWeight = appUser.TargetWeight;
+                user.activityLevel = appUser.activityLevel;
+                user.difficultyLevel = appUser.difficultyLevel;
+                user.DailyWater = appUser.DailyWater;
+
+                await _userManager.UpdateAsync(user);
+            
+                return NoContent();
+            }
+            
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
         //update daily intake
         [HttpPut("updateDailyIntake")]
         [Authorize("User")]
