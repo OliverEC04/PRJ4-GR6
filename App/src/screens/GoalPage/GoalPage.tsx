@@ -17,8 +17,12 @@ export default function Home() {
   // just mock data
   const userGoal = "Gain Weight";
 
-  const handleEditPress = () => {
-    setIsEditing(!isEditing);
+  // const handleEditPress = () => {
+  //   setIsEditing(!isEditing);
+  // };
+
+  const handleSavePress = () => {
+    //save data
   };
 
   const Difficulty = [
@@ -113,6 +117,7 @@ export default function Home() {
       {renderDifficultyDropdown()}
       {renderActivityDropdown()}
       {renderHydrationDropdown()}
+      <Btn text={"Save"} onClick={handleSavePress} style={style.button} />
     </ScrollView>
   );
 }

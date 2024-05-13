@@ -62,7 +62,7 @@ export default function TabFooter() {
         }}
       />
       <Tab.Screen
-        name="LoginPage"
+        name="LogoutPage"
         component={LoginNav}
         options={{
           tabBarLabel: "Login",
