@@ -42,32 +42,17 @@ export default function InfoPage() {
   }, []);
 
   const handleSavePress = async () => {
-      setIsEditing(!isEditing);
-    try {
-      const url = `https://brief-oriole-causal.ngrok-free.app/AppUser/me`;
-      const response = await fetch(url, {
-        method: 'PUT',
-        headers: {
-          'Authorization': 'Bearer ' + currentUser.token,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          "height": height,
-          "gender": gender,
-          "currentWeight": currentWeight,
-          "age": age
-        }),
+    setIsEditing(!isEditing); 
+    if (isEditing) { 
+      await Server.putInfoPage({
+        height,
+        gender,
+        currentWeight,
+        age
       });
-  
-      if (response.ok) {
-        Alert.alert('Success', 'Profile updated successfully'); 
-      } else {
-        Alert.alert('Error', 'Failed to update profile');
-      }
-    } catch (error) {
-      Alert.alert('Error', 'Failed to update profile');
     }
   };
+  
 
   const findGoal = () => {
     if (currentWeight > currentUser.targetWeight) {

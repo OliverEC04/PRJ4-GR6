@@ -37,6 +37,28 @@ class Server {
   }
 
   // en put metode til at opdatere user data
+  public async putInfoPage(userInfo: { height: number; gender: string; currentWeight: number; age: number }): Promise<void> {
+    const url = `${this.url}AppUser/UpdateInfo`;
+    try {
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Authorization': 'Bearer ' + currentUser.token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userInfo),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to update profile with status: ${response.status}`);
+      }
+      console.log('Success', 'Profile updated successfully');
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      console.log('Error', `Failed to update profile`);
+    }
+}
+
 
   public async getUserInfo(): Promise<User> {
     const response = await fetch(`${this.url}AppUser/me`, {
