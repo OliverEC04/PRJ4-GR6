@@ -42,17 +42,11 @@ export default function InfoPage() {
   }, []);
 
   const handleSavePress = async () => {
-    setIsEditing(!isEditing); 
-    if (isEditing) { 
-      await Server.putInfoPage({
-        height,
-        gender,
-        currentWeight,
-        age
-      });
+    setIsEditing(!isEditing);
+    if (isEditing) {
+      await Server.putInfoPage(height, gender, currentWeight, age);
     }
   };
-  
 
   const findGoal = () => {
     if (currentWeight > currentUser.targetWeight) {

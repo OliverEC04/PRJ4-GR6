@@ -37,27 +37,33 @@ class Server {
   }
 
   // en put metode til at opdatere user data
-  public async putInfoPage(userInfo: { height: number; gender: string; currentWeight: number; age: number }): Promise<void> {
+  public async putInfoPage(
+    height: number,
+    gender: string,
+    currentWeight: number,
+    age: number
+  ): Promise<void> {
     const url = `${this.url}AppUser/UpdateInfo?Gender=${gender}&Age=${age}&Height=${height}&CurrentWeight=${currentWeight}`;
     try {
       const response = await fetch(url, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Authorization': 'Bearer ' + currentUser.token,
-          'Content-Type': 'application/json'
+          Authorization: "Bearer " + currentUser.token,
+          "Content-Type": "application/json",
         },
       });
 
       if (!response.ok) {
-        throw new Error(`Failed to update profile with status: ${response.status}`);
+        throw new Error(
+          `Failed to update profile with status: ${response.status}`
+        );
       }
-      console.log('Success', 'Profile updated successfully');
+      console.log("Success", "Profile updated successfully");
     } catch (error) {
-      console.error('Error updating profile:', error);
-      console.log('Error', `Failed to update profile`);
+      console.error("Error updating profile:", error);
+      console.log("Error", `Failed to update profile`);
     }
-}
-
+  }
 
   public async getUserInfo(): Promise<User> {
     const response = await fetch(`${this.url}AppUser/me`, {
@@ -79,25 +85,23 @@ class Server {
     return data;
   }
 
-  
-
-	public async putWater(liters: number) {
-		fetch(`${this.url}AppUser/updateDailyIntake?water=${liters}`, {
-			method: "PUT",
-			headers: {
-				Accept: "*/*",
-				"Content-Type": "application/json",
-				Authorization: "Bearer " + currentUser.token,
-			},
-		})
-			.then((r) => {
-				return r;
-			})
-			.catch((e) => {
-				console.warn(e);
-				throw new Error(`putWater error ${e.status}`)
-			});
-	}
+  public async putWater(liters: number) {
+    fetch(`${this.url}AppUser/updateDailyIntake?water=${liters}`, {
+      method: "PUT",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + currentUser.token,
+      },
+    })
+      .then((r) => {
+        return r;
+      })
+      .catch((e) => {
+        console.warn(e);
+        throw new Error(`putWater error ${e.status}`);
+      });
+  }
 
   public async loginUser(nameArg: string, passwordArg: string) {
     try {
