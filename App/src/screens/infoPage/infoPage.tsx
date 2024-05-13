@@ -9,6 +9,15 @@ import Server from "../../models/Server";
 import { currentUser } from "../../models/User";
 
 export default function InfoPage() {
+  useEffect(()=>{
+    Server.getUserInfo().then(() => {
+          setHeight(currentUser.height);
+          setCurrentWeight(currentUser.currentWeight);
+          setAge(currentUser.age);
+          setGender(currentUser.gender);
+    });
+  }); 
+
   const [isEditing, setIsEditing] = useState(false); // edit stuff
   const [height, setHeight] = useState(170);
   const [currentWeight, setCurrentWeight] = useState(79);
@@ -18,41 +27,17 @@ export default function InfoPage() {
   const allGenders = [
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
+    { label: "Email", value: "email" },
   ];
 
   // just mock data
+  const userName = "Albert Einstein";
+  const userGoal = "Lose Weight";
   const profilePicture =
     "https://hips.hearstapps.com/hmg-prod/images/albert-einstein-sticks-out-his-tongue-when-asked-by-news-photo-1681316749.jpg";
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const userData = await Server.getUserInfo();
-        currentUser.update(userData);
-        setHeight(userData.height);
-        setCurrentWeight(userData.currentWeight);
-        setAge(userData.age);
-        setGender(userData.gender.toLocaleLowerCase());
-      } catch (error) {
-        console.error("fetch failed: ", error);
-      }
-    };
-
-    fetchUser();
-  }, []);
-
   const handleEditPress = () => {
     setIsEditing(!isEditing);
-  };
-
-  const findGoal = () => {
-    if (currentWeight > currentUser.targetWeight) {
-      return "Losing Weight";
-    } else if (currentWeight < currentUser.targetWeight) {
-      return "Gaining Weight";
-    } else {
-      return "Maintaining Weight";
-    }
   };
 
   const renderGenderDropdown = () => (
@@ -64,7 +49,6 @@ export default function InfoPage() {
         data={allGenders}
         labelField="label"
         valueField="value"
-        placeholder={!isEditing ? "Select Gender" : "--------"}
         value={gender}
         onChange={(item) => setGender(item.value)}
         disable={!isEditing}
@@ -75,8 +59,8 @@ export default function InfoPage() {
   return (
     <ScrollView style={style.container}>
       <Image source={{ uri: profilePicture }} style={style.profilePic} />
-      <Text style={textStyles.userName}>{currentUser.fullName}</Text>
-      <Text style={textStyles.goalType}>Goal: {findGoal()}</Text>
+      <Text style={textStyles.userName}>{userName}</Text>
+      <Text style={textStyles.goalType}>Goal: {userGoal}</Text>
 
       <TextField
         label="Height"

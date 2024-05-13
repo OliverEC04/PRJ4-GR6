@@ -58,6 +58,8 @@ class Server {
     return data;
   }
 
+  
+
 	public async putWater(liters: number) {
 		fetch(`${this.url}AppUser/updateDailyIntake?water=${liters}`, {
 			method: "PUT",

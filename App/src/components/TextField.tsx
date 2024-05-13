@@ -3,10 +3,10 @@ import { View, Text, TextInput } from 'react-native';
 import style from '../styles/TextFieldStyle';
 
 type TextFieldProps = {
-  label: string,
+  label: any,
   value: any,
   setValue: (text: any) => void,
-  units: string,
+  units: any,
   isEditing: boolean,
 };
 
