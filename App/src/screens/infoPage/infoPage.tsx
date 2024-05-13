@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, Image, ScrollView } from "react-native";
+import { View, Text, TextInput, Image, ScrollView, Alert } from "react-native";
 import style from "../../styles/infoStyle";
 import { Dropdown } from "react-native-element-dropdown";
 import TextField from "../../components/TextField";
@@ -41,8 +41,32 @@ export default function InfoPage() {
     fetchUser();
   }, []);
 
-  const handleEditPress = () => {
-    setIsEditing(!isEditing);
+  const handleSavePress = async () => {
+      setIsEditing(!isEditing);
+    try {
+      const url = `https://brief-oriole-causal.ngrok-free.app/AppUser/me`;
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Authorization': 'Bearer ' + currentUser.token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "height": height,
+          "gender": gender,
+          "currentWeight": currentWeight,
+          "age": age
+        }),
+      });
+  
+      if (response.ok) {
+        Alert.alert('Success', 'Profile updated successfully'); 
+      } else {
+        Alert.alert('Error', 'Failed to update profile');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Failed to update profile');
+    }
   };
 
   const findGoal = () => {
@@ -103,7 +127,7 @@ export default function InfoPage() {
       <View style={[{ alignItems: "center" }]}>
         <Btn
           text={isEditing ? "Save" : "Edit Profile"}
-          onClick={handleEditPress}
+          onClick={handleSavePress}
           style={style.button}
         />
       </View>
