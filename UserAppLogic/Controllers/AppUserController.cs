@@ -198,6 +198,41 @@ namespace AppUserBackend.Controllers
             }
         }
 
+
+        //update daily intake
+        [HttpPut("UpdateInfo")]
+        [Authorize("User")]
+        public async Task<IActionResult> UpdateInfo(string Gender, float CurrentWeight, int Age, float Height)
+        {
+            try
+            {
+                var userName = User.FindFirstValue(ClaimTypes.Name);
+
+                var user = await _userManager.FindByNameAsync(userName);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                user.CurrentWeight = CurrentWeight;
+                user.Height = Height;
+                user.Age    = Age;
+                user.Gender = Gender;
+     
+
+                await _userManager.UpdateAsync(user);
+
+                return NoContent();
+            }
+
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
         //reset daily intake
         [HttpPut("resetDailyIntake")]
         [Authorize("User")]
