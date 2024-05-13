@@ -11,6 +11,7 @@ import { currentUser } from "../../models/User";
 export default function InfoPage() {
   useEffect(()=>{
     Server.getUserInfo().then(() => {
+          setTargetWeight(currentUser.targetWeight);
           setHeight(currentUser.height);
           setCurrentWeight(currentUser.currentWeight);
           setAge(currentUser.age);
@@ -19,20 +20,31 @@ export default function InfoPage() {
   }); 
 
   const [isEditing, setIsEditing] = useState(false); // edit stuff
-  const [height, setHeight] = useState(170);
-  const [currentWeight, setCurrentWeight] = useState(79);
-  const [age, setAge] = useState(22);
+  const [height, setHeight] = useState(0);
+  const [currentWeight, setCurrentWeight] = useState(0);
+  const [age, setAge] = useState(0);
+  const [targetWeight, setTargetWeight] = useState(0);
   const [gender, setGender] = useState("null");
 
   const allGenders = [
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
-    { label: "Email", value: "email" },
   ];
 
   // just mock data
   const userName = "Albert Einstein";
-  const userGoal = "Lose Weight";
+
+  const userGoal = () => {
+    if (currentWeight >= targetWeight) {
+      return "Losing Weight";
+    } else if (currentWeight < targetWeight) { 
+      return "Gaining weight";
+    } else {
+      return "Maintaining weight";
+    }
+  };
+  
+
   const profilePicture =
     "https://hips.hearstapps.com/hmg-prod/images/albert-einstein-sticks-out-his-tongue-when-asked-by-news-photo-1681316749.jpg";
 
@@ -60,7 +72,7 @@ export default function InfoPage() {
     <ScrollView style={style.container}>
       <Image source={{ uri: profilePicture }} style={style.profilePic} />
       <Text style={textStyles.userName}>{userName}</Text>
-      <Text style={textStyles.goalType}>Goal: {userGoal}</Text>
+      <Text style={textStyles.goalType}>Goal:</Text>
 
       <TextField
         label="Height"

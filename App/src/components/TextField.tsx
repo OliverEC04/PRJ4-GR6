@@ -17,14 +17,18 @@ const TextField = ({
   units,
   isEditing,
 }: TextFieldProps) => {
+  const handleChangeText = (text: string) => {
+    setValue(Number(text));
+  };
+
   return (
     <View style={style.entry}>
       <Text style={style.label}>{label}:</Text>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <TextInput
           style={style.input}
-          onChangeText={setValue}
-          value={value}
+          onChangeText={handleChangeText}
+          value={value.toString()}
           editable={isEditing}
           keyboardType="numeric"
           underlineColorAndroid="transparent"
