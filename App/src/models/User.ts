@@ -1,5 +1,3 @@
-import Server from "../models/Server";
-
 export class User {
     public email: string;
     public fullName: string;
@@ -54,8 +52,6 @@ export class User {
 
     public addWater(liters: number): void {
         this.currentWater += liters;
-
-        // TODO: post added water to server ( server.PostWater(this.water) eller noget )
     }
 }
 
