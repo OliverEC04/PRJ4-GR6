@@ -13,8 +13,6 @@ using AppUserBackend.Controllers;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Servic
-
 
 builder.Services.AddCors();
 builder.Services.AddControllers();
