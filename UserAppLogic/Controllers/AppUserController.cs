@@ -109,15 +109,15 @@ namespace AppUserBackend.Controllers
                 user.TargetWeight = appUser.TargetWeight;
                 user.activityLevel = appUser.activityLevel;
                 user.difficultyLevel = appUser.difficultyLevel;
-                user.CurrentCalories = appUser.CurrentCalories;
+                user.CurrentCalories += appUser.CurrentCalories;
                 user.DailyCalories = appUser.DailyCalories;
-                user.CurrentProtein = appUser.CurrentProtein;
+                user.CurrentProtein += appUser.CurrentProtein;
                 user.DailyProtein = appUser.DailyProtein;
-                user.CurrentCarbs = appUser.CurrentCarbs;
+                user.CurrentCarbs += appUser.CurrentCarbs;
                 user.DailyCarbs = appUser.DailyCarbs;
-                user.CurrentFat = appUser.CurrentFat;
+                user.CurrentFat += appUser.CurrentFat;
                 user.DailyFat = appUser.DailyFat;
-                user.CurrentWater = appUser.CurrentWater;
+                user.CurrentWater += appUser.CurrentWater;
                 user.Age = appUser.Age;
             
                 await _userManager.UpdateAsync(user);
