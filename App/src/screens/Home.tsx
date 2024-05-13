@@ -39,31 +39,37 @@ function getCalGoal(user: User): number
 export default function Home()
 {
     const [name, setName] = useState("world");
-    const [calories, setCalories] = useState(3000);
-    const [calGoal, setCalGoal] = useState(2500);
+    const [calories, setCalories] = useState(0);
+    const [calGoal, setCalGoal] = useState(0);
     const [calBarColors, setCalBarColors] = useState(["#98C379", "#E5C07B", "#E06C75"]);
-    const [protein, setProtein] = useState(126);
-    const [carbs, setCarbs] = useState(100);
-    const [fats, setFats] = useState(50);
-    const [water, setWater] = useState(2);
+    const [protein, setProtein] = useState(0);
+    const [proteinGoal, setProteinGoal] = useState(0);
+    const [carbs, setCarbs] = useState(0);
+    const [carbsGoal, setCarbsGoal] = useState(0)
+    const [fats, setFats] = useState(0);
+    const [fatsGoal, setFatsGoal] = useState(0);
+    const [water, setWater] = useState(0);
+    const [waterGoal, setWaterGoal] = useState(0);
     const [addWaterPopupVisible, setAddWaterPopupVisible] = useState(false);
 
     useFocusEffect(() => {      
-        server.getUserInfo().then((r) => {
-            console.log(currentUser.token);
-            
-            if (currentUser.token == undefined || currentUser.token == "")
-            {
-                setName("please log in");
-                return;
-            }
+        if (currentUser.token == undefined || currentUser.token == "")
+        {
+            setName("please log in");
+            return;
+        }
 
+        server.getUserInfo().then((r) => {
             setName(currentUser.fullName.split(" ")[0]);
             setCalories(currentUser.currentCalories);
             setProtein(currentUser.currentProtein);
+            setProteinGoal(currentUser.dailyProtein);
             setCarbs(currentUser.currentCarbs);
+            setCarbsGoal(currentUser.dailyCarbs);
             setFats(currentUser.currentFat);
+            setFatsGoal(currentUser.dailyFat);
             setWater(currentUser.currentWater);
+            setWaterGoal(currentUser.dailyWater);
 
             setCalGoal(getCalGoal(currentUser));
         }).catch((e) => {
@@ -90,17 +96,20 @@ export default function Home()
                 {`Hello ${name}!`}
             </Text>
             <StatBar title="Calories" val={calories} maxVal={calGoal} unit="kcal" height={60} colors={calBarColors}></StatBar>
-            <StatBar title="Protein" val={protein} maxVal={126} unit="g" height={26}></StatBar>
-            <StatBar title="Carbs" val={carbs} maxVal={126} unit="g" height={26}></StatBar>
-            <StatBar title="Fats" val={fats} maxVal={126} unit="g" height={26}></StatBar>
+            <StatBar title="Protein" val={protein} maxVal={proteinGoal} unit="g" height={26}></StatBar>
+            <StatBar title="Carbs" val={carbs} maxVal={carbsGoal} unit="g" height={26}></StatBar>
+            <StatBar title="Fats" val={fats} maxVal={fatsGoal} unit="g" height={26}></StatBar>
             <View style={HomeStyle.waterCont}>
-                <StatBar title="Water" val={water} maxVal={3} unit="L" height={26} colors={["#E06C75", "#61AFEF"]} width={300 - (60 + 4 + 10)}></StatBar>
+                <StatBar title="Water" val={water} maxVal={waterGoal} unit="L" height={26} colors={["#E06C75", "#61AFEF"]} width={300 - (60 + 4 + 10)}></StatBar>
                 <RoundBtn onClick={() => {setAddWaterPopupVisible(true)}} icon={"plus"} size={60} style={HomeStyle.waterBtn}/>
             </View>
             <PopupField
                 onEnter={v => {
-                    currentUser.addWater(+v);
-                    server.putWater(currentUser.currentWater);
+                    const water = Number(v);
+
+                    currentUser.currentWater += water;
+                    setWater(currentUser.currentWater);
+                    server.putWater(water);
                 }}
                 visible={addWaterPopupVisible}
                 setVisible={setAddWaterPopupVisible}

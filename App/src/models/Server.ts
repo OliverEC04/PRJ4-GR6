@@ -58,26 +58,23 @@ class Server {
     return data;
   }
 
-  public async putWater(liters: number) {
-    fetch(`${this.url}AppUser/me`, {
-      method: "PUT",
-      headers: {
-        Accept: "*/*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + currentUser.token,
-      },
-      body: JSON.stringify({
-        currentWater: liters,
-      }),
-    })
-      .then((r) => {
-        return r;
-      })
-      .catch((e) => {
-        console.warn(e);
-        throw new Error(`putWater error ${e.status}`);
-      });
-  }
+	public async putWater(liters: number) {
+		fetch(`${this.url}AppUser/updateDailyIntake?water=${liters}`, {
+			method: "PUT",
+			headers: {
+				Accept: "*/*",
+				"Content-Type": "application/json",
+				Authorization: "Bearer " + currentUser.token,
+			},
+		})
+			.then((r) => {
+				return r;
+			})
+			.catch((e) => {
+				console.warn(e);
+				throw new Error(`putWater error ${e.status}`)
+			});
+	}
 
   public async loginUser(nameArg: string, passwordArg: string) {
     try {
