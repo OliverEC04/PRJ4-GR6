@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import Enter from './Enter';
+import { Alert } from 'react-native';  // Import Alert from react-native
 
 // Mocking the external fetch API
 global.fetch = jest.fn() as jest.Mock;
@@ -39,8 +40,6 @@ describe('Enter', () => {
     
     fireEvent.changeText(foodNameInput, 'Banana');
     fireEvent.changeText(proteinInput, '1.2');
-
-    // Additional assertions would depend on whether you can access the state or how the component reacts to input
   });
 
   it('handles adding new food', async () => {
