@@ -26,6 +26,7 @@ function getCalGoal(user: User): number
         return -1;
     }
 
+    return bmr;
     // Calculate calorie goal
 
     if (user.currentWeight < user.targetWeight)
