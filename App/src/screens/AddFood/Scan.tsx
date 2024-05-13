@@ -219,7 +219,7 @@ export default function App() {
   }
   
   return (
-    <View style={styles.container}>
+    <View style={styles.container}> 
       {!scanned && isFocused && hasPermission && (
         <View style={styles.cameraContainer}>
           <Camera
@@ -273,7 +273,7 @@ export default function App() {
           {/* Container for modal content */}
           <View style={styles.modalContainer}>
           <Text style={styles.modalTitle}>Barcode not found, add it to the database</Text>
-            <ScrollView style={{ paddingTop: 60, paddingHorizontal: 20 }}>
+         
                {/* Display scanned barcode ID */}
             <Text style={styles.barcodeText}>Scanned Barcode: {scannedBarcode}</Text>
 
@@ -318,7 +318,7 @@ export default function App() {
                 <Btn onClick={handleAddNewFood} text='Enter' style={styles.EnterButton} />
                 <Btn onClick={() => setModalVisible(false)} text='close' style={styles.cancelButton}/>
             </View>
-            </ScrollView>
+     
           </View>
         </View>
       </Modal>

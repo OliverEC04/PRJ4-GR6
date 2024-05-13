@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   barcodeText: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10,
+    alignSelf: 'center',
   },
   cancelButton: {
       backgroundColor: '#E06C75', 
@@ -66,10 +66,9 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
       borderRadius: 10,
       width: '90%', 
-      height: '55%', 
-      marginBottom: 10,
-      paddingVertical: 15,
-      paddingHorizontal: 15,
+      maxHeight: '85%', 
+      paddingBottom: 10,
+      paddingTop: 10,
       borderWidth: 1,
       borderColor: "black",
   
@@ -79,7 +78,6 @@ const styles = StyleSheet.create({
       fontWeight: 'normal',
       includeFontPadding: false,
       textDecorationLine: 'underline',
-      marginBottom: -50,
       textAlign: 'center',
     }
   });
