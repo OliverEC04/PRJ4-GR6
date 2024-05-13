@@ -134,7 +134,7 @@ namespace AppUserBackend.Controllers
          // PUT: api/AppUser/5
         [HttpPut("me/GoalPage")]
         [Authorize("User")]
-        public async Task<IActionResult> PutAppUserGoalPage(AppUserGoalDTO appUser)
+        public async Task<IActionResult> PutAppUserGoalPage( float TargetWeight, float activityLevel, float difficultyLevel, float DailyWater)
         {
             try
             {
@@ -148,10 +148,10 @@ namespace AppUserBackend.Controllers
                 }
 
 
-                user.TargetWeight = appUser.TargetWeight;
-                user.activityLevel = appUser.activityLevel;
-                user.difficultyLevel = appUser.difficultyLevel;
-                user.DailyWater = appUser.DailyWater;
+                user.TargetWeight = TargetWeight;
+                user.activityLevel = activityLevel;
+                user.difficultyLevel = difficultyLevel;
+                user.DailyWater = DailyWater;
 
                 await _userManager.UpdateAsync(user);
             
