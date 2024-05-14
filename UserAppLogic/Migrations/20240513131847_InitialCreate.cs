@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace UserAppLogic.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,7 +36,7 @@ namespace UserAppLogic.Migrations
                     CurrentWeight = table.Column<double>(type: "float", nullable: true),
                     TargetWeight = table.Column<double>(type: "float", nullable: true),
                     activityLevel = table.Column<double>(type: "float", nullable: true),
-                    difficultyLevel = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    difficultyLevel = table.Column<float>(type: "real", nullable: true),
                     CurrentCalories = table.Column<float>(type: "real", nullable: false),
                     DailyCalories = table.Column<float>(type: "real", nullable: false),
                     DailyProtein = table.Column<float>(type: "real", nullable: false),

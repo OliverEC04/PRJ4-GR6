@@ -296,8 +296,8 @@ namespace UserAppLogic.Migrations
                     b.Property<double?>("activityLevel")
                         .HasColumnType("float");
 
-                    b.Property<string>("difficultyLevel")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float?>("difficultyLevel")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
