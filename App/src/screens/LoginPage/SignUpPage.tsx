@@ -54,6 +54,7 @@ export default function SignUpPage() {
         label="Enter your Password"
         value={password}
         setValue={setPassword}
+        password={true}
       />
       <Btn style={textStyles.button} text="Sign up" onClick={createNewUser} />
     </View>

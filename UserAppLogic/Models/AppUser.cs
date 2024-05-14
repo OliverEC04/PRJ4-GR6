@@ -25,8 +25,8 @@ namespace UserBackend.Data.Models
         [Range(1, 1.9, ErrorMessage = "Activity level must be between 1 and 1,9.")]
         public double? activityLevel { get; set; }
 
-        [RegularExpression("^(Easy|Medium|Hard)$", ErrorMessage = "Choose a difficulty level between Easy, Medium, or Hard.")]
-        public string? difficultyLevel { get; set; }
+        [Range(20, 800, ErrorMessage = "Choose a difficulty level between Easy, Medium, or Hard.")]
+        public float? difficultyLevel { get; set; }
         
         [Range(0, int.MaxValue, ErrorMessage = "Current calories must be a positive number.")]
         public float CurrentCalories { get; set; }
