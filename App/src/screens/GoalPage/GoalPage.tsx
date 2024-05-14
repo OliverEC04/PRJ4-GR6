@@ -3,20 +3,30 @@ import { View, Text, TextInput, Image, ScrollView, Alert } from "react-native";
 import style from "./GoalStyle";
 import { Dropdown } from "react-native-element-dropdown";
 import NumericInput from "../../components/NumericInput";
-import { currentUser } from "../../models/User";
+import { currentUser, User } from "../../models/User";
 import Btn from "../../components/Btn";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import StatBar from "../../components/StatBar";
 
-export default function Home() {
+function displayGoal(user: User) {
+  if (user.currentWeight < user.targetWeight) {
+    return (
+      <>
+        <Image source={require("../../../assets/logo.png")} />
+        <Text style={style.goalType}>Goal: Gain Weight</Text>
+      </>
+    );
+  } else if (user.currentWeight === user.targetWeight) {
+    return <Text style={style.goalType}>Goal: Maintain Weight</Text>;
+  } else {
+    return <Text style={style.goalType}>Goal: Lose Weight</Text>;
+  }
+}
+
+export default function GoalPage() {
   const [isEditing, setIsEditing] = useState(false); // edit stuff
   const [targetWeight, setTargetWeight] = useState("100");
   const [hydration, setHydration] = useState("2");
   const [difficulty, setDiffuclty] = useState("500");
   const [activity, setActivity] = useState("1.2");
-
-  // just mock data
-  const userGoal = "Gain Weight";
 
   const handleSavePress = async () => {
     const newdifficulty = parseFloat(difficulty);
@@ -133,7 +143,7 @@ export default function Home() {
   return (
     <ScrollView style={style.container}>
       <Text style={style.targetWeight}>Goals</Text>
-      <Text style={style.goalType}>Goal: {userGoal}</Text>
+      {displayGoal(currentUser)}
       <NumericInput
         label="Target Weight"
         value={targetWeight}
