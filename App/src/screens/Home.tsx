@@ -37,6 +37,21 @@ function getCalGoal(user: User): number
     
 }
 
+function getProteinGoal(calGoal: number): number
+{
+    return calGoal / 16;
+}
+
+function getCarbsGoal(calGoal: number): number
+{
+    return calGoal / 8;
+}
+
+function getFatsGoal(calGoal: number): number
+{
+    return calGoal / 36;
+}
+
 export default function Home()
 {
     const [name, setName] = useState("world");
@@ -64,15 +79,23 @@ export default function Home()
             setName(currentUser.fullName.split(" ")[0]);
             setCalories(currentUser.currentCalories);
             setProtein(currentUser.currentProtein);
-            setProteinGoal(currentUser.dailyProtein);
             setCarbs(currentUser.currentCarbs);
-            setCarbsGoal(currentUser.dailyCarbs);
             setFats(currentUser.currentFat);
-            setFatsGoal(currentUser.dailyFat);
-            setWater(currentUser.currentWater);
+            setWater(+currentUser.currentWater.toFixed(3));
             setWaterGoal(currentUser.dailyWater);
 
-            setCalGoal(getCalGoal(currentUser));
+            // Calculate and set goals (except water)
+            currentUser.dailyCalories = getCalGoal(currentUser);
+            currentUser.dailyProtein = getProteinGoal(currentUser.dailyCalories);
+            currentUser.dailyCarbs = getCarbsGoal(currentUser.dailyCalories);
+            currentUser.dailyFat = getFatsGoal(currentUser.dailyCalories);
+
+            server.putUser(currentUser);
+
+            setCalGoal(currentUser.dailyCalories);
+            setProteinGoal(currentUser.dailyProtein);
+            setCarbsGoal(currentUser.dailyCarbs);
+            setFatsGoal(currentUser.dailyFat);
         }).catch((e) => {
             setName("FETCH FAILED");
          }
@@ -109,7 +132,7 @@ export default function Home()
                     const water = Number(v);
 
                     currentUser.currentWater += water;
-                    setWater(currentUser.currentWater);
+                    setWater(+currentUser.currentWater.toFixed(3));
                     server.putWater(water);
                 }}
                 visible={addWaterPopupVisible}
