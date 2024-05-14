@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "326272406845",
+    "project_id": "fitnessnotifaction",
+    "storage_bucket": "fitnessnotifaction.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:326272406845:android:be0a8209c8de9a6c23a154",
+        "android_client_info": {
+          "package_name": "com.company.fitnessapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNC8I4WjWD3bf4W26MXmwF-IuWdhBGA9A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
