@@ -1,22 +1,51 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Image, ScrollView, Alert } from "react-native";
-import style from "./GoalStyle";
+import style from "../../styles/GoalStyle";
 import { Dropdown } from "react-native-element-dropdown";
 import NumericInput from "../../components/NumericInput";
-import { currentUser } from "../../models/User";
+import { currentUser, User } from "../../models/User";
 import Btn from "../../components/Btn";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import StatBar from "../../components/StatBar";
 
-export default function Home() {
-  const [isEditing, setIsEditing] = useState(false); // edit stuff
-  const [targetWeight, setTargetWeight] = useState("100");
+function displayGoal(user: User) {
+  if (user.currentWeight < user.targetWeight) {
+    return (
+      <>
+        <Image
+          source={require("../../../assets/logo.png")}
+          style={style.logo}
+        />
+
+        <Text style={style.goalType}>Goal: Gain Weight</Text>
+      </>
+    );
+  } else if (user.currentWeight === user.targetWeight) {
+    return (
+      <>
+        <Image
+          source={require("../../../assets/logo.png")}
+          style={style.logo}
+        />
+        <Text style={style.goalType}>Goal: Maintain Weight</Text>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Image
+          source={require("../../../assets/Cutting.png")}
+          style={style.logo}
+        />
+        <Text style={style.goalType}>Goal: Loose Weight</Text>
+      </>
+    );
+  }
+}
+
+export default function GoalPage() {
+  const [targetWeight, setTargetWeight] = useState("");
   const [hydration, setHydration] = useState("2");
   const [difficulty, setDiffuclty] = useState("500");
   const [activity, setActivity] = useState("1.2");
-
-  // just mock data
-  const userGoal = "Gain Weight";
 
   const handleSavePress = async () => {
     const newdifficulty = parseFloat(difficulty);
@@ -25,28 +54,28 @@ export default function Home() {
     const newtargetWeight = parseFloat(targetWeight);
     try {
       const response = await fetch(
-        `https://brief-oriole-causal.ngrok-free.app/AppUser/me/GoalPage/TargetWeight=${newtargetWeight}/activityLevel=${newactivity}/difficultyLevel=${newdifficulty}/DailyWater=${newhydration}`,
+        `https://brief-oriole-causal.ngrok-free.app/AppUser/me/GoalPage?TargetWeight=${newtargetWeight.toFixed(
+          2
+        )}&activityLevel=${newactivity.toFixed(
+          3
+        )}&difficultyLevel=${newdifficulty.toFixed(
+          1
+        )}&DailyWater=${newhydration.toFixed(1)}`,
         {
           method: "PUT",
           headers: { Authorization: "Bearer " + currentUser.token },
-
-          // body: JSON.stringify({
-          //   TargetWeight: newtargetWeight,
-          //   DailyWater: newhydration,
-          //   difficultyLevel: newdifficulty,
-          //   activityLevel: newactivity,
-          // }),
         }
       );
+      console.log(response);
       if (response.ok) {
-        Alert.alert("Success", "New food added successfully!");
+        Alert.alert("Success", "Your Goals have been updated.");
       } else {
-        Alert.alert("Error", "Failed to add new food. Please try again later.");
+        Alert.alert("Error", "Failed to update your goals. Please try again.");
       }
     } catch (error) {
       Alert.alert(
         "Error",
-        "Failed to add new food. Please check your network connection and try again."
+        "Failed to update your goals. Please check your network connection and try again."
       );
     }
   };
@@ -60,9 +89,9 @@ export default function Home() {
   const renderDifficultyDropdown = () => (
     <View style={style.entry}>
       <Dropdown
-        style={[style.dropdown, isEditing && { borderColor: "gray" }]}
-        placeholderStyle={style.placeholderStyle}
-        selectedTextStyle={style.selectedTextStyle}
+        style={[style.dropdown, { borderColor: "gray" }]}
+        placeholderStyle={style.placeholderText}
+        selectedTextStyle={style.placeholderText}
         data={Difficulty}
         labelField="label"
         valueField="value"
@@ -96,9 +125,9 @@ export default function Home() {
   const renderActivityDropdown = () => (
     <View style={style.entry}>
       <Dropdown
-        style={[style.dropdown, isEditing && { borderColor: "gray" }]}
-        placeholderStyle={style.placeholderStyle}
-        selectedTextStyle={style.selectedTextStyle}
+        style={[style.dropdown, { borderColor: "gray" }]}
+        placeholderStyle={style.placeholderText}
+        selectedTextStyle={style.placeholderText}
         data={Activity}
         labelField="label"
         valueField="value"
@@ -117,13 +146,13 @@ export default function Home() {
   const renderHydrationDropdown = () => (
     <View style={style.entry}>
       <Dropdown
-        style={[style.dropdown, isEditing && { borderColor: "gray" }]}
-        placeholderStyle={style.placeholderStyle}
-        selectedTextStyle={style.selectedTextStyle}
+        style={style.dropdown}
+        placeholderStyle={style.placeholderText}
+        selectedTextStyle={style.placeholderText}
         data={Hydration}
         labelField="label"
         valueField="value"
-        placeholder={!isEditing ? "Choose Hydration goal" : "2 Litre"}
+        placeholder={"Choose Hydration goal"}
         value={hydration}
         onChange={(item) => setHydration(item.value)}
       />
@@ -132,14 +161,14 @@ export default function Home() {
 
   return (
     <ScrollView style={style.container}>
-      <Text style={style.targetWeight}>Goals</Text>
-      <Text style={style.goalType}>Goal: {userGoal}</Text>
+      {displayGoal(currentUser)}
       <NumericInput
         label="Target Weight"
         value={targetWeight}
         setValue={setTargetWeight}
         units="kg"
       />
+
       {renderDifficultyDropdown()}
       {renderActivityDropdown()}
       {renderHydrationDropdown()}

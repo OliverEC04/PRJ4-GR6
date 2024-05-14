@@ -219,7 +219,7 @@ namespace UserAppLogic.Migrations
                     b.Property<float>("CurrentProtein")
                         .HasColumnType("real");
 
-                    b.Property<double?>("CurrentWater")
+                    b.Property<double>("CurrentWater")
                         .HasColumnType("float");
 
                     b.Property<double?>("CurrentWeight")
@@ -246,6 +246,9 @@ namespace UserAppLogic.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<int>("FirsTimeOrNot")
+                        .HasColumnType("int");
 
                     b.Property<string>("FullName")
                         .HasMaxLength(100)
@@ -296,8 +299,8 @@ namespace UserAppLogic.Migrations
                     b.Property<double?>("activityLevel")
                         .HasColumnType("float");
 
-                    b.Property<string>("difficultyLevel")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float?>("difficultyLevel")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 

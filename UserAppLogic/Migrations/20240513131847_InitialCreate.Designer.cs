@@ -12,8 +12,8 @@ using UserBackend.Data;
 namespace UserAppLogic.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20240510101433_bulliebull")]
-    partial class bulliebull
+    [Migration("20240513131847_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -299,8 +299,8 @@ namespace UserAppLogic.Migrations
                     b.Property<double?>("activityLevel")
                         .HasColumnType("float");
 
-                    b.Property<string>("difficultyLevel")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float?>("difficultyLevel")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 

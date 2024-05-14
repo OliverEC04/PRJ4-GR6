@@ -141,6 +141,44 @@ class Server {
 	       console.debug(data);
 	    });
 	}
+  public async putUser(user: User) {
+    fetch(`${this.url}AppUser/me`, {
+      method: "PUT",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + currentUser.token,
+      },
+      body: JSON.stringify({
+        email: user.email,
+        fullName: user.fullName,
+        height: user.height,
+        gender: user.gender,
+        currentWeight: user.height,
+        targetWeight: user.targetWeight,
+        activityLevel: user.activityLevel,
+        difficultyLevel: user.difficultyLevel,
+        currentCalories: user.currentCalories,
+        dailyCalories: user.dailyCalories,
+        dailyProtein: user.dailyProtein,
+        currentProtein: user.currentProtein,
+        dailyCarbs: user.dailyCarbs,
+        currentCarbs: user.currentCarbs,
+        dailyFat: user.dailyFat,
+        currentFat: user.currentFat,
+        age: user.age,
+        dailyWater: user.dailyWater,
+        currentWater: user.currentWater,
+      }),
+    })
+      .then((r) => {
+        return r;
+      })
+      .catch((e) => {
+        console.warn(e);
+        throw new Error(`putUser error ${e.status}`);
+      });
+  }
 
   public async putWater(liters: number) {
     fetch(`${this.url}AppUser/updateDailyIntake?water=${liters}`, {
