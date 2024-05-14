@@ -5,6 +5,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import NumericInput from "../../components/NumericInput";
 import { currentUser, User } from "../../models/User";
 import Btn from "../../components/Btn";
+import TextField from "../../components/TextField";
 
 function displayGoal(user: User) {
   if (user.currentWeight < user.targetWeight) {
@@ -162,13 +163,19 @@ export default function GoalPage() {
   return (
     <ScrollView style={style.container}>
       {displayGoal(currentUser)}
+      <TextInput
+        style={style.inputContainer}
+        value={"Current streak: " + currentUser.currentStreak.toString()}
+        editable={false}
+      />
+      
       <NumericInput
         label="Target Weight"
         value={targetWeight}
         setValue={setTargetWeight}
         units="kg"
       />
-
+      
       {renderDifficultyDropdown()}
       {renderActivityDropdown()}
       {renderHydrationDropdown()}

@@ -65,6 +65,11 @@ namespace UserBackend.Data.Models
         [Range(0, int.MaxValue, ErrorMessage = "Current FirstTimeOrNot be a positive number.")]
         public int FirsTimeOrNot { get; set; }
 
+        [Range(0, int.MaxValue, ErrorMessage = "Current streak be a positive number.")]
+        public int CurrentStreak { get; set; }
+
+        public DateTime currentDailyDate { get; set; }
+
         public ICollection<Barcode> Barcodes { get; set;} = new List<Barcode>();
     }
 }

@@ -48,12 +48,48 @@ namespace AppUserBackend.Controllers
 
                 var appUser = await _userManager.FindByNameAsync(userName);
 
+                DateTime now = DateTime.UtcNow;
+                DateTime lastRecordedDate = appUser.currentDailyDate;
+
+                if (appUser.CurrentStreak == 0)
+                {
+                    appUser.currentDailyDate = now;
+                    appUser.CurrentStreak = 1;
+                }
+                else
+                {
+                    
+
+
+                
+                    if (now > lastRecordedDate && now < lastRecordedDate.AddMinutes(1))
+                    {
+                       
+                        appUser.currentDailyDate = now;
+                        appUser.CurrentStreak ++;
+                    }
+                    else
+                    {
+                       
+                        appUser.currentDailyDate = now;
+                        appUser.CurrentStreak = 1;
+                    }
+                }
+
+
+
+                await _userManager.UpdateAsync(appUser);
+
+           
+
+      
+
                 if (appUser == null)
                 {
                     return NotFound();
                 }
 
-                var result = new 
+                var result = new
                 {
                     appUser.Email,
                     appUser.FullName,
@@ -73,7 +109,9 @@ namespace AppUserBackend.Controllers
                     appUser.DailyFat,
                     appUser.FirsTimeOrNot,
                     appUser.CurrentWater,
-                    appUser.Age
+                    appUser.currentDailyDate,
+                    appUser.CurrentStreak,
+                    appUser.Age,
                 };
 
                 return result;
@@ -82,8 +120,7 @@ namespace AppUserBackend.Controllers
             {
                 return BadRequest(e.Message);
             }
-}
-
+        }
 
 
         // PUT: api/AppUser/5
@@ -101,6 +138,9 @@ namespace AppUserBackend.Controllers
                 {
                     return NotFound();
                 }
+
+              
+
 
                 user.Email = appUser.Email;
                 user.FullName = appUser.FullName;
@@ -120,6 +160,8 @@ namespace AppUserBackend.Controllers
                 user.DailyFat = appUser.DailyFat;
                 user.CurrentWater += appUser.CurrentWater;
                 user.FirsTimeOrNot = appUser.FirsTimeOrNot;
+                user.CurrentStreak += appUser.CurrentStreak;
+                user.currentDailyDate = appUser.currentDailyDate;
                 user.Age = appUser.Age;
             
                 await _userManager.UpdateAsync(user);

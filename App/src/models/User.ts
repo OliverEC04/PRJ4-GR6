@@ -20,6 +20,8 @@ export class User {
     public firsTimeOrNot: number = 0;
     public dailyWater: number = 0;
     public token: string = "";
+    public currentDailyDate: Date = new Date();
+    public currentStreak: number = 0;
 
     constructor(email: string, fullName: string) {
         this.email = email;
@@ -47,6 +49,8 @@ export class User {
         this.currentWater = user.currentWater;
         this.dailyWater = user.dailyWater;
         this.firsTimeOrNot = user.firsTimeOrNot;
+        this.currentDailyDate = user.currentDailyDate;
+        this.currentStreak = user.currentStreak;
 
 
         if (user.token != undefined && user.token != "")
