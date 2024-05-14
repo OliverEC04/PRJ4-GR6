@@ -45,6 +45,7 @@ export default function LoginPage() {
         label="Enter your Password"
         value={password}
         setValue={setPassword}
+        password={true}
       />
       <View style={textStyles.buttonContainer}>
         <Btn style={textStyles.button} text="Log In" onClick={handleLogin} />

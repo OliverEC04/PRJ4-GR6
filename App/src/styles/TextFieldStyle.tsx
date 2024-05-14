@@ -4,7 +4,7 @@ export default StyleSheet.create({
   entry: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
     marginBottom: 10,
     paddingVertical: 8,
     paddingHorizontal: 15,
@@ -19,10 +19,11 @@ export default StyleSheet.create({
     color: "gray",
   },
   input: {
-    width: "100%",
+    marginLeft: "1%",
+    width: "80%",
     fontSize: 18,
     fontWeight: "bold",
-    color: "black",
+    color: "grey",
     textAlign: "left",
   },
   units: {

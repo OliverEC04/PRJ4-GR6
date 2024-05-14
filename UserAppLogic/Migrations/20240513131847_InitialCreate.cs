@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace UserAppLogic.Migrations
 {
     /// <inheritdoc />
-    public partial class Update : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,16 +36,16 @@ namespace UserAppLogic.Migrations
                     CurrentWeight = table.Column<double>(type: "float", nullable: true),
                     TargetWeight = table.Column<double>(type: "float", nullable: true),
                     activityLevel = table.Column<double>(type: "float", nullable: true),
-                    difficultyLevel = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CurrentCalories = table.Column<int>(type: "int", nullable: true),
-                    DailyCalories = table.Column<int>(type: "int", nullable: true),
-                    DailyProtein = table.Column<int>(type: "int", nullable: true),
-                    CurrentProtein = table.Column<int>(type: "int", nullable: true),
-                    DailyCarbs = table.Column<int>(type: "int", nullable: true),
-                    CurrentCarbs = table.Column<int>(type: "int", nullable: true),
-                    DailyFat = table.Column<int>(type: "int", nullable: true),
-                    CurrentFat = table.Column<int>(type: "int", nullable: true),
-                    Age = table.Column<int>(type: "int", nullable: true),
+                    difficultyLevel = table.Column<float>(type: "real", nullable: true),
+                    CurrentCalories = table.Column<float>(type: "real", nullable: false),
+                    DailyCalories = table.Column<float>(type: "real", nullable: false),
+                    DailyProtein = table.Column<float>(type: "real", nullable: false),
+                    CurrentProtein = table.Column<float>(type: "real", nullable: false),
+                    DailyCarbs = table.Column<float>(type: "real", nullable: false),
+                    CurrentCarbs = table.Column<float>(type: "real", nullable: false),
+                    DailyFat = table.Column<float>(type: "real", nullable: false),
+                    CurrentFat = table.Column<float>(type: "real", nullable: false),
+                    Age = table.Column<int>(type: "int", nullable: false),
                     DailyWater = table.Column<double>(type: "float", nullable: true),
                     CurrentWater = table.Column<double>(type: "float", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),

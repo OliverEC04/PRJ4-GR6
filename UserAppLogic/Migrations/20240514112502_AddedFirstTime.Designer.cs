@@ -12,8 +12,8 @@ using UserBackend.Data;
 namespace UserAppLogic.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20240509112320_Update")]
-    partial class Update
+    [Migration("20240514112502_AddedFirstTime")]
+    partial class AddedFirstTime
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -203,24 +203,24 @@ namespace UserAppLogic.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Age")
+                    b.Property<int>("Age")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CurrentCalories")
-                        .HasColumnType("int");
+                    b.Property<float>("CurrentCalories")
+                        .HasColumnType("real");
 
-                    b.Property<int?>("CurrentCarbs")
-                        .HasColumnType("int");
+                    b.Property<float>("CurrentCarbs")
+                        .HasColumnType("real");
 
-                    b.Property<int?>("CurrentFat")
-                        .HasColumnType("int");
+                    b.Property<float>("CurrentFat")
+                        .HasColumnType("real");
 
-                    b.Property<int?>("CurrentProtein")
-                        .HasColumnType("int");
+                    b.Property<float>("CurrentProtein")
+                        .HasColumnType("real");
 
                     b.Property<double?>("CurrentWater")
                         .HasColumnType("float");
@@ -228,17 +228,17 @@ namespace UserAppLogic.Migrations
                     b.Property<double?>("CurrentWeight")
                         .HasColumnType("float");
 
-                    b.Property<int?>("DailyCalories")
-                        .HasColumnType("int");
+                    b.Property<float>("DailyCalories")
+                        .HasColumnType("real");
 
-                    b.Property<int?>("DailyCarbs")
-                        .HasColumnType("int");
+                    b.Property<float>("DailyCarbs")
+                        .HasColumnType("real");
 
-                    b.Property<int?>("DailyFat")
-                        .HasColumnType("int");
+                    b.Property<float>("DailyFat")
+                        .HasColumnType("real");
 
-                    b.Property<int?>("DailyProtein")
-                        .HasColumnType("int");
+                    b.Property<float>("DailyProtein")
+                        .HasColumnType("real");
 
                     b.Property<double?>("DailyWater")
                         .HasColumnType("float");
@@ -249,6 +249,9 @@ namespace UserAppLogic.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("FirsTimeOrNot")
+                        .HasColumnType("int");
 
                     b.Property<string>("FullName")
                         .HasMaxLength(100)
@@ -299,8 +302,8 @@ namespace UserAppLogic.Migrations
                     b.Property<double?>("activityLevel")
                         .HasColumnType("float");
 
-                    b.Property<string>("difficultyLevel")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float?>("difficultyLevel")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
