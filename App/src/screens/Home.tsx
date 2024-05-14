@@ -4,12 +4,12 @@ import StatBar from "../components/StatBar";
 import HomeStyle from "../styles/HomeStyle";
 import RoundBtn from "../components/RoundBtn";
 import server from "../models/Server";
+import AddTextField from "../components/AddTextField";
 import { User, currentUser } from "../models/User";
 import PopupField from "../components/PopupField";
 import { useFocusEffect } from "@react-navigation/native";
 
 function getCalGoal(user) {
-    // Calculate BMR
     let bmr;
 
     if (user.gender === "Male") {
@@ -21,8 +21,6 @@ function getCalGoal(user) {
         return -1;
     }
 
-    //return bmr;
-    // Calculate calorie goal
     if (user.currentWeight < user.targetWeight) {
         return bmr * user.activityLevel + user.difficultyLevel;
     } else {
@@ -30,22 +28,17 @@ function getCalGoal(user) {
     }
 }
 
-function getProteinGoal(calGoal: number): number
-{
+function getProteinGoal(calGoal) {
     return calGoal / 16;
 }
 
-function getCarbsGoal(calGoal: number): number
-{
+function getCarbsGoal(calGoal) {
     return calGoal / 8;
 }
 
-function getFatsGoal(calGoal: number): number
-{
+function getFatsGoal(calGoal) {
     return calGoal / 36;
 }
-
-
 
 export default function Home() {
     const [name, setName] = useState("world");
@@ -61,10 +54,12 @@ export default function Home() {
     const [water, setWater] = useState(0);
     const [waterGoal, setWaterGoal] = useState(0);
     const [addWaterPopupVisible, setAddWaterPopupVisible] = useState(false);
-    const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState(true);
+    const [weight, setWeight] = useState("");   
+    const [height, setHeight] = useState("");
 
     useEffect(() => {
-        if (currentUser.firsTimeOrNot === 0) {
+        if (currentUser.firstTimeOrNot === 0) {
             setShowModal(true);
         }
     }, []);
@@ -84,7 +79,6 @@ export default function Home() {
             setWater(+currentUser.currentWater.toFixed(3));
             setWaterGoal(+currentUser.dailyWater.toFixed(3));
 
-            // Calculate and set goals (except water)
             currentUser.dailyCalories = getCalGoal(currentUser);
             currentUser.dailyProtein = getProteinGoal(currentUser.dailyCalories);
             currentUser.dailyCarbs = getCarbsGoal(currentUser.dailyCalories);
@@ -112,7 +106,6 @@ export default function Home() {
     const handleWelcomeButtonPress = () => {
         console.log("Welcome button pressed");
         setShowModal(false);
-        // Add any additional functionality here
     };
 
     return (
@@ -143,6 +136,22 @@ export default function Home() {
             />
             <Modal visible={showModal} transparent={true}>
                 <View style={HomeStyle.modalView}>
+                <AddTextField
+              value={height}
+              onChangeText={setHeight}
+              placeholder="Enter your weight in kg"
+              keyboardType="default"
+              unit=""
+            />
+
+<AddTextField
+              value={weight}
+              onChangeText={setWeight}
+              placeholder="Enter your height in cm"
+              keyboardType="default"
+              unit=""
+            />
+                    
                     <Text style={HomeStyle.modalText}>Welcome to the app! Here are some tips to get you started...</Text>
                     <TouchableOpacity style={HomeStyle.modalBtn} onPress={handleWelcomeButtonPress}>
                         <Text style={HomeStyle.modalBtnText}>Got it!</Text>
@@ -152,5 +161,3 @@ export default function Home() {
         </View>
     );
 }
-
-
