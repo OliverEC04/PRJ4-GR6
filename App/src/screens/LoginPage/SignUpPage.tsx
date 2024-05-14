@@ -58,29 +58,5 @@ export default function SignUpPage() {
       />
       <Btn style={textStyles.button} text="Sign up" onClick={createNewUser} />
     </View>
-    // <View style={textStyles.container}>
-    //   {/* <Text className="italic text-orange-600">Login screen</Text> */}
-    //   <Text style={textStyles.pageTitle}>Signup screen</Text>
-    //   <Text className="text-3xl">Username</Text>
-    //   <TextInput
-    //     value={username}
-    //     onChangeText={handleChangeName}
-    //     placeholder="Enter your username"
-    //   />
-    //   <Text className="text-3xl">Email</Text>
-    //   <TextInput
-    //     value={email}
-    //     onChangeText={handleChangeEmail}
-    //     placeholder="Enter your email"
-    //   />
-    //   <Text className="text-3xl">Password</Text>
-    //   <TextInput
-    //     value={password}
-    //     onChangeText={handleChangePassword}
-    //     placeholder="Enter your password"
-    //     secureTextEntry={true}
-    //   />
-    //   <Btn text="Sign up" onClick={createNewUser} />
-    // </View>
   );
 }
