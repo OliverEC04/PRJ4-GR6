@@ -181,6 +181,11 @@ namespace AppUserBackend.Controllers
                     return NotFound();
                 }
 
+                if(user.CurrentWater == null) 
+                {
+                    user.CurrentWater = 0;
+                }
+
                 user.CurrentCalories += calories;
                 user.CurrentProtein += protein;
                 user.CurrentCarbs += carbs;
