@@ -63,7 +63,7 @@ export default function InfoPage() {
       <Dropdown
         style={[style.dropdown]}
         placeholderStyle={style.placeholderText}
-        selectedTextStyle={style.placeholderText}
+        selectedTextStyle={[style.placeholderText, { color: isEditing ? "black" : "grey" }, {fontWeight: isEditing ? "bold" : "normal"}]}
         data={allGenders}
         labelField="label"
         valueField="value"
@@ -78,7 +78,7 @@ export default function InfoPage() {
   return (
     <ScrollView style={style.container}>
       <Image source={{ uri: profilePicture }} style={style.profilePic} />
-      <Text style={textStyles.userName}>{currentUser.fullName}</Text>
+      <Text style={textStyles.userName}>{currentUser.fullName.toString()}</Text> 
       <Text style={textStyles.goalType}>Goal: {findGoal()}</Text>
 
       <TextField
