@@ -13,7 +13,7 @@ export default function InfoPage() {
   const [height, setHeight] = useState(170);
   const [currentWeight, setCurrentWeight] = useState(79);
   const [age, setAge] = useState(22);
-  const [gender, setGender] = useState("null");
+  const [gender, setGender] = useState("male");
 
   const allGenders = [
     { label: "Male", value: "male" },
@@ -24,22 +24,22 @@ export default function InfoPage() {
   const profilePicture =
     "https://hips.hearstapps.com/hmg-prod/images/albert-einstein-sticks-out-his-tongue-when-asked-by-news-photo-1681316749.jpg";
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const userData = await Server.getUserInfo();
-        currentUser.update(userData);
-        setHeight(userData.height);
-        setCurrentWeight(userData.currentWeight);
-        setAge(userData.age);
-        setGender(userData.gender.toLocaleLowerCase());
-      } catch (error) {
-        console.error("fetch failed: ", error);
-      }
-    };
-
-    fetchUser();
-  }, []);
+    useEffect(() => {
+      const fetchUser = async () => {
+        try {
+          const userData = await Server.getUserInfo();
+          currentUser.update(userData);
+          setHeight(userData.height || 170);
+          setCurrentWeight(userData.currentWeight || 79);
+          setAge(userData.age || 22);
+          setGender((userData.gender && userData.gender.toLocaleLowerCase()) || "male");
+        } catch (error) {
+          console.error("fetch failed: ", error);
+        }
+      };
+  
+      fetchUser();
+    }, []);
 
   const handleSavePress = async () => {
     setIsEditing(!isEditing);
@@ -63,7 +63,7 @@ export default function InfoPage() {
       <Dropdown
         style={[style.dropdown]}
         placeholderStyle={style.placeholderText}
-        selectedTextStyle={style.placeholderText}
+        selectedTextStyle={[style.placeholderText, { color: isEditing ? "black" : "grey" }, {fontWeight: isEditing ? "bold" : "normal"}]}
         data={allGenders}
         labelField="label"
         valueField="value"
@@ -78,26 +78,26 @@ export default function InfoPage() {
   return (
     <ScrollView style={style.container}>
       <Image source={{ uri: profilePicture }} style={style.profilePic} />
-      <Text style={textStyles.userName}>{currentUser.fullName}</Text>
+      <Text style={textStyles.userName}>{currentUser.fullName.toString()}</Text> 
       <Text style={textStyles.goalType}>Goal: {findGoal()}</Text>
 
       <TextField
         label="Height"
-        value={height.toString()}
+        value={(height || '').toString()}
         setValue={setHeight}
         units="cm"
         isEditing={isEditing}
       />
       <TextField
         label="Current Weight"
-        value={currentWeight.toString()}
+        value={(currentWeight || '').toString()}
         setValue={setCurrentWeight}
         units="kg"
         isEditing={isEditing}
       />
       <TextField
         label="Age"
-        value={age.toString()}
+        value={(age || '').toString()}
         setValue={setAge}
         units="years"
         isEditing={isEditing}

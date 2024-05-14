@@ -21,12 +21,43 @@ function getCalGoal(user) {
         return -1;
     }
 
+    //return bmr;
     // Calculate calorie goal
     if (user.currentWeight < user.targetWeight) {
         return bmr * user.activityLevel + user.difficultyLevel;
     } else {
         return bmr * user.activityLevel - user.difficultyLevel;
     }
+}
+
+function getProteinGoal(calGoal: number): number
+{
+    return calGoal / 16;
+}
+
+function getCarbsGoal(calGoal: number): number
+{
+    return calGoal / 8;
+}
+
+function getFatsGoal(calGoal: number): number
+{
+    return calGoal / 36;
+}
+
+function getProteinGoal(calGoal: number): number
+{
+    return calGoal / 16;
+}
+
+function getCarbsGoal(calGoal: number): number
+{
+    return calGoal / 8;
+}
+
+function getFatsGoal(calGoal: number): number
+{
+    return calGoal / 36;
 }
 
 export default function Home() {
@@ -59,18 +90,26 @@ export default function Home() {
 
         server.getUserInfo().then(() => {
             setName(currentUser.fullName.split(" ")[0]);
-            setCalories(currentUser.currentCalories);
-            setProtein(currentUser.currentProtein);
-            setProteinGoal(currentUser.dailyProtein);
-            setCarbs(currentUser.currentCarbs);
-            setCarbsGoal(currentUser.dailyCarbs);
-            setFats(currentUser.currentFat);
-            setFatsGoal(currentUser.dailyFat);
-            setWater(currentUser.currentWater);
-            setWaterGoal(currentUser.dailyWater);
+            setCalories(Math.round(currentUser.currentCalories));
+            setProtein(Math.round(currentUser.currentProtein));
+            setCarbs(Math.round(currentUser.currentCarbs));
+            setFats(Math.round(currentUser.currentFat));
+            setWater(+currentUser.currentWater.toFixed(3));
+            setWaterGoal(+currentUser.dailyWater.toFixed(3));
 
-            setCalGoal(getCalGoal(currentUser));
-        }).catch(() => {
+            // Calculate and set goals (except water)
+            currentUser.dailyCalories = getCalGoal(currentUser);
+            currentUser.dailyProtein = getProteinGoal(currentUser.dailyCalories);
+            currentUser.dailyCarbs = getCarbsGoal(currentUser.dailyCalories);
+            currentUser.dailyFat = getFatsGoal(currentUser.dailyCalories);
+
+            server.putUser(currentUser);
+
+            setCalGoal(Math.round(currentUser.dailyCalories));
+            setProteinGoal(Math.round(currentUser.dailyProtein));
+            setCarbsGoal(Math.round(currentUser.dailyCarbs));
+            setFatsGoal(Math.round(currentUser.dailyFat));
+        }).catch((e) => {
             setName("FETCH FAILED");
         });
     });
@@ -107,7 +146,7 @@ export default function Home() {
                 onEnter={v => {
                     const water = Number(v);
                     currentUser.currentWater += water;
-                    setWater(currentUser.currentWater);
+                    setWater(+currentUser.currentWater.toFixed(3));
                     server.putWater(water);
                 }}
                 visible={addWaterPopupVisible}
