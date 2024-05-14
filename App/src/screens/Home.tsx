@@ -76,7 +76,9 @@ export default function Home()
         }
 
         server.getUserInfo().then((r) => {
-            setName(currentUser.fullName.split(" ")[0]);
+            console.log("Home userget");
+
+            setName(currentUser.fullName.includes(" ") ? currentUser.fullName.split(" ")[0] : currentUser.fullName);
             setCalories(Math.round(currentUser.currentCalories));
             setProtein(Math.round(currentUser.currentProtein));
             setCarbs(Math.round(currentUser.currentCarbs));
@@ -90,7 +92,9 @@ export default function Home()
             currentUser.dailyCarbs = getCarbsGoal(currentUser.dailyCalories);
             currentUser.dailyFat = getFatsGoal(currentUser.dailyCalories);
 
-            server.putUser(currentUser);
+            server.putUser(currentUser).catch((e) => {
+                console.warn("putUser after calculations error");
+            });
 
             setCalGoal(Math.round(currentUser.dailyCalories));
             setProteinGoal(Math.round(currentUser.dailyProtein));
@@ -98,6 +102,7 @@ export default function Home()
             setFatsGoal(Math.round(currentUser.dailyFat));
         }).catch((e) => {
             setName("FETCH FAILED");
+            console.warn(`${e} Home fetch failed`);
          }
         );
     });
