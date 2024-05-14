@@ -71,6 +71,7 @@ namespace AppUserBackend.Controllers
                     appUser.DailyCarbs,
                     appUser.CurrentFat,
                     appUser.DailyFat,
+                    appUser.FirsTimeOrNot,
                     appUser.CurrentWater,
                     appUser.Age
                 };
@@ -118,6 +119,7 @@ namespace AppUserBackend.Controllers
                 user.CurrentFat += appUser.CurrentFat;
                 user.DailyFat = appUser.DailyFat;
                 user.CurrentWater += appUser.CurrentWater;
+                user.FirsTimeOrNot = appUser.FirsTimeOrNot;
                 user.Age = appUser.Age;
             
                 await _userManager.UpdateAsync(user);
@@ -270,6 +272,41 @@ namespace AppUserBackend.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        //update daily intake
+        [HttpPut("UpdateFirstTimeOrNot")]
+        [Authorize("User")]
+        public async Task<IActionResult> UpdateFirsTimeOrNot(int number)
+        {
+            try
+            {
+                var userName = User.FindFirstValue(ClaimTypes.Name);
+
+                var user = await _userManager.FindByNameAsync(userName);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                if (number != 1 && number != 0)
+                {
+                    return (BadRequest("has to be set to 1 or 0"));
+                }
+
+                user.FirsTimeOrNot = number;
+
+                await _userManager.UpdateAsync(user);
+
+                return NoContent();
+            }
+
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
 
         // POST: api/AppUser
         [HttpPost]
