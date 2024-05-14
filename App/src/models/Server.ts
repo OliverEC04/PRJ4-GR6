@@ -4,7 +4,7 @@ import { User, currentUser } from "./User";
 class Server {
   private url: string;
 
-  constructor(url: string = "https://brief-oriole-causal.ngrok-free.app/") {
+  constructor(url: string = "http://rottehjem.duckdns.org:5000/") {
     this.url = url;
   }
   // api/me
@@ -138,17 +138,17 @@ class Server {
         targetWeight: user.targetWeight,
         activityLevel: user.activityLevel,
         difficultyLevel: user.difficultyLevel,
-        currentCalories: user.currentCalories,
+        currentCalories: 0,
         dailyCalories: user.dailyCalories,
         dailyProtein: user.dailyProtein,
-        currentProtein: user.currentProtein,
+        currentProtein: 0,
         dailyCarbs: user.dailyCarbs,
-        currentCarbs: user.currentCarbs,
+        currentCarbs: 0,
         dailyFat: user.dailyFat,
-        currentFat: user.currentFat,
+        currentFat: 0,
         age: user.age,
         dailyWater: user.dailyWater,
-        currentWater: user.currentWater,
+        currentWater: 0,
       }),
     })
       .then((r) => {

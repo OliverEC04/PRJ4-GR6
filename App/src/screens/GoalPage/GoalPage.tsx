@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Image, ScrollView, Alert } from "react-native";
-import style from "./GoalStyle";
+import style from "../../styles/GoalStyle";
 import { Dropdown } from "react-native-element-dropdown";
 import NumericInput from "../../components/NumericInput";
 import { currentUser, User } from "../../models/User";
@@ -10,14 +10,34 @@ function displayGoal(user: User) {
   if (user.currentWeight < user.targetWeight) {
     return (
       <>
-        <Image source={require("../../../assets/logo.png")} />
-        <Text style={style.goalType}>Goal: Gain Weight</Text>
+        <Image
+          source={require("../../../assets/logo.png")}
+          style={style.logo}
+        />
+
+        <Text style={style.goalType}>Goal: Gaining Weight</Text>
       </>
     );
   } else if (user.currentWeight === user.targetWeight) {
-    return <Text style={style.goalType}>Goal: Maintain Weight</Text>;
+    return (
+      <>
+        <Image
+          source={require("../../../assets/logo.png")}
+          style={style.logo}
+        />
+        <Text style={style.goalType}>Goal: Maintaining Weight</Text>
+      </>
+    );
   } else {
-    return <Text style={style.goalType}>Goal: Lose Weight</Text>;
+    return (
+      <>
+        <Image
+          source={require("../../../assets/Cutting.png")}
+          style={style.logo}
+        />
+        <Text style={style.goalType}>Goal: Loosing Weight</Text>
+      </>
+    );
   }
 }
 
@@ -34,7 +54,13 @@ export default function GoalPage() {
     const newtargetWeight = parseFloat(targetWeight);
     try {
       const response = await fetch(
-        `https://brief-oriole-causal.ngrok-free.app/AppUser/me/GoalPage?TargetWeight=${newtargetWeight}&activityLevel=${newactivity}&difficultyLevel=${newdifficulty}&DailyWater=${newhydration}`,
+        `http://rottehjem.duckdns.org:5000/AppUser/me/GoalPage?TargetWeight=${newtargetWeight.toFixed(
+          2
+        )}&activityLevel=${newactivity.toFixed(
+          3
+        )}&difficultyLevel=${newdifficulty.toFixed(
+          1
+        )}&DailyWater=${newhydration.toFixed(1)}`,
         {
           method: "PUT",
           headers: { Authorization: "Bearer " + currentUser.token },
@@ -64,8 +90,8 @@ export default function GoalPage() {
     <View style={style.entry}>
       <Dropdown
         style={[style.dropdown, { borderColor: "gray" }]}
-        placeholderStyle={style.placeholderStyle}
-        selectedTextStyle={style.selectedTextStyle}
+        placeholderStyle={style.placeholderText}
+        selectedTextStyle={style.placeholderText}
         data={Difficulty}
         labelField="label"
         valueField="value"
@@ -100,8 +126,8 @@ export default function GoalPage() {
     <View style={style.entry}>
       <Dropdown
         style={[style.dropdown, { borderColor: "gray" }]}
-        placeholderStyle={style.placeholderStyle}
-        selectedTextStyle={style.selectedTextStyle}
+        placeholderStyle={style.placeholderText}
+        selectedTextStyle={style.placeholderText}
         data={Activity}
         labelField="label"
         valueField="value"
@@ -120,9 +146,9 @@ export default function GoalPage() {
   const renderHydrationDropdown = () => (
     <View style={style.entry}>
       <Dropdown
-        style={[style.dropdown, { borderColor: "gray" }]}
-        placeholderStyle={style.placeholderStyle}
-        selectedTextStyle={style.selectedTextStyle}
+        style={style.dropdown}
+        placeholderStyle={style.placeholderText}
+        selectedTextStyle={style.placeholderText}
         data={Hydration}
         labelField="label"
         valueField="value"
@@ -135,7 +161,6 @@ export default function GoalPage() {
 
   return (
     <ScrollView style={style.container}>
-      <Text style={style.targetWeight}>Goals</Text>
       {displayGoal(currentUser)}
       <NumericInput
         label="Target Weight"
@@ -143,6 +168,7 @@ export default function GoalPage() {
         setValue={setTargetWeight}
         units="kg"
       />
+
       {renderDifficultyDropdown()}
       {renderActivityDropdown()}
       {renderHydrationDropdown()}

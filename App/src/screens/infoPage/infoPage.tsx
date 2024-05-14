@@ -10,10 +10,11 @@ import { currentUser } from "../../models/User";
 
 export default function InfoPage() {
   const [isEditing, setIsEditing] = useState(false); // edit stuff
-  const [height, setHeight] = useState(170);
-  const [currentWeight, setCurrentWeight] = useState(79);
-  const [age, setAge] = useState(22);
-  const [gender, setGender] = useState("male");
+  const [height, setHeight] = useState(0);
+  const [currentWeight, setCurrentWeight] = useState(0);
+  const [age, setAge] = useState(0);
+  const [gender, setGender] = useState("------");
+  const [username, setUsername] = useState("");
 
   const allGenders = [
     { label: "Male", value: "male" },
@@ -29,10 +30,11 @@ export default function InfoPage() {
         try {
           const userData = await Server.getUserInfo();
           currentUser.update(userData);
-          setHeight(userData.height || 170);
-          setCurrentWeight(userData.currentWeight || 79);
-          setAge(userData.age || 22);
-          setGender((userData.gender && userData.gender.toLocaleLowerCase()) || "male");
+          setHeight(userData.height || 0);
+          setCurrentWeight(userData.currentWeight || 0);
+          setAge(userData.age || 0);
+          setGender((userData.gender && userData.gender.toLocaleLowerCase()) || "------");
+          setUsername(currentUser.fullName);
         } catch (error) {
           console.error("fetch failed: ", error);
         }
@@ -78,7 +80,7 @@ export default function InfoPage() {
   return (
     <ScrollView style={style.container}>
       <Image source={{ uri: profilePicture }} style={style.profilePic} />
-      <Text style={textStyles.userName}>{currentUser.fullName.toString()}</Text> 
+      <Text style={textStyles.userName}>{username}</Text> 
       <Text style={textStyles.goalType}>Goal: {findGoal()}</Text>
 
       <TextField

@@ -10,33 +10,36 @@ import { currentUser } from "../models/User";
 import PopupField from "../components/PopupField";
 import { useFocusEffect } from "@react-navigation/native";
 
-function getCalGoal(user) {
-    let bmr;
-    if (user.gender === "Male") {
-        bmr = 10 * user.currentWeight + 6.25 * user.height - 5 * user.age + 5;
-    } else if (user.gender === "Female") {
-        bmr = 10 * user.currentWeight + 6.25 * user.height - 5 * user.age - 161;
-    } else {
-        console.warn("Received gender does not exist, cannot calculate BMR.");
-        return -1;
-    }
-    if (user.currentWeight < user.targetWeight) {
-        return bmr * user.activityLevel + user.difficultyLevel;
-    } else {
-        return bmr * user.activityLevel - user.difficultyLevel;
-    }
+function getCalGoal(user: User) {
+	let bmr;
+
+	if (user.gender === 'Male') {
+		bmr = 10 * user.currentWeight + 6.25 * user.height - 5 * user.age + 5;
+	} else if (user.gender === 'Female') {
+		bmr = 10 * user.currentWeight + 6.25 * user.height - 5 * user.age - 161;
+	} else {
+		console.warn('Received gender does not exist, cannot calculate BMR.');
+		return -1;
+	}
+
+	if (user.currentWeight < user.targetWeight) {
+		return bmr * user.activityLevel + user.difficultyLevel;
+	} else {
+		return bmr * user.activityLevel - user.difficultyLevel;
+	}
+
 }
 
-function getProteinGoal(calGoal) {
-    return calGoal / 16;
+function getProteinGoal(calGoal: number): number {
+	return calGoal / 16;
 }
 
-function getCarbsGoal(calGoal) {
-    return calGoal / 8;
+function getCarbsGoal(calGoal: number): number {
+	return calGoal / 8;
 }
 
-function getFatsGoal(calGoal) {
-    return calGoal / 36;
+function getFatsGoal(calGoal: number): number {
+	return calGoal / 36;
 }
 
 export default function Home() {
@@ -119,44 +122,59 @@ export default function Home() {
         }
     }, []);
 
-    useFocusEffect(() => {
-        if (!currentUser.token) {
-            setName("please log in");
-            return;
-        }
+	useFocusEffect(
+		React.useCallback(() => {
+			if (!currentUser.token) {
+				setName('please log in');
+				return;
+			}
 
-        server.getUserInfo().then(() => {
-            setName(currentUser.fullName.split(" ")[0]);
-            setCalories(Math.round(currentUser.currentCalories));
-            setProtein(Math.round(currentUser.currentProtein));
-            setCarbs(Math.round(currentUser.currentCarbs));
-            setFats(Math.round(currentUser.currentFat));
-            setWater(+currentUser.currentWater.toFixed(3));
-            setWaterGoal(+currentUser.dailyWater.toFixed(3));
+			server
+				.getUserInfo()
+				.then(() => {
+					console.log('Home getUser called');
 
-            currentUser.dailyCalories = getCalGoal(currentUser);
-            currentUser.dailyProtein = getProteinGoal(currentUser.dailyCalories);
-            currentUser.dailyCarbs = getCarbsGoal(currentUser.dailyCalories);
-            currentUser.dailyFat = getFatsGoal(currentUser.dailyCalories);
+					setName(
+						currentUser.fullName.includes(' ')
+							? currentUser.fullName.split(' ')[0]
+							: currentUser.fullName,
+					);
+					setCalories(Math.round(currentUser.currentCalories));
+					setProtein(Math.round(currentUser.currentProtein));
+					setCarbs(Math.round(currentUser.currentCarbs));
+					setFats(Math.round(currentUser.currentFat));
+					setWater(
+						Math.round(currentUser.currentWater * 1000) / 1000,
+					);
+					setWaterGoal(
+						Math.round(currentUser.dailyWater * 1000) / 1000,
+					);
 
-            server.putUser(currentUser);
+					// Calculate and set goals (except water)
+					currentUser.dailyCalories = getCalGoal(currentUser);
+					currentUser.dailyProtein = getProteinGoal(
+						currentUser.dailyCalories,
+					);
+					currentUser.dailyCarbs = getCarbsGoal(
+						currentUser.dailyCalories,
+					);
+					currentUser.dailyFat = getFatsGoal(
+						currentUser.dailyCalories,
+					);
 
-            setCalGoal(Math.round(currentUser.dailyCalories));
-            setProteinGoal(Math.round(currentUser.dailyProtein));
-            setCarbsGoal(Math.round(currentUser.dailyCarbs));
-            setFatsGoal(Math.round(currentUser.dailyFat));
-        }).catch((e) => {
-            setName("FETCH FAILED");
-        });
-    });
+					server.putUser(currentUser);
 
-    useEffect(() => {
-        if (calories > calGoal) {
-            setCalBarColors(["#E06C75", "#E06C75"]);
-        } else {
-            setCalBarColors(["#98C379", "#E5C07B", "#E06C75"]);
-        }
-    }, [calories, calGoal]);
+					setCalGoal(Math.round(currentUser.dailyCalories));
+					setProteinGoal(Math.round(currentUser.dailyProtein));
+					setCarbsGoal(Math.round(currentUser.dailyCarbs));
+					setFatsGoal(Math.round(currentUser.dailyFat));
+				})
+				.catch(e => {
+					setName('FETCH FAILED');
+					console.warn(`${e} Home getUser failed`);
+				});
+		}, []),
+	);
 
     const handleWelcomeButtonPress = async() => {
 
