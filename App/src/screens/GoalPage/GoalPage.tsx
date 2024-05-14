@@ -22,8 +22,7 @@ function displayGoal(user: User) {
 }
 
 export default function GoalPage() {
-  const [isEditing, setIsEditing] = useState(false); // edit stuff
-  const [targetWeight, setTargetWeight] = useState("100");
+  const [targetWeight, setTargetWeight] = useState("");
   const [hydration, setHydration] = useState("2");
   const [difficulty, setDiffuclty] = useState("500");
   const [activity, setActivity] = useState("1.2");
@@ -35,19 +34,13 @@ export default function GoalPage() {
     const newtargetWeight = parseFloat(targetWeight);
     try {
       const response = await fetch(
-        `https://brief-oriole-causal.ngrok-free.app/AppUser/me/GoalPage/TargetWeight=${newtargetWeight}/activityLevel=${newactivity}/difficultyLevel=${newdifficulty}/DailyWater=${newhydration}`,
+        `https://brief-oriole-causal.ngrok-free.app/AppUser/me/GoalPage?TargetWeight=${newtargetWeight}&activityLevel=${newactivity}&difficultyLevel=${newdifficulty}&DailyWater=${newhydration}`,
         {
           method: "PUT",
           headers: { Authorization: "Bearer " + currentUser.token },
-
-          // body: JSON.stringify({
-          //   TargetWeight: newtargetWeight,
-          //   DailyWater: newhydration,
-          //   difficultyLevel: newdifficulty,
-          //   activityLevel: newactivity,
-          // }),
         }
       );
+      console.log(response);
       if (response.ok) {
         Alert.alert("Success", "Your Goals have been updated.");
       } else {
@@ -70,7 +63,7 @@ export default function GoalPage() {
   const renderDifficultyDropdown = () => (
     <View style={style.entry}>
       <Dropdown
-        style={[style.dropdown, isEditing && { borderColor: "gray" }]}
+        style={[style.dropdown, { borderColor: "gray" }]}
         placeholderStyle={style.placeholderStyle}
         selectedTextStyle={style.selectedTextStyle}
         data={Difficulty}
@@ -106,7 +99,7 @@ export default function GoalPage() {
   const renderActivityDropdown = () => (
     <View style={style.entry}>
       <Dropdown
-        style={[style.dropdown, isEditing && { borderColor: "gray" }]}
+        style={[style.dropdown, { borderColor: "gray" }]}
         placeholderStyle={style.placeholderStyle}
         selectedTextStyle={style.selectedTextStyle}
         data={Activity}
@@ -127,13 +120,13 @@ export default function GoalPage() {
   const renderHydrationDropdown = () => (
     <View style={style.entry}>
       <Dropdown
-        style={[style.dropdown, isEditing && { borderColor: "gray" }]}
+        style={[style.dropdown, { borderColor: "gray" }]}
         placeholderStyle={style.placeholderStyle}
         selectedTextStyle={style.selectedTextStyle}
         data={Hydration}
         labelField="label"
         valueField="value"
-        placeholder={!isEditing ? "Choose Hydration goal" : "2 Litre"}
+        placeholder={"Choose Hydration goal"}
         value={hydration}
         onChange={(item) => setHydration(item.value)}
       />
