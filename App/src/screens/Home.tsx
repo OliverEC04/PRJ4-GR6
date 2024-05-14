@@ -1,33 +1,52 @@
-import { View, Text, Image } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  Modal,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import StatBar from "../components/StatBar";
 import HomeStyle from "../styles/HomeStyle";
 import RoundBtn from "../components/RoundBtn";
 import server from "../models/Server";
 import { User, currentUser } from "../models/User";
 import PopupField from "../components/PopupField";
-import { useEffect, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
-function getCalGoal(user: User): number {
+function getCalGoal(user) {
   // Calculate BMR
+  let bmr;
 
-  let bmr: number;
-
-  if (user.gender === "Male")
+  if (user.gender === "Male") {
     bmr = 10 * user.currentWeight + 6.25 * user.height - 5 * user.age + 5;
-  else if (user.gender === "Female")
+  } else if (user.gender === "Female") {
     bmr = 10 * user.currentWeight + 6.25 * user.height - 5 * user.age - 161;
-  else {
+  } else {
     console.warn("Received gender does not exist, cannot calculate BMR.");
     return -1;
   }
 
-  // return bmr;
+  //return bmr;
   // Calculate calorie goal
-
-  if (user.currentWeight < user.targetWeight)
+  if (user.currentWeight < user.targetWeight) {
     return bmr * user.activityLevel + user.difficultyLevel;
-  else return bmr * user.activityLevel - user.difficultyLevel;
+  } else {
+    return bmr * user.activityLevel - user.difficultyLevel;
+  }
+}
+
+function getProteinGoal(calGoal: number): number {
+  return calGoal / 16;
+}
+
+function getCarbsGoal(calGoal: number): number {
+  return calGoal / 8;
+}
+
+function getFatsGoal(calGoal: number): number {
+  return calGoal / 36;
 }
 
 export default function Home() {
@@ -48,28 +67,43 @@ export default function Home() {
   const [water, setWater] = useState(0);
   const [waterGoal, setWaterGoal] = useState(0);
   const [addWaterPopupVisible, setAddWaterPopupVisible] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    if (currentUser.firsTimeOrNot === 0) {
+      setShowModal(true);
+    }
+  }, []);
 
   useFocusEffect(() => {
-    if (currentUser.token == undefined || currentUser.token == "") {
+    if (!currentUser.token) {
       setName("please log in");
       return;
     }
 
     server
       .getUserInfo()
-      .then((r) => {
+      .then(() => {
         setName(currentUser.fullName.split(" ")[0]);
-        setCalories(currentUser.currentCalories);
-        setProtein(currentUser.currentProtein);
-        setProteinGoal(currentUser.dailyProtein);
-        setCarbs(currentUser.currentCarbs);
-        setCarbsGoal(currentUser.dailyCarbs);
-        setFats(currentUser.currentFat);
-        setFatsGoal(currentUser.dailyFat);
-        setWater(currentUser.currentWater);
-        setWaterGoal(currentUser.dailyWater);
+        setCalories(Math.round(currentUser.currentCalories));
+        setProtein(Math.round(currentUser.currentProtein));
+        setCarbs(Math.round(currentUser.currentCarbs));
+        setFats(Math.round(currentUser.currentFat));
+        setWater(+currentUser.currentWater.toFixed(3));
+        setWaterGoal(+currentUser.dailyWater.toFixed(3));
 
-        setCalGoal(getCalGoal(currentUser));
+        // Calculate and set goals (except water)
+        currentUser.dailyCalories = getCalGoal(currentUser);
+        currentUser.dailyProtein = getProteinGoal(currentUser.dailyCalories);
+        currentUser.dailyCarbs = getCarbsGoal(currentUser.dailyCalories);
+        currentUser.dailyFat = getFatsGoal(currentUser.dailyCalories);
+
+        server.putUser(currentUser);
+
+        setCalGoal(Math.round(currentUser.dailyCalories));
+        setProteinGoal(Math.round(currentUser.dailyProtein));
+        setCarbsGoal(Math.round(currentUser.dailyCarbs));
+        setFatsGoal(Math.round(currentUser.dailyFat));
       })
       .catch((e) => {
         setName("FETCH FAILED");
@@ -83,6 +117,12 @@ export default function Home() {
       setCalBarColors(["#98C379", "#E5C07B", "#E06C75"]);
     }
   }, [calories, calGoal]);
+
+  const handleWelcomeButtonPress = () => {
+    console.log("Welcome button pressed");
+    setShowModal(false);
+    // Add any additional functionality here
+  };
 
   return (
     <View style={HomeStyle.container}>
@@ -145,9 +185,8 @@ export default function Home() {
       <PopupField
         onEnter={(v) => {
           const water = Number(v);
-
           currentUser.currentWater += water;
-          setWater(currentUser.currentWater);
+          setWater(+currentUser.currentWater.toFixed(3));
           server.putWater(water);
         }}
         visible={addWaterPopupVisible}
@@ -155,6 +194,19 @@ export default function Home() {
         fieldPlaceholder="Enter liters of water to add"
         fieldUnit="L"
       />
+      <Modal visible={showModal} transparent={true}>
+        <View style={HomeStyle.modalView}>
+          <Text style={HomeStyle.modalText}>
+            Welcome to the app! Here are some tips to get you started...
+          </Text>
+          <TouchableOpacity
+            style={HomeStyle.modalBtn}
+            onPress={handleWelcomeButtonPress}
+          >
+            <Text style={HomeStyle.modalBtnText}>Got it!</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   );
 }
