@@ -35,7 +35,6 @@ modalText: {
     color: "black",
     marginBottom: 20,
     textAlign: "center",
-    position: "absolute",
 },
 modalBtn: {
     backgroundColor: "#98C379",
