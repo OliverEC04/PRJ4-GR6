@@ -26,7 +26,7 @@ function getCalGoal(user: User): number
         return -1;
     }
 
-    return bmr;
+    //return bmr;
     // Calculate calorie goal
 
     if (user.currentWeight < user.targetWeight)
@@ -77,12 +77,12 @@ export default function Home()
 
         server.getUserInfo().then((r) => {
             setName(currentUser.fullName.split(" ")[0]);
-            setCalories(currentUser.currentCalories);
-            setProtein(currentUser.currentProtein);
-            setCarbs(currentUser.currentCarbs);
-            setFats(currentUser.currentFat);
+            setCalories(Math.round(currentUser.currentCalories));
+            setProtein(Math.round(currentUser.currentProtein));
+            setCarbs(Math.round(currentUser.currentCarbs));
+            setFats(Math.round(currentUser.currentFat));
             setWater(+currentUser.currentWater.toFixed(3));
-            setWaterGoal(currentUser.dailyWater);
+            setWaterGoal(+currentUser.dailyWater.toFixed(3));
 
             // Calculate and set goals (except water)
             currentUser.dailyCalories = getCalGoal(currentUser);
@@ -92,10 +92,10 @@ export default function Home()
 
             server.putUser(currentUser);
 
-            setCalGoal(currentUser.dailyCalories);
-            setProteinGoal(currentUser.dailyProtein);
-            setCarbsGoal(currentUser.dailyCarbs);
-            setFatsGoal(currentUser.dailyFat);
+            setCalGoal(Math.round(currentUser.dailyCalories));
+            setProteinGoal(Math.round(currentUser.dailyProtein));
+            setCarbsGoal(Math.round(currentUser.dailyCarbs));
+            setFatsGoal(Math.round(currentUser.dailyFat));
         }).catch((e) => {
             setName("FETCH FAILED");
          }
