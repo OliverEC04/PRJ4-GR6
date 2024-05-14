@@ -4,7 +4,7 @@ import { User, currentUser } from "./User";
 class Server {
   private url: string;
 
-  constructor(url: string = "https://brief-oriole-causal.ngrok-free.app/") {
+  constructor(url: string = "http://rottehjem.duckdns.org:5000/") {
     this.url = url;
   }
   // api/me
