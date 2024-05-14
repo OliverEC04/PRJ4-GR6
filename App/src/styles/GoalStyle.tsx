@@ -58,32 +58,27 @@ const style = StyleSheet.create({
     alignSelf: "center",
     width: "95%",
   },
-  placeholderStyle: {
-    fontSize: 16,
-  },
-  selectedTextStyle: {
-    fontSize: 16,
-  },
+
   placeholderText: {
     color: "gray",
     fontSize: 18,
   },
+
   iconStyle: {
     width: 20,
     height: 20,
   },
-  icon: {
-    marginRight: 5,
-  },
+
   button: {
-    marginBottom: 50,
     marginTop: 20,
-    alignItems: "center",
     backgroundColor: "black",
-    width: 340,
+    width: "96%",
+    marginLeft: "0%",
     height: 50,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  // Adjust the input container style
+
   inputContainer: {
     flexDirection: "row",
     marginBottom: 20,

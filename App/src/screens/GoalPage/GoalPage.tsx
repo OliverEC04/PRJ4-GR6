@@ -15,7 +15,7 @@ function displayGoal(user: User) {
           style={style.logo}
         />
 
-        <Text style={style.goalType}>Goal: Gain Weight</Text>
+        <Text style={style.goalType}>Goal: Gaining Weight</Text>
       </>
     );
   } else if (user.currentWeight === user.targetWeight) {
@@ -25,7 +25,7 @@ function displayGoal(user: User) {
           source={require("../../../assets/logo.png")}
           style={style.logo}
         />
-        <Text style={style.goalType}>Goal: Maintain Weight</Text>
+        <Text style={style.goalType}>Goal: Maintaining Weight</Text>
       </>
     );
   } else {
@@ -35,7 +35,7 @@ function displayGoal(user: User) {
           source={require("../../../assets/Cutting.png")}
           style={style.logo}
         />
-        <Text style={style.goalType}>Goal: Loose Weight</Text>
+        <Text style={style.goalType}>Goal: Loosing Weight</Text>
       </>
     );
   }
@@ -54,7 +54,7 @@ export default function GoalPage() {
     const newtargetWeight = parseFloat(targetWeight);
     try {
       const response = await fetch(
-        `https://brief-oriole-causal.ngrok-free.app/AppUser/me/GoalPage?TargetWeight=${newtargetWeight.toFixed(
+        `http://rottehjem.duckdns.org:5000/AppUser/me/GoalPage?TargetWeight=${newtargetWeight.toFixed(
           2
         )}&activityLevel=${newactivity.toFixed(
           3
