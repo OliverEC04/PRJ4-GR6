@@ -56,9 +56,14 @@ namespace UserBackend.Data.DTO
         public int Age { get; set; }
 
         [Range(0, double.MaxValue, ErrorMessage = "Daily water must be a positive number.")]
-        public float? DailyWater { get; set; }
+        public float DailyWater { get; set; }
 
         [Range(0, double.MaxValue, ErrorMessage = "Current water must be a positive number.")]
-        public double? CurrentWater { get; set; }
+        public double CurrentWater { get; set; }
+
+        [Range(0, int.MaxValue, ErrorMessage = "Current FirstTimeOrNot be a positive number.")]
+        public int FirsTimeOrNot { get; set; }
+
+
     }
 }

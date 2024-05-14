@@ -6,6 +6,12 @@ const style = StyleSheet.create({
     padding: 20,
     backgroundColor: "white",
   },
+
+  logo: {
+    alignSelf: "center",
+    width: "60%",
+    height: 200,
+  },
   targetWeight: {
     fontSize: 26,
     fontWeight: "bold",
@@ -24,11 +30,6 @@ const style = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 10,
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    borderWidth: 1,
-    borderColor: "darkgray",
-    borderRadius: 5,
   },
   label: {
     fontSize: 18,
@@ -38,7 +39,9 @@ const style = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "black",
-    textAlign: "right",
+    textAlign: "left",
+    paddingLeft: 10,
+    width: "65%",
   },
   units: {
     fontSize: 18,
@@ -46,18 +49,24 @@ const style = StyleSheet.create({
     marginLeft: 6,
   },
   dropdown: {
-    height: 50,
-    borderColor: "gray",
+    borderColor: "darkgray",
     borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    flex: 1,
+    borderRadius: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    marginBottom: 10,
+    alignSelf: "center",
+    width: "95%",
   },
   placeholderStyle: {
     fontSize: 16,
   },
   selectedTextStyle: {
     fontSize: 16,
+  },
+  placeholderText: {
+    color: "gray",
+    fontSize: 18,
   },
   iconStyle: {
     width: 20,
@@ -73,6 +82,17 @@ const style = StyleSheet.create({
     backgroundColor: "black",
     width: 340,
     height: 50,
+  },
+  // Adjust the input container style
+  inputContainer: {
+    flexDirection: "row",
+    marginBottom: 20,
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    borderWidth: 1,
+    borderColor: "darkgray",
+    borderRadius: 5,
+    width: "95%",
   },
 });
 

@@ -1,13 +1,13 @@
-import React from 'react';
-import { View, Text, TextInput } from 'react-native';
-import style from '../styles/TextFieldStyle';
+import React from "react";
+import { View, Text, TextInput } from "react-native";
+import style from "../styles/TextFieldStyle";
 
 type TextFieldProps = {
-  label: any,
-  value: any,
-  setValue: (text: any) => void,
-  units: any,
-  isEditing: boolean,
+  label: any;
+  value: any;
+  setValue: (text: any) => void;
+  units: any;
+  isEditing: boolean;
 };
 
 const TextField = ({
@@ -26,7 +26,7 @@ const TextField = ({
       <Text style={style.label}>{label}:</Text>
       <View style={{ flexDirection: "row", alignItems: "center", flex: 1 }}>
         <TextInput
-          style={[style.input, {flex:1}]}
+          style={[style.input, { color: isEditing ? "black" : "grey" }]}
           onChangeText={handleChangeText}
           value={value.toString()}
           editable={isEditing}
