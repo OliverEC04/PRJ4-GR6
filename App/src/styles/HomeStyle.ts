@@ -28,21 +28,25 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)"
+    backgroundColor: "white"
 },
 modalText: {
     fontSize: 20,
-    color: "white",
+    color: "black",
     marginBottom: 20,
-    textAlign: "center"
+    textAlign: "center",
+    position: "absolute",
 },
 modalBtn: {
     backgroundColor: "#98C379",
     padding: 15,
+    alignSelf: "flex-start",
+    flexDirection: "column-reverse",
+    justifyContent: "space-between",
     borderRadius: 10
 },
 modalBtnText: {
-    color: "white",
+    color: "black",
     fontSize: 18
 }
 });

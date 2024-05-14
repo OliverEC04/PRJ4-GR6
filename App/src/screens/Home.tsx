@@ -45,20 +45,7 @@ function getFatsGoal(calGoal: number): number
     return calGoal / 36;
 }
 
-function getProteinGoal(calGoal: number): number
-{
-    return calGoal / 16;
-}
 
-function getCarbsGoal(calGoal: number): number
-{
-    return calGoal / 8;
-}
-
-function getFatsGoal(calGoal: number): number
-{
-    return calGoal / 36;
-}
 
 export default function Home() {
     const [name, setName] = useState("world");
