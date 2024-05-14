@@ -97,17 +97,24 @@ class Server {
 		}
 	}
 
-	public async checkUserToken() {
+	public async checkUserToken() : Promise<string> {
 		try {
 			const token = await AsyncStorage.getItem("token");
 			if (token !== null) {
 			currentUser.token = token; // directly assign the token
-			return { token: token }; // return an object with a token property
+            return token.toString(); // ellers prøv uden toString
+			// return { token: token }; // return an object with a token property
 			}
 		} catch (error) {
 			console.error("Error checking token, user should log in:", error);
 		}
+        return "";
 	}
+
+    public logoutUser(){
+        currentUser.token = "";
+        AsyncStorage.removeItem("token");
+    }
 
 	public async getUser(): Promise<void> {
 	    await fetch(this.url + `GetUser`)

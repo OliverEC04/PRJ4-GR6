@@ -5,8 +5,14 @@ import { currentUser } from "../../models/User";
 import Server from "../../models/Server";
 import Btn from "../../components/Btn";
 import TextBox from "../../components/TextBox";
+import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
+
 
 export default function LoginPage() {
+
+  const navigation = useNavigation();
+  
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
@@ -18,12 +24,32 @@ export default function LoginPage() {
     setEmail(e);
   }
 
+  const goToHome = () => {
+    // navigation.navigate({name: "Home", params: {name: "Home"});
+  };
+  // function ChangePage(){
+  //   const navigation = useNavigation();
+  //   navigation.navigate("Home");
+  //   };
+
   const handleLogin = async () => {
-    await Server.loginUser(email, password);
+    await Server.loginUser(email, password)
+    .then(() => {
+      if (currentUser.token) {
+        console.log("Login successful");
+        // ChangePage();
+        // route
+      }
+    })
     // when finished:
     // navigate til "Home";
     // skal den bare kalde en ny functon?
   };
+
+  function onHandleLogout() : void {
+    Server.logoutUser();
+    // navigate til "LoginPage";
+  }
 
   const debugShowToken = () => {
     console.log("token: ");
@@ -53,6 +79,10 @@ export default function LoginPage() {
           text="Show token"
           onClick={debugShowToken}
         />
+        <Btn
+          style={textStyles.button} 
+          text="Log out" 
+          onClick={onHandleLogout} />
       </View>
     </View>
   );

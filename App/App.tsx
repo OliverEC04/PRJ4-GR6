@@ -1,12 +1,15 @@
 import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TabFooter from './src/components/TabFooter';
 import { StatusBar } from 'expo-status-bar';
 import { View, StyleSheet } from 'react-native';
 import Server from './src/models/Server';
 import { AppRegistry } from 'react-native';
-
+import HomeScreen from './src/screens/Home';
+import LoginPage from './src/screens/LoginPage/LoginPage';
 
 AppRegistry.registerComponent('main', () => App);
+const Stack = createNativeStackNavigator();
 
 export default function App()
 {
@@ -16,6 +19,10 @@ export default function App()
 			<View style={styles.appBar}></View>
 			<NavigationContainer>
 				<TabFooter/>
+				<Stack.Navigator>
+					<Stack.Screen name="Home" component={HomeScreen} />
+					<Stack.Screen name="LoginPage" component={LoginPage} />
+				</Stack.Navigator>
 			</NavigationContainer>
 			
 		</>

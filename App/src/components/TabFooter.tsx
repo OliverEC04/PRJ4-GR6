@@ -10,22 +10,39 @@ import GoalPage from "../screens/GoalPage/GoalPage";
 import Server from "../models/Server";
 import { TouchableOpacity } from "react-native";
 import { currentUser } from "../models/User";
+import InitialPage from "../screens/InitialPage";
 
 export default function TabFooter() {
   const Tab = createMaterialBottomTabNavigator();
-  const [token, setToken] = useState<{ token: string } | null>(null);
+  const [token, setToken] = useState("");
 
   useEffect(() => {
     const fetchToken = async () => {
-      const result = await Server.checkUserToken();
-      setToken(result || null);
+      const result = await Server.checkUserToken().then (result => {
+        currentUser.token = result;
+        setToken(result);
+        console.log("Awaited token: " + token);
+        return result
+      });
+      // currentUser.token = result; 
+      // setToken(result); // returner en token eller ""
+      console.log("result: " + result);
+      console.log("token : " + token);
     };
 
     fetchToken();
   }, []);
 
-  return (
-    <Tab.Navigator initialRouteName={token ? "LoggedInPage" : "Home"}>      
+  async function checkLoggedIn(){
+    const result = await Server.checkUserToken();
+    if (result != "emptyToken" && result != "") // basically, en "if (response.ok)"
+      return true;
+    return false;
+  }
+  return (    
+    // <Tab.Navigator initialRouteName={token === "" || token === "emptyToken" ? "LoginPage" : "Home"}>     
+    // Det her virker ikk, i stedet render det hele baseret på async storage
+    <Tab.Navigator initialRouteName={"InitialPage"}>      
       <Tab.Screen
         name="Home"
         component={Home}
@@ -36,7 +53,6 @@ export default function TabFooter() {
           ),
         }}
       />
-
       <Tab.Screen
         name="AddFood"
         component={AddFood}
@@ -80,6 +96,16 @@ export default function TabFooter() {
         component={LoginNav}
         options={{
           tabBarLabel: "Login",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="login" color={color} size={24} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="InitialPage"
+        component={InitialPage}
+        options={{
+          tabBarLabel: "Initial",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="login" color={color} size={24} />
           ),
