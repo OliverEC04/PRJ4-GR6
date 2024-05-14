@@ -36,8 +36,9 @@ export default function LoginPage({ navigation }: any) {
         // route
       }
       else {
-        navigation.navigate('InitialPage');
-        console.log("Login failed, banishing user to the shadow realm");
+        console.log("Login failed");
+        // navigation.navigate('InitialPage');
+        // console.log("Login failed, banishing user to the shadow realm");
       }
     })
     // when finished:
