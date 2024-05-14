@@ -332,7 +332,7 @@ namespace AppUserBackend.Controllers
                 user.difficultyLevel = difficultyLevel;
                 user.DailyWater = DailyWater;
                 user.Age = age;
-
+                user.FirsTimeOrNot = 1;
                 await _userManager.UpdateAsync(user);
 
                 return NoContent();
