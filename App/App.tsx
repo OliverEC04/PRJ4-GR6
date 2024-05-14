@@ -7,6 +7,7 @@ import Server from './src/models/Server';
 import { AppRegistry } from 'react-native';
 import HomeScreen from './src/screens/Home';
 import LoginPage from './src/screens/LoginPage/LoginPage';
+import InitialPage from './src/screens/InitialPage';
 
 AppRegistry.registerComponent('main', () => App);
 const Stack = createNativeStackNavigator();
@@ -19,10 +20,11 @@ export default function App()
 			<View style={styles.appBar}></View>
 			<NavigationContainer>
 				<TabFooter/>
-				<Stack.Navigator>
+				{/* <Stack.Navigator>
 					<Stack.Screen name="Home" component={HomeScreen} />
 					<Stack.Screen name="LoginPage" component={LoginPage} />
-				</Stack.Navigator>
+					<Stack.Screen name="InitialPage" component={InitialPage} />
+				</Stack.Navigator> */}
 			</NavigationContainer>
 			
 		</>

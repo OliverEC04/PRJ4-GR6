@@ -5,13 +5,15 @@ import { currentUser } from "../../models/User";
 import Server from "../../models/Server";
 import Btn from "../../components/Btn";
 import TextBox from "../../components/TextBox";
-import { useNavigation } from "@react-navigation/native";
-import { NavigationProp, ParamListBase } from '@react-navigation/native';
+// import { useNavigation } from "@react-navigation/native";
+// import { NavigationProp, ParamListBase } from '@react-navigation/native';
+// import { NavigationContainer } from '@react-navigation/native';
+// import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
-export default function LoginPage() {
+export default function LoginPage({ navigation }: any) {
 
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -24,21 +26,18 @@ export default function LoginPage() {
     setEmail(e);
   }
 
-  const goToHome = () => {
-    // navigation.navigate({name: "Home", params: {name: "Home"});
-  };
-  // function ChangePage(){
-  //   const navigation = useNavigation();
-  //   navigation.navigate("Home");
-  //   };
-
   const handleLogin = async () => {
     await Server.loginUser(email, password)
     .then(() => {
       if (currentUser.token) {
         console.log("Login successful");
+        navigation.navigate('Home');
         // ChangePage();
         // route
+      }
+      else {
+        navigation.navigate('InitialPage');
+        console.log("Login failed, banishing user to the shadow realm");
       }
     })
     // when finished:
