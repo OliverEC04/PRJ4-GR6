@@ -39,14 +39,14 @@ export default function Home() {
         }
       );
       if (response.ok) {
-        Alert.alert("Success", "New food added successfully!");
+        Alert.alert("Success", "Your Goals have been updated.");
       } else {
-        Alert.alert("Error", "Failed to add new food. Please try again later.");
+        Alert.alert("Error", "Failed to update your goals. Please try again.");
       }
     } catch (error) {
       Alert.alert(
         "Error",
-        "Failed to add new food. Please check your network connection and try again."
+        "Failed to update your goals. Please check your network connection and try again."
       );
     }
   };
