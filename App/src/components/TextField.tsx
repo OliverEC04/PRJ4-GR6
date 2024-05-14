@@ -24,9 +24,9 @@ const TextField = ({
   return (
     <View style={style.entry}>
       <Text style={style.label}>{label}:</Text>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <View style={{ flexDirection: "row", alignItems: "center", flex: 1 }}>
         <TextInput
-          style={style.input}
+          style={[style.input, {flex:1}]}
           onChangeText={handleChangeText}
           value={value.toString()}
           editable={isEditing}

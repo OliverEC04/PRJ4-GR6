@@ -19,10 +19,11 @@ export default StyleSheet.create({
     color: "gray",
   },
   input: {
+    marginLeft: "1%",
     width: "80%",
     fontSize: 18,
     fontWeight: "bold",
-    color: "black",
+    color: "grey",
     textAlign: "left",
   },
   units: {
