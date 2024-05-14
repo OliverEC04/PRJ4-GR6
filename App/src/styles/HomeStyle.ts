@@ -14,6 +14,16 @@ export default StyleSheet.create({
     width: "60%",
     height: 200,
   },
+  dropdown: {
+    borderColor: "darkgray",
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    marginBottom: 10,
+    alignSelf: "center",
+    width: "87%",
+  },
   waterCont: {
     display: "flex",
     flexDirection: "row",
@@ -37,15 +47,18 @@ modalText: {
     textAlign: "center",
 },
 modalBtn: {
-    backgroundColor: "#98C379",
+    
     padding: 15,
-    alignSelf: "flex-start",
-    flexDirection: "column-reverse",
-    justifyContent: "space-between",
-    borderRadius: 10
+    alignSelf: "center",
+    width: '87%',
+    borderRadius: 20,
+    marginBottom: 50,
+    backgroundColor: "black",
+    height: 50,
 },
 modalBtnText: {
-    color: "black",
+    color: "white",
+    alignSelf: "center",
     fontSize: 18
 }
 });

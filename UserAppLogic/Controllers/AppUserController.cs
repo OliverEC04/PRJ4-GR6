@@ -109,7 +109,7 @@ namespace AppUserBackend.Controllers
                 user.CurrentWeight = appUser.CurrentWeight;
                 user.TargetWeight = appUser.TargetWeight;
                 user.activityLevel = appUser.activityLevel;
-                // user.difficultyLevel = appUser.difficultyLevel;
+                user.difficultyLevel = appUser.difficultyLevel;
                 user.CurrentCalories += appUser.CurrentCalories;
                 user.DailyCalories = appUser.DailyCalories;
                 user.CurrentProtein += appUser.CurrentProtein;
@@ -306,6 +306,44 @@ namespace AppUserBackend.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+
+        //fill out form 
+        [HttpPut("FillOutForm")]
+        [Authorize("User")]
+        public async Task<IActionResult> FillOutForm(string Gender, double Height, double TargetWeight, double Weight, double avtivityLevel, float difficultyLevel, double DailyWater, int age)
+        {
+            try
+            {
+                var userName = User.FindFirstValue(ClaimTypes.Name);
+
+                var user = await _userManager.FindByNameAsync(userName);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+               
+                user.Height = Height;
+                user.Gender = Gender;
+                user.TargetWeight = TargetWeight;
+                user.CurrentWeight = Weight;
+                user.activityLevel = avtivityLevel;
+                user.difficultyLevel = difficultyLevel;
+                user.DailyWater = DailyWater;
+                user.Age = age;
+
+                await _userManager.UpdateAsync(user);
+
+                return NoContent();
+            }
+
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
 
 
         // POST: api/AppUser
