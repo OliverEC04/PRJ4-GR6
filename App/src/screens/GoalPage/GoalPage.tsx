@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, ScrollView, Alert } from "react-native";
+import { View, Text, Image, ScrollView, Alert, TextInput } from "react-native";
 import style from "../../styles/GoalStyle";
 import { Dropdown } from "react-native-element-dropdown";
 import NumericInput from "../../components/NumericInput";
@@ -197,7 +197,7 @@ export default function GoalPage() {
 
   return (
     <ScrollView style={style.container}>
-      {displayGoal(currentUser)}
+      {displayGoal()}
       <TextInput
         style={style.inputContainer}
         value={"Current streak: " + currentUser.currentStreak.toString()}
