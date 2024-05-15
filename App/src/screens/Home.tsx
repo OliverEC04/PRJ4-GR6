@@ -208,7 +208,7 @@ export default function Home() {
 
 	return (
 		<View style={HomeStyle.container}>
-			<Welcome />
+			{/* <Welcome /> */}
 			{logo}
 			{text}
 			{calBar}
