@@ -7,6 +7,7 @@ import AddFood from "../screens/AddFood/AddFood";
 import InfoPage from "../screens/infoPage/infoPage";
 import LoginNav from "../screens/LoginPage/LoginNav";
 import LoginPage from "../screens/LoginPage/LoginPage";
+import SignUpPage from '../screens/LoginPage/SignUpPage';
 import GoalPage from "../screens/GoalPage/GoalPage";
 import Server from "../models/Server";
 import { TouchableOpacity } from "react-native";
@@ -156,6 +157,16 @@ export default function TabFooter(
               ),
             }}
           />
+          <Tab.Screen
+          name="SignupPage"
+          component={SignUpPage}
+          options={{
+            tabBarLabel: "Sign Up",
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="account-plus" color={color} size={24} />
+            ),
+          }}
+        />
         </>
       )}
     </Tab.Navigator>
