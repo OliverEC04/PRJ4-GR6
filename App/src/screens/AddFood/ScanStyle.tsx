@@ -7,18 +7,9 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
-    cameraContainer: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: '100%',
-      width: '100%',
-      overflow: 'hidden',
-      borderRadius: 30,
-      backgroundColor: 'tomato',
-    
-    },
     camera: {
-      height: '50%',
+      marginBottom: -5,
+      height: '100%',
       width: '100%',
     },
     resultContainer: {
@@ -82,6 +73,7 @@ const styles = StyleSheet.create({
     buttons:{
       alignSelf: "center",
       width: '100%',
+      borderRadius: 0,
       marginBottom: 50,
       backgroundColor: "black",
       height: 70,
