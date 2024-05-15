@@ -14,7 +14,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-
 builder.Services.AddCors();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -101,6 +100,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.AddRazorPages();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -127,7 +127,7 @@ app.UseSwaggerUI(c =>
 
 app.UseCors(x => x
     .AllowAnyOrigin() // Not allowed together with AllowCredential
-    .WithOrigins("http://localhost:3000", "http://localhost:8080", "http://localhost:5000")
+    .WithOrigins("http://localhost:3000", "http://localhost:8080", "http://localhost:5000", "http://192.168.1.23:5000", "http://0.0.0.0:5000")
     .SetIsOriginAllowed(x => _ = true)
     .AllowAnyMethod()
     .AllowAnyHeader()

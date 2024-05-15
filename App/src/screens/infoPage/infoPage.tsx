@@ -11,10 +11,11 @@ import Avatar from "../../components/Avatar";
 
 export default function InfoPage() {
   const [isEditing, setIsEditing] = useState(false); // edit stuff
-  const [height, setHeight] = useState(170);
-  const [currentWeight, setCurrentWeight] = useState(79);
-  const [age, setAge] = useState(22);
-  const [gender, setGender] = useState("null");
+  const [height, setHeight] = useState(0);
+  const [currentWeight, setCurrentWeight] = useState(0);
+  const [age, setAge] = useState(0);
+  const [gender, setGender] = useState("------");
+  const [username, setUsername] = useState("");
   const [profilePicture, setProfilePicture] = useState<string | null>("");  const [id, getUserid] = useState("");
   
   const placeholder = 'https://toppng.com/public/uploads/preview/instagram-default-profile-picture-11562973083brycehrmyv.png';
@@ -24,38 +25,33 @@ export default function InfoPage() {
     { label: "Female", value: "female" },
   ];
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const userData = await Server.getUserInfo();
-        currentUser.update(userData);
-        setProfilePicture(userData.profilePicture);
-        setHeight(userData.height);
-        setCurrentWeight(userData.currentWeight);
-        setAge(userData.age);
-        setGender(userData.gender.toLocaleLowerCase());
-        getUserid(userData.id);
+    useEffect(() => {
+      const fetchUser = async () => {
+        try {
+          const userData = await Server.getUserInfo();
+          currentUser.update(userData);
+          setProfilePicture(userData.profilePicture);
+        setHeight(userData.height || 0);
+          setCurrentWeight(userData.currentWeight || 0);
+          setAge(userData.age || 0);
+          setGender((userData.gender && userData.gender.toLocaleLowerCase()) || "------");
+          setUsername(currentUser.fullName);
+          getUserid(userData.id);
         const temp = await Server.fetchImage(userData.id);
         setProfilePicture(temp);
       } catch (error) {
-        console.error("fetch failed: ", error);
-      }
-    };
-    fetchUser();
-  }, []);
+          console.error("fetch failed: ", error);
+        }
+      };
+        fetchUser();
+    }, []);
 
   const handleSavePress = async () => {
-    setIsEditing(!isEditing); 
-    if (isEditing) { 
-      await Server.putInfoPage({
-        height,
-        gender,
-        currentWeight,
-        age
-      });
+    setIsEditing(!isEditing);
+    if (isEditing) {
+      await Server.putInfoPage(height, gender, currentWeight, age);
     }
   };
-  
 
   const findGoal = () => {
     if (currentWeight > currentUser.targetWeight) {
@@ -72,7 +68,7 @@ export default function InfoPage() {
       <Dropdown
         style={[style.dropdown]}
         placeholderStyle={style.placeholderText}
-        selectedTextStyle={style.placeholderText}
+        selectedTextStyle={[style.placeholderText, { color: isEditing ? "black" : "grey" }, {fontWeight: isEditing ? "bold" : "normal"}]}
         data={allGenders}
         labelField="label"
         valueField="value"
@@ -99,21 +95,21 @@ export default function InfoPage() {
 
       <TextField
         label="Height"
-        value={height.toString()}
+        value={(height || '').toString()}
         setValue={setHeight}
         units="cm"
         isEditing={isEditing}
       />
       <TextField
         label="Current Weight"
-        value={currentWeight.toString()}
+        value={(currentWeight || '').toString()}
         setValue={setCurrentWeight}
         units="kg"
         isEditing={isEditing}
       />
       <TextField
         label="Age"
-        value={age.toString()}
+        value={(age || '').toString()}
         setValue={setAge}
         units="years"
         isEditing={isEditing}

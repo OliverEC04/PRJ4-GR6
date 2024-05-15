@@ -17,8 +17,11 @@ export class User {
     public dailyFat: number = 0;
     public age: number = 0;
     public currentWater: number = 0;
+    public firsTimeOrNot: number = 0;
     public dailyWater: number = 0;
     public token: string = "";
+    public currentDailyDate: Date = new Date();
+    public currentStreak: number = 0;
     public profilePicture: string = "";
     public id: string = "";
 
@@ -47,6 +50,10 @@ export class User {
         this.age = user.age;
         this.currentWater = user.currentWater;
         this.dailyWater = user.dailyWater;
+        this.firsTimeOrNot = user.firsTimeOrNot;
+        this.currentDailyDate = user.currentDailyDate;
+        this.currentStreak = user.currentStreak;
+
 
         if (user.token != undefined && user.token != "")
             this.token = user.token;

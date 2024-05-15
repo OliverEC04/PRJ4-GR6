@@ -4,7 +4,7 @@ import { User, currentUser } from "./User";
 class Server {
   private url: string;
 
-  constructor(url: string = "http://127.0.0.1:5000/") {
+  constructor(url: string = "http://rottehjem.duckdns.org:5000/") {
     this.url = url;
   }
   // api/me
@@ -37,27 +37,68 @@ class Server {
   }
 
   // en put metode til at opdatere user data
-  public async putInfoPage(userInfo: { height: number; gender: string; currentWeight: number; age: number }): Promise<void> {
-    const url = `${this.url}AppUser/UpdateInfo`;
+  public async putInfoPage(
+    height: number,
+    gender: string,
+    currentWeight: number,
+    age: number
+  ): Promise<void> {
+    const url = `${this.url}AppUser/UpdateInfo?Gender=${gender}&Age=${age}&Height=${height}&CurrentWeight=${currentWeight}`;
     try {
       const response = await fetch(url, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Authorization': 'Bearer ' + currentUser.token,
-          'Content-Type': 'application/json'
+          Authorization: "Bearer " + currentUser.token,
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(userInfo),
       });
 
       if (!response.ok) {
-        throw new Error(`Failed to update profile with status: ${response.status}`);
+        throw new Error(
+          `Failed to update profile with status: ${response.status}`
+        );
       }
-      console.log('Success', 'Profile updated successfully');
+      console.log("Success", "Profile updated successfully");
     } catch (error) {
-      console.error('Error updating profile:', error);
-      console.log('Error', `Failed to update profile`);
+      console.error("Error updating profile:", error);
+      console.log("Error", `Failed to update profile`);
     }
-}
+  }
+
+
+
+  public async PutForm(
+    gender: string,
+    height: number,
+    currentWeight: number,
+    age: number,
+    targetWeight: number,
+    activityLevel : number,
+    difficultyLevel : number,
+    dailyWater :number 
+  ): Promise<void> {
+    const url = `${this.url}AppUser/FillOutForm?Gender=${gender}&Height=${height}&TargetWeight=${targetWeight}&Weight=${currentWeight}&activityLevel=${activityLevel}&difficultyLevel=${difficultyLevel}&DailyWater=${dailyWater}&age=${age}`;
+    try {
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + currentUser.token,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to update profile with status: ${response.status}`
+        );
+      }
+      console.log("Success", "Profile updated successfully");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      console.log("Error", `Failed to update profile`);
+    }
+  }
+
 
 
   public async getUserInfo(): Promise<User> {
@@ -80,7 +121,44 @@ class Server {
     return data;
   }
 
-  
+  public async putUser(user: User) {
+    fetch(`${this.url}AppUser/me`, {
+      method: "PUT",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + currentUser.token,
+      },
+      body: JSON.stringify({
+        email: user.email,
+        fullName: user.fullName,
+        height: user.height,
+        gender: user.gender,
+        currentWeight: user.height,
+        targetWeight: user.targetWeight,
+        activityLevel: user.activityLevel,
+        difficultyLevel: user.difficultyLevel,
+        currentCalories: 0,
+        dailyCalories: user.dailyCalories,
+        dailyProtein: user.dailyProtein,
+        currentProtein: 0,
+        dailyCarbs: user.dailyCarbs,
+        currentCarbs: 0,
+        dailyFat: user.dailyFat,
+        currentFat: 0,
+        age: user.age,
+        dailyWater: user.dailyWater,
+        currentWater: 0,
+      }),
+    })
+      .then((r) => {
+        return r;
+      })
+      .catch((e) => {
+        console.warn(e);
+        throw new Error(`putUser error ${e.status}`);
+      });
+  }
 
 	public async putWater(liters: number) {
 		fetch(`${this.url}AppUser/updateDailyIntake?water=${liters}`, {

@@ -19,6 +19,7 @@ const style = StyleSheet.create({
   placeholderText: {
     color: "gray",
     fontSize: 18,
+    fontWeight: "normal",
   },
   iconStyle: {
     width: 20,
