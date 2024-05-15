@@ -17,7 +17,11 @@ import { currentUser, User } from '../models/User';
 import PopupField from '../components/PopupField';
 import { useFocusEffect } from '@react-navigation/native';
 
-export default function Welcome() {
+type welcomeProps = {
+	setShowWelcome: any;
+};
+
+export default function Welcome({ setShowWelcome }: welcomeProps) {
 	const [showModal, setShowModal] = useState(false);
 	const [weight, setWeight] = useState(null);
 	const [height, setHeight] = useState(null);
@@ -128,6 +132,7 @@ export default function Welcome() {
 		);
 
 		setShowModal(false);
+		setShowWelcome(false);
 	};
 
 	return (
