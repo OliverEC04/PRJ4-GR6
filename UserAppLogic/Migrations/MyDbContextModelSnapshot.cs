@@ -59,6 +59,38 @@ namespace UserAppLogic.Migrations
                     b.ToTable("Barcode");
                 });
 
+            modelBuilder.Entity("BarcodeAPI.Data.Models.ImageEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Data")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId")
+                        .IsUnique()
+                        .HasFilter("[AppUserId] IS NOT NULL");
+
+                    b.ToTable("Images");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -324,6 +356,15 @@ namespace UserAppLogic.Migrations
                     b.Navigation("AppUser");
                 });
 
+            modelBuilder.Entity("BarcodeAPI.Data.Models.ImageEntity", b =>
+                {
+                    b.HasOne("UserBackend.Data.Models.AppUser", "AppUser")
+                        .WithOne("Image")
+                        .HasForeignKey("BarcodeAPI.Data.Models.ImageEntity", "AppUserId");
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -378,6 +419,9 @@ namespace UserAppLogic.Migrations
             modelBuilder.Entity("UserBackend.Data.Models.AppUser", b =>
                 {
                     b.Navigation("Barcodes");
+
+                    b.Navigation("Image")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -65,6 +65,42 @@ class Server {
     }
   }
 
+
+
+  public async PutForm(
+    gender: string,
+    height: number,
+    currentWeight: number,
+    age: number,
+    targetWeight: number,
+    activityLevel : number,
+    difficultyLevel : number,
+    dailyWater :number 
+  ): Promise<void> {
+    const url = `${this.url}AppUser/FillOutForm?Gender=${gender}&Height=${height}&TargetWeight=${targetWeight}&Weight=${currentWeight}&activityLevel=${activityLevel}&difficultyLevel=${difficultyLevel}&DailyWater=${dailyWater}&age=${age}`;
+    try {
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + currentUser.token,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to update profile with status: ${response.status}`
+        );
+      }
+      console.log("Success", "Profile updated successfully");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      console.log("Error", `Failed to update profile`);
+    }
+  }
+
+
+
   public async getUserInfo(): Promise<User> {
     const response = await fetch(`${this.url}AppUser/me`, {
       // TJEK URL
@@ -158,17 +194,17 @@ class Server {
         targetWeight: user.targetWeight,
         activityLevel: user.activityLevel,
         difficultyLevel: user.difficultyLevel,
-        currentCalories: user.currentCalories,
+        currentCalories: 0,
         dailyCalories: user.dailyCalories,
         dailyProtein: user.dailyProtein,
-        currentProtein: user.currentProtein,
+        currentProtein: 0,
         dailyCarbs: user.dailyCarbs,
-        currentCarbs: user.currentCarbs,
+        currentCarbs: 0,
         dailyFat: user.dailyFat,
-        currentFat: user.currentFat,
+        currentFat: 0,
         age: user.age,
         dailyWater: user.dailyWater,
-        currentWater: user.currentWater,
+        currentWater: 0,
       }),
     })
       .then((r) => {
@@ -180,51 +216,45 @@ class Server {
       });
   }
 
-  public async putWater(liters: number) {
-    fetch(`${this.url}AppUser/updateDailyIntake?water=${liters}`, {
-      method: "PUT",
-      headers: {
-        Accept: "*/*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + currentUser.token,
-      },
-    })
-      .then((r) => {
-        return r;
-      })
-      .catch((e) => {
-        console.warn(e);
-        throw new Error(`putWater error ${e.status}`);
+	public async putWater(liters: number) {
+		fetch(`${this.url}AppUser/updateDailyIntake?water=${liters}`, {
+			method: "PUT",
+			headers: {
+				Accept: "*/*",
+				"Content-Type": "application/json",
+				Authorization: "Bearer " + currentUser.token,
+			},
+		})
+			.then((r) => {
+				return r;
+			})
+			.catch((e) => {
+				console.warn(e);
+				throw new Error(`putWater error ${e.status}`)
+			});
+	}
+
+	public async fetchImage(id: string): Promise<string | null> {
+    try {
+      const imageUrl = `${this.url}/Image/${id}`;
+      if (!imageUrl) {
+        console.log("Image URL is null");
+        return null;
+      }
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
       });
+    } catch (error) {
+      console.error("Error fetching image:", error);
+      return null;
+    }
   }
 
-  // merge conflict her, derfor udkommenteret
-//   public async loginUser(nameArg: string, passwordArg: string) 
-//   {
-//     try {
-//       console.log("logging in with url: ", this.url + "Account/Login");
-//       const response = await fetch(this.url + "Account/Login", {
-//         method: "POST",
-//         headers: {
-//           Accept: "*/*",
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({
-//           userName: nameArg,
-//           password: passwordArg,
-//         }),
-//       });
-//       if (!response.ok) {
-//         throw new Error(`HTTP error! Status: ${response.status}`);
-//       }
-//       currentUser.token = await response.text();
-//       if (currentUser.token === "") {
-//         throw new Error("No token received");
-//       }
-//     } catch (error) {
-//       console.error("Error logging in:", error);
-//     }
-//   }
 }
 
 export default new Server();

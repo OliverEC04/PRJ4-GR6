@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput } from "react-native";
+import { View, Text, Image, TextInput, Alert } from "react-native";
 import { textStyles } from "../../styles/textStyles";
 import { useState } from "react";
 import Server from "../../models/Server";
@@ -10,14 +10,40 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
-  function createNewUser(): void {
+  function passwordCheck(password: any) {
+    const hasNumber = /\d/;
+    const hasLowercase = /[a-z]/;
+    const hasUppercase = /[A-Z]/;
+    const nonCase = /[\W_]/; // som !? osv.
+    const minLength = 8;
+
+    if (
+      !hasNumber.test(password) ||
+      !hasLowercase.test(password) ||
+      !hasUppercase.test(password) ||
+      !nonCase.test(password) ||
+      password.lenght < minLength
+    ) {
+      return false;
+    }
+    return true;
+  }
+
+  function createNewUser() {
+    if (!passwordCheck(password)) {
+      Alert.alert(
+        "Password not allowed",
+        "Password must be 8 characters long, include numbers, lowercase, uppercase, and special characters"
+      );
+      return;
+    }
     console.log(
       "Creating new user with username: " +
-      username +
-      ", password: " +
-      password +
-      ", email: " +
-      email
+        username +
+        ", password: " +
+        password +
+        ", email: " +
+        email
     );
     Server.registerUser(username, password, email);
   }

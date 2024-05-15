@@ -23,32 +23,6 @@ export default function App()
 			<View style={styles.appBar}></View>
 			<NavigationContainer>
 				<TabFooter/>
-				{/* <TabFooter
-					// setRenderFooter={setRenderFooter}
-					// setRenderLogin={setRenderLogin}
-				/> */}
-				{/* {renderLogin && (
-					<Stack.Navigator initialRouteName="InitialPage">
-						<Stack.Screen
-							name="LoginPage"
-							component={LoginPage}
-							initialParams={{
-								setRenderFooter: setRenderFooter,
-								setRenderLogin: setRenderLogin
-							}}
-						/>
-						<Stack.Screen
-							name="LoginPage"
-							component={() => (
-								<LoginPage
-									setRenderFooter={setRenderFooter}
-									setRenderLogin={setRenderLogin}
-								/>
-							)}
-						/>
-						<Stack.Screen name="InitialPage" component={InitialPage}/>
-					</Stack.Navigator>
-				)} */}
 			</NavigationContainer>
 		</>
 	);

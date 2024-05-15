@@ -1,66 +1,103 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Image, ScrollView, Alert } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, Image, ScrollView, Alert, TextInput } from "react-native";
 import style from "../../styles/GoalStyle";
 import { Dropdown } from "react-native-element-dropdown";
 import NumericInput from "../../components/NumericInput";
-import { currentUser, User } from "../../models/User";
+import { currentUser } from "../../models/User";
 import Btn from "../../components/Btn";
+import Server from "../../models/Server";
 
-function displayGoal(user: User) {
-  if (user.currentWeight < user.targetWeight) {
-    return (
-      <>
-        <Image
-          source={require("../../../assets/logo.png")}
-          style={style.logo}
-        />
+// function displayGoal() {
+//   if (currentUser.currentWeight < currentUser.targetWeight) {
+//     return (
+//       <>
+//         <Image
+//           source={require("../../../assets/Bulking.png")}
+//           style={style.logo}
+//         />
 
-        <Text style={style.goalType}>Goal: Gain Weight</Text>
-      </>
-    );
-  } else if (user.currentWeight === user.targetWeight) {
-    return (
-      <>
-        <Image
-          source={require("../../../assets/logo.png")}
-          style={style.logo}
-        />
-        <Text style={style.goalType}>Goal: Maintain Weight</Text>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <Image
-          source={require("../../../assets/Cutting.png")}
-          style={style.logo}
-        />
-        <Text style={style.goalType}>Goal: Loose Weight</Text>
-      </>
-    );
-  }
-}
+//         <Text style={style.goalType}>Goal: Gaining Weight</Text>
+//       </>
+//     );
+//   } else if (currentUser.currentWeight === currentUser.targetWeight) {
+//     return (
+//       <>
+//         <Image
+//           source={require("../../../assets/logo.png")}
+//           style={style.logo}
+//         />
+//         <Text style={style.goalType}>Goal: Maintaining Weight</Text>
+//       </>
+//     );
+//   } else {
+//     return (
+//       <>
+//         <Image
+//           source={require("../../../assets/Cutting.png")}
+//           style={style.logo}
+//         />
+//         <Text style={style.goalType}>Goal: Loosing Weight</Text>
+//       </>
+//     );
+//   }
+// }
 
 export default function GoalPage() {
-  const [targetWeight, setTargetWeight] = useState("");
-  const [hydration, setHydration] = useState("2");
+  const [targetWeight, setTargetWeight] = useState("0");
+  const [hydration, setHydration] = useState("0");
   const [difficulty, setDiffuclty] = useState("500");
-  const [activity, setActivity] = useState("1.2");
+  const [activity, setActivity] = useState("120");
+  const [displayGoalKey, setDisplayGoalKey] = useState(0);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userData = await Server.getUserInfo();
+        console.log("userData:", userData); // Log userData to inspect its structure
+        currentUser.update(userData);
+        console.log("currentUser:", userData.currentStreak); // Log currentUser to inspect its structure
+        const StringTargetWeight = userData.targetWeight.toString();
+        setTargetWeight(StringTargetWeight);
+        // // Check if userData.dailyWater exists before calling toString()
+        // const StringHydration = userData.dailyWater
+        //   ? userData.dailyWater.toString()
+        //   : "0";
+        // const selectedHydration = Hydration.find(
+        //   (item) => item.value === StringHydration
+        // );
+        // if (selectedHydration) {
+        //   setHydration(selectedHydration.label && selectedHydration.value);
+        // }
+        // setHydration(StringHydration); // No need for the additional check here
+
+        // const StringDifficulty = userData.difficultyLevel.toString();
+        // const selectedDifficulty = Difficulty.find(
+        //   (item) => item.value === StringDifficulty
+        // );
+
+        // setDiffuclty(
+        //   (selectedDifficulty.label && selectedDifficulty.value) || "500"
+        // );
+        // const StringActivity = userData.activityLevel.toString();
+        // setActivity(StringActivity);
+      } catch (error) {
+        console.error("fetch failed: ", error); // Log the error
+      }
+    };
+
+    fetchUser();
+  }, [displayGoalKey]);
 
   const handleSavePress = async () => {
-    const newdifficulty = parseFloat(difficulty);
-    const newactivity = parseFloat(activity);
-    const newhydration = parseFloat(hydration);
+    const newdifficulty = parseInt(difficulty);
+    const newactivity = parseInt(activity);
+    const newhydration = parseInt(hydration);
     const newtargetWeight = parseFloat(targetWeight);
     try {
       const response = await fetch(
-        `https://brief-oriole-causal.ngrok-free.app/AppUser/me/GoalPage?TargetWeight=${newtargetWeight.toFixed(
+        `http://rottehjem.duckdns.org:5000/AppUser/me/GoalPage?TargetWeight=${newtargetWeight.toFixed(
           2
-        )}&activityLevel=${newactivity.toFixed(
-          3
-        )}&difficultyLevel=${newdifficulty.toFixed(
-          1
-        )}&DailyWater=${newhydration.toFixed(1)}`,
+        )}&activityLevel=${newactivity}&difficultyLevel=${newdifficulty}&DailyWater=${newhydration}`,
         {
           method: "PUT",
           headers: { Authorization: "Bearer " + currentUser.token },
@@ -68,6 +105,7 @@ export default function GoalPage() {
       );
       console.log(response);
       if (response.ok) {
+        setDisplayGoalKey(displayGoalKey + 1);
         Alert.alert("Success", "Your Goals have been updated.");
       } else {
         Alert.alert("Error", "Failed to update your goals. Please try again.");
@@ -76,6 +114,40 @@ export default function GoalPage() {
       Alert.alert(
         "Error",
         "Failed to update your goals. Please check your network connection and try again."
+      );
+    }
+  };
+
+  const displayGoal = () => {
+    if (currentUser.currentWeight < currentUser.targetWeight) {
+      return (
+        <>
+          <Image
+            source={require("../../../assets/Bulking.png")}
+            style={style.logo}
+          />
+          <Text style={style.goalType}>Goal: Gaining Weight</Text>
+        </>
+      );
+    } else if (currentUser.currentWeight === currentUser.targetWeight) {
+      return (
+        <>
+          <Image
+            source={require("../../../assets/logo.png")}
+            style={style.logo}
+          />
+          <Text style={style.goalType}>Goal: Maintaining Weight</Text>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Image
+            source={require("../../../assets/Cutting.png")}
+            style={style.logo}
+          />
+          <Text style={style.goalType}>Goal: Losing Weight</Text>
+        </>
       );
     }
   };
@@ -103,23 +175,23 @@ export default function GoalPage() {
   );
 
   const Activity = [
-    { label: "Sedentary (little to no exercise)", value: "1.2" },
+    { label: "Sedentary (little to no exercise)", value: "120" },
     {
       label: "Lightly active (light exercise or sports 1-3 days a week)",
-      value: "1.375",
+      value: "138",
     },
     {
       label: "Moderately active (moderate exercise or sports 3-5 days a week)",
-      value: "1.55",
+      value: "155",
     },
     {
       label: "Very active (hard exercise or sports 6-7 days a week)",
-      value: "1.725",
+      value: "173",
     },
     {
       label:
         "Super active (very hard exercise and a physical job or training twice a day)",
-      value: "1.9",
+      value: "190",
     },
   ];
   const renderActivityDropdown = () => (
@@ -161,12 +233,19 @@ export default function GoalPage() {
 
   return (
     <ScrollView style={style.container}>
-      {displayGoal(currentUser)}
+      {displayGoal()}
+      { <TextInput
+        style={style.inputContainer}
+        value={"Current streak: " + currentUser.currentStreak.toString()}
+        editable={false}
+      /> }
+
       <NumericInput
         label="Target Weight"
         value={targetWeight}
         setValue={setTargetWeight}
         units="kg"
+        // key={displayGoalKey}
       />
 
       {renderDifficultyDropdown()}

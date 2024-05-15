@@ -48,12 +48,49 @@ namespace AppUserBackend.Controllers
 
                 var appUser = await _userManager.FindByNameAsync(userName);
 
+                DateTime now = DateTime.UtcNow;
+
+                if(appUser.CurrentStreak == 0)
+                {
+                    appUser.currentDailyDate = now;
+                    appUser.StreakIncremented = false;
+                }
+
+                if (appUser.StreakIncremented == false)
+                {
+                    appUser.CurrentStreak++;
+                    appUser.currentDailyDate = now;
+                    appUser.StreakIncremented = true;
+
+                }
+
+                if(now > appUser.currentDailyDate.AddMinutes(15) && now < appUser.currentDailyDate.AddMinutes(30))
+                {
+                    appUser.StreakIncremented = false;
+                }
+                
+                if(now > appUser.currentDailyDate.AddMinutes(30))
+                {
+                    appUser.CurrentStreak = 1;
+                    appUser.currentDailyDate = now;
+                    appUser.StreakIncremented = true;
+                }
+
+
+
+
+                await _userManager.UpdateAsync(appUser);
+
+           
+
+      
+
                 if (appUser == null)
                 {
                     return NotFound();
                 }
 
-                var result = new 
+                var result = new
                 {
                     appUser.Email,
                     appUser.FullName,
@@ -73,7 +110,12 @@ namespace AppUserBackend.Controllers
                     appUser.DailyFat,
                     appUser.FirsTimeOrNot,
                     appUser.CurrentWater,
-                    appUser.Age
+                    appUser.currentDailyDate,
+                    appUser.StreakIncremented,
+                    appUser.CurrentStreak,
+                    appUser.Age,
+                    appUser.DailyWater,
+                    appUser.Id,
                 };
 
                 return result;
@@ -82,8 +124,7 @@ namespace AppUserBackend.Controllers
             {
                 return BadRequest(e.Message);
             }
-}
-
+        }
 
 
         // PUT: api/AppUser/5
@@ -102,6 +143,9 @@ namespace AppUserBackend.Controllers
                     return NotFound();
                 }
 
+              
+
+
                 user.Email = appUser.Email;
                 user.FullName = appUser.FullName;
                 user.Height = appUser.Height;
@@ -109,7 +153,7 @@ namespace AppUserBackend.Controllers
                 user.CurrentWeight = appUser.CurrentWeight;
                 user.TargetWeight = appUser.TargetWeight;
                 user.activityLevel = appUser.activityLevel;
-                // user.difficultyLevel = appUser.difficultyLevel;
+                user.difficultyLevel = appUser.difficultyLevel;
                 user.CurrentCalories += appUser.CurrentCalories;
                 user.DailyCalories = appUser.DailyCalories;
                 user.CurrentProtein += appUser.CurrentProtein;
@@ -120,8 +164,11 @@ namespace AppUserBackend.Controllers
                 user.DailyFat = appUser.DailyFat;
                 user.CurrentWater += appUser.CurrentWater;
                 user.FirsTimeOrNot = appUser.FirsTimeOrNot;
+                user.CurrentStreak += appUser.CurrentStreak;
+                user.currentDailyDate = appUser.currentDailyDate;
+                user.DailyWater = appUser.DailyWater;
                 user.Age = appUser.Age;
-            
+                //missing DailyWater!!!!!!
                 await _userManager.UpdateAsync(user);
             
                 return NoContent();
@@ -136,7 +183,7 @@ namespace AppUserBackend.Controllers
          // PUT: api/AppUser/5
         [HttpPut("me/GoalPage")]
         [Authorize("User")]
-        public async Task<IActionResult> PutAppUserGoalPage( float TargetWeight, float activityLevel, float difficultyLevel, float DailyWater)
+        public async Task<IActionResult> PutAppUserGoalPage( int TargetWeight, int activityLevel, int difficultyLevel, int DailyWater)
         {
             try
             {
@@ -152,7 +199,7 @@ namespace AppUserBackend.Controllers
 
                 user.TargetWeight = TargetWeight;
                 user.activityLevel = activityLevel;
-                // user.difficultyLevel = difficultyLevel;
+                user.difficultyLevel = difficultyLevel;
                 user.DailyWater = DailyWater;
 
                 await _userManager.UpdateAsync(user);
@@ -170,7 +217,7 @@ namespace AppUserBackend.Controllers
         //update daily intake
         [HttpPut("updateDailyIntake")]
         [Authorize("User")]
-        public async Task<IActionResult> UpdateDailyIntake(float calories, float protein, float carbs, float fat, float water)
+        public async Task<IActionResult> UpdateDailyIntake(float calories, float protein, float carbs, float fat, int water)
         {
             try
             {
@@ -306,6 +353,44 @@ namespace AppUserBackend.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+
+        //fill out form 
+        [HttpPut("FillOutForm")]
+        [Authorize("User")]
+        public async Task<IActionResult> FillOutForm(string Gender, double Height, float  TargetWeight, double Weight, int avtivityLevel, int difficultyLevel, int DailyWater, int age)
+        {
+            try
+            {
+                var userName = User.FindFirstValue(ClaimTypes.Name);
+
+                var user = await _userManager.FindByNameAsync(userName);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+               
+                user.Height = Height;
+                user.Gender = Gender;
+                user.TargetWeight = TargetWeight;
+                user.CurrentWeight = Weight;
+                user.activityLevel = avtivityLevel;
+                user.difficultyLevel = difficultyLevel;
+                user.DailyWater = DailyWater;
+                user.Age = age;
+                user.FirsTimeOrNot = 1;
+                await _userManager.UpdateAsync(user);
+
+                return NoContent();
+            }
+
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
 
 
         // POST: api/AppUser
