@@ -42,6 +42,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignSelf: 'center',
   },
+   container2: {
+    marginBottom: -5,
+    height: '100%',
+    width: '100%',
+    },
+    horizontal: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        padding: 10,
+    },
   cancelButton: {
       backgroundColor: '#E06C75', 
       width: "45%",

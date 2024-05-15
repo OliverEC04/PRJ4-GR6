@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button, Modal, ScrollView, Alert } from 'react-native';
+import { Text, View, StyleSheet, Button, Modal, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import { currentUser } from '../../models/User';
 import { useIsFocused } from '@react-navigation/native';
@@ -236,7 +236,9 @@ export default function App() {
  
       )}
       {loading ? (
-        <Text>Loading...</Text>
+        <View style={[styles.container2, styles.horizontal]}>
+        <ActivityIndicator size="large" color="blue" />
+        </View>
       ) : (
         foodInfo && (
           <View style={styles.resultContainer}>
