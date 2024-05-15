@@ -49,32 +49,33 @@ namespace AppUserBackend.Controllers
                 var appUser = await _userManager.FindByNameAsync(userName);
 
                 DateTime now = DateTime.UtcNow;
-                DateTime lastRecordedDate = appUser.currentDailyDate;
 
-                if (appUser.CurrentStreak == 0)
+                if(appUser.CurrentStreak == 0)
                 {
                     appUser.currentDailyDate = now;
-                    appUser.CurrentStreak = 1;
+                    appUser.StreakIncremented = false;
                 }
-                else
+
+                if (appUser.StreakIncremented == false)
                 {
-                    
+                    appUser.CurrentStreak++;
+                    appUser.currentDailyDate = now;
+                    appUser.StreakIncremented = true;
 
-
-                
-                    if (now > lastRecordedDate && now < lastRecordedDate.AddMinutes(1))
-                    {
-                       
-                        appUser.currentDailyDate = now;
-                        appUser.CurrentStreak ++;
-                    }
-                    else
-                    {
-                       
-                        appUser.currentDailyDate = now;
-                        appUser.CurrentStreak = 1;
-                    }
                 }
+
+                if(now > appUser.currentDailyDate.AddMinutes(5) && now < appUser.currentDailyDate.AddMinutes(10))
+                {
+                    appUser.StreakIncremented = false;
+                }
+                
+                if(now > appUser.currentDailyDate.AddMinutes(10))
+                {
+                    appUser.CurrentStreak = 1;
+                    appUser.currentDailyDate = now;
+                    appUser.StreakIncremented = true;
+                }
+
 
 
 
@@ -110,6 +111,7 @@ namespace AppUserBackend.Controllers
                     appUser.FirsTimeOrNot,
                     appUser.CurrentWater,
                     appUser.currentDailyDate,
+                    appUser.StreakIncremented,
                     appUser.CurrentStreak,
                     appUser.Age,
                 };
@@ -162,6 +164,7 @@ namespace AppUserBackend.Controllers
                 user.FirsTimeOrNot = appUser.FirsTimeOrNot;
                 user.CurrentStreak += appUser.CurrentStreak;
                 user.currentDailyDate = appUser.currentDailyDate;
+                user.DailyWater = appUser.DailyWater;
                 user.Age = appUser.Age;
             
                 await _userManager.UpdateAsync(user);
@@ -194,7 +197,7 @@ namespace AppUserBackend.Controllers
 
                 user.TargetWeight = TargetWeight;
                 user.activityLevel = activityLevel;
-                // user.difficultyLevel = difficultyLevel;
+                user.difficultyLevel = difficultyLevel;
                 user.DailyWater = DailyWater;
 
                 await _userManager.UpdateAsync(user);

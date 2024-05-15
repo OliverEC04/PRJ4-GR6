@@ -67,6 +67,8 @@ namespace UserBackend.Data.DTO
         [Range(0, int.MaxValue, ErrorMessage = "Current streak be a positive number.")]
         public int CurrentStreak { get; set; }
 
+        public bool StreakIncremented { get; set; }
+
         public DateTime currentDailyDate { get; set; }
 
 
