@@ -7,6 +7,7 @@ import server from '../models/Server';
 import { currentUser, User } from '../models/User';
 import PopupField from '../components/PopupField';
 import { useFocusEffect } from '@react-navigation/native';
+import Welcome from './Welcome';
 
 function getCalGoal(user: User) {
 	let bmr;
@@ -207,6 +208,7 @@ export default function Home() {
 
 	return (
 		<View style={HomeStyle.container}>
+			<Welcome />
 			{logo}
 			{text}
 			{calBar}
