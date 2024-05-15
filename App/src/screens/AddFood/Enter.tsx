@@ -31,7 +31,7 @@ export default function AddFoodPage() {
     const fetchMeals = async () => {
         try {
             const headers = { 'Authorization': 'Bearer ' + currentUser.token};
-            const response = await fetch('https://brief-oriole-causal.ngrok-free.app/api/Barcode/ListOfBarcodesForUser', { headers });
+            const response = await fetch('http://rottehjem.duckdns.org:5000/api/Barcode/ListOfBarcodesForUser', { headers });
             const data = await response.json();
             setMeals(data);
         } catch (error) {
