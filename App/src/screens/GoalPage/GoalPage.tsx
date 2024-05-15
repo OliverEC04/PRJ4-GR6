@@ -5,7 +5,6 @@ import { Dropdown } from "react-native-element-dropdown";
 import NumericInput from "../../components/NumericInput";
 import { currentUser } from "../../models/User";
 import Btn from "../../components/Btn";
-import TextField from "../../components/TextField";
 import Server from "../../models/Server";
 
 function displayGoal() {
@@ -13,7 +12,7 @@ function displayGoal() {
     return (
       <>
         <Image
-          source={require("../../../assets/logo.png")}
+          source={require("../../../assets/Bulking.png")}
           style={style.logo}
         />
 
