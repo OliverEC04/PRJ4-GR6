@@ -26,7 +26,7 @@ namespace UserBackend.Data.DTO
         public float? activityLevel { get; set; }
 
       [Range(200, 800, ErrorMessage = "Choose a difficulty level between Easy, Medium, or Hard.")]
-        public float? difficultyLevel { get; set; }
+        public double? difficultyLevel { get; set; }
         
         [Range(0, int.MaxValue, ErrorMessage = "Current calories must be a positive number.")]
         public float CurrentCalories { get; set; }

@@ -74,6 +74,7 @@ namespace AppUserBackend.Controllers
                     appUser.FirsTimeOrNot,
                     appUser.CurrentWater,
                     appUser.Age
+                    //Missing DailyWater!!!!!!
                 };
 
                 return result;
@@ -109,7 +110,7 @@ namespace AppUserBackend.Controllers
                 user.CurrentWeight = appUser.CurrentWeight;
                 user.TargetWeight = appUser.TargetWeight;
                 user.activityLevel = appUser.activityLevel;
-                // user.difficultyLevel = appUser.difficultyLevel;
+                user.difficultyLevel = appUser.difficultyLevel;
                 user.CurrentCalories += appUser.CurrentCalories;
                 user.DailyCalories = appUser.DailyCalories;
                 user.CurrentProtein += appUser.CurrentProtein;
@@ -121,7 +122,7 @@ namespace AppUserBackend.Controllers
                 user.CurrentWater += appUser.CurrentWater;
                 user.FirsTimeOrNot = appUser.FirsTimeOrNot;
                 user.Age = appUser.Age;
-            
+                //missing DailyWater!!!!!!
                 await _userManager.UpdateAsync(user);
             
                 return NoContent();
@@ -152,7 +153,7 @@ namespace AppUserBackend.Controllers
 
                 user.TargetWeight = TargetWeight;
                 user.activityLevel = activityLevel;
-                // user.difficultyLevel = difficultyLevel;
+                user.difficultyLevel = difficultyLevel;
                 user.DailyWater = DailyWater;
 
                 await _userManager.UpdateAsync(user);
