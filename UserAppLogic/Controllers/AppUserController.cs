@@ -152,7 +152,6 @@ namespace AppUserBackend.Controllers
                 user.TargetWeight = appUser.TargetWeight;
                 user.activityLevel = appUser.activityLevel;
                 user.difficultyLevel = appUser.difficultyLevel;
-                user.difficultyLevel = appUser.difficultyLevel;
                 user.CurrentCalories += appUser.CurrentCalories;
                 user.DailyCalories = appUser.DailyCalories;
                 user.CurrentProtein += appUser.CurrentProtein;
@@ -182,7 +181,7 @@ namespace AppUserBackend.Controllers
          // PUT: api/AppUser/5
         [HttpPut("me/GoalPage")]
         [Authorize("User")]
-        public async Task<IActionResult> PutAppUserGoalPage( float TargetWeight, float activityLevel, float difficultyLevel, float DailyWater)
+        public async Task<IActionResult> PutAppUserGoalPage( int TargetWeight, int activityLevel, int difficultyLevel, int DailyWater)
         {
             try
             {
@@ -216,7 +215,7 @@ namespace AppUserBackend.Controllers
         //update daily intake
         [HttpPut("updateDailyIntake")]
         [Authorize("User")]
-        public async Task<IActionResult> UpdateDailyIntake(float calories, float protein, float carbs, float fat, float water)
+        public async Task<IActionResult> UpdateDailyIntake(float calories, float protein, float carbs, float fat, int water)
         {
             try
             {
@@ -357,7 +356,7 @@ namespace AppUserBackend.Controllers
         //fill out form 
         [HttpPut("FillOutForm")]
         [Authorize("User")]
-        public async Task<IActionResult> FillOutForm(string Gender, double Height, double TargetWeight, double Weight, double avtivityLevel, float difficultyLevel, double DailyWater, int age)
+        public async Task<IActionResult> FillOutForm(string Gender, double Height, double TargetWeight, double Weight, int avtivityLevel, int difficultyLevel, int DailyWater, int age)
         {
             try
             {
