@@ -22,11 +22,11 @@ namespace UserBackend.Data.DTO
         [Range(0, float.MaxValue, ErrorMessage = "Target weight must be a positive number.")]
         public float? TargetWeight { get; set; }
 
-        [Range(1, 1.91, ErrorMessage = "Activity level must be between 1 and 1,9.")]
-        public float? activityLevel { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Activity level must be between 1 and 1,9.")]
+        public int activityLevel { get; set; }
 
-      [Range(200, 800, ErrorMessage = "Choose a difficulty level between Easy, Medium, or Hard.")]
-        public double? difficultyLevel { get; set; }
+      [Range(0 , int.MaxValue, ErrorMessage = "Choose a difficulty level between Easy, Medium, or Hard.")]
+        public int difficultyLevel { get; set; }
         
         [Range(0, int.MaxValue, ErrorMessage = "Current calories must be a positive number.")]
         public float CurrentCalories { get; set; }
@@ -55,17 +55,19 @@ namespace UserBackend.Data.DTO
         [Range(0, int.MaxValue, ErrorMessage = "Age must be a positive number.")]
         public int Age { get; set; }
 
-        [Range(0, double.MaxValue, ErrorMessage = "Daily water must be a positive number.")]
-        public float DailyWater { get; set; }
+        [Range(0, int.MaxValue, ErrorMessage = "Daily water must be a positive number.")]
+        public int DailyWater { get; set; }
 
-        [Range(0, double.MaxValue, ErrorMessage = "Current water must be a positive number.")]
-        public double CurrentWater { get; set; }
+        [Range(0, int.MaxValue, ErrorMessage = "Current water must be a positive number.")]
+        public int CurrentWater { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage = "Current FirstTimeOrNot be a positive number.")]
         public int FirsTimeOrNot { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage = "Current streak be a positive number.")]
         public int CurrentStreak { get; set; }
+
+        public bool StreakIncremented { get; set; }
 
         public DateTime currentDailyDate { get; set; }
 
