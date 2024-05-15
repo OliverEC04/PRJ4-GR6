@@ -65,8 +65,8 @@ export default function Welcome() {
 	];
 
 	const allGenders = [
-		{ label: 'Male', value: 'male' },
-		{ label: 'Female', value: 'female' },
+		{ label: 'Male', value: 'Male' },
+		{ label: 'Female', value: 'Female' },
 	];
 
 	const renderDropdown = (
