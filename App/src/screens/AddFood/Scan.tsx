@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button, Modal, ScrollView, Alert } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
+import { currentUser } from '../../models/User';
 import { useIsFocused } from '@react-navigation/native';
 import AddTextField from "../../components/AddTextField";
 import Btn from "../../components/Btn";
@@ -11,11 +12,13 @@ export default function App() {
   const [scanned, setScanned] = useState(false);
   const [foodInfo, setFoodInfo] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [branName, setBrandName] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [scannedBarcode, setScannedBarcode] = useState('');
   const [consumedGrams, setConsumedGrams] = useState('');
   const [intakeInfo, setIntakeInfo] = useState(null);
   const [foodName, setFoodName] = useState('');
+  const [calories, setCalories] = useState('');
   const [protein, setProtein] = useState('');
   const [carbs, setCarbs] = useState('');
   const [fat, setFat] = useState('');
@@ -25,6 +28,40 @@ export default function App() {
     const { status } = await Camera.requestCameraPermissionsAsync();
     setHasPermission(status === 'granted');
   };
+
+
+  
+  const updateDailyIntake = async () => {
+    try {
+        const url = `https://brief-oriole-causal.ngrok-free.app/AppUser/updateDailyIntake?calories=${intakeInfo.calories.toFixed(2)}&protein=${intakeInfo.protein.toFixed(2)}&carbs=${intakeInfo.carbs.toFixed(2)}&fat=${intakeInfo.fat.toFixed(2)}&water=0`;
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Authorization': 'Bearer ' + currentUser.token
+            }
+        });
+
+        if (response.ok) {
+            Alert.alert('Success', 'Daily intake updated successfully!');
+            setScanned(false);
+            setScannedBarcode(null);
+            setFoodInfo(null);
+        
+        } else {
+            Alert.alert('Error', 'Failed to update daily intake. Please try again later.');
+            setScanned(false);
+            setScannedBarcode(null);
+            setFoodInfo(null);
+        }
+    } catch (error) {
+        Alert.alert('Error', 'Failed to update daily intake. Please check your network connection and try again.');
+        setScanned(false);
+            setScannedBarcode(null);
+            setFoodInfo(null);
+    }
+};
+
+
 
   useEffect(() => {
     askForCameraPermission();
@@ -73,25 +110,34 @@ export default function App() {
         'X-RapidAPI-Host': 'barcodes1.p.rapidapi.com'
       }
     };
-
     try {
       const queryString = Object.keys(options.params)
         .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(options.params[key]))
         .join('&');
       const response = await fetch(options.url + '?' + queryString, { method: options.method, headers: options.headers });
       let result = await response.json();
-
+  
       if (!result || !result.product) {
+        console.log("Barcode not found in external API, trying local API");
         const headers = { 'Authorization': 'Bearer ' + currentUser.token };
-        const localResponse = await fetch(`https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/GetBarcodeInfo/${barcode}`, { headers });
+        const localResponse = await fetch(`https://brief-oriole-causal.ngrok-free.app/api/Barcode/GetBarcodeInfo/${barcode}`, { headers });
         result = await localResponse.json();
+        console.log(response.status)
+        
+      
+  
 
-        if (!result || !result.product) {
+        if (result.status != 404){
+        setFoodInfo(result);
+        setBrandName(result.mealName);
+        }
+        else
+        {
           setModalVisible(true);
-          return;
         }
       }
-
+  
+      
       if (result && result.product) {
         const { brand, nutrition_facts } = result.product;
         const nutrition = parseNutritionFacts(nutrition_facts);
@@ -99,13 +145,18 @@ export default function App() {
           brand,
           ...nutrition
         });
+        setBrandName(brand);
+      }
+      if (!response.ok){
+        setModalVisible(true);
       }
     } catch (error) {
       console.error("Error fetching food info:", error);
+      // Handle the error, e.g., display an error message to the user
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
@@ -126,18 +177,20 @@ export default function App() {
   };
 
   const handleAddNewFood = async () => {
-    const headers = { 'Authorization': 'Bearer ' + currentUser.token};
     try {
-        const response = await fetch(`https://brief-oriole-causal.ngrok-free.app/rest_api/api/Barcode/AddMealWithBarcode?BarcodeId=${scannedBarcode}&mealName=${foodName}&calories=${calories}&protein=${protein}&carbs=${carbs}&fat=${fat}`, {
+        const response = await fetch(`https://brief-oriole-causal.ngrok-free.app/api/Barcode/AddMealWithBarcode?BarcodeId=${scannedBarcode}&mealName=${foodName}&calories=${calories}&protein=${protein}&carbs=${carbs}&fat=${fat}`, {
             method: 'POST',
-            headers: headers
+            headers: { 'Authorization': 'Bearer ' + currentUser.token}
         });
+  
+        
         if (response.ok) {
             Alert.alert('Success', 'New barcode added successfully!');
             setFoodName('');
             setProtein('');
             setCarbs('');
             setFat('');
+            setCalories(''); // Clear calorie input field after successful addition
         } else {
             Alert.alert('Error', 'Failed to add new food. Please try again later.');
         }
@@ -154,6 +207,8 @@ export default function App() {
     );
   }
 
+
+
   if (hasPermission === false) {
     return (
       <View style={styles.container}>
@@ -162,9 +217,9 @@ export default function App() {
       </View>
     );
   }
-
+  
   return (
-    <View style={styles.container}>
+    <View style={styles.container}> 
       {!scanned && isFocused && hasPermission && (
         <View style={styles.cameraContainer}>
           <Camera
@@ -178,7 +233,7 @@ export default function App() {
       ) : (
         foodInfo && (
           <View style={styles.resultContainer}>
-            <Text style={styles.resultText}>Brand: {foodInfo.brand}</Text>
+            <Text style={styles.resultText}>Meal Name: {branName}</Text>
             <Text style={styles.resultText}>Calories: {foodInfo.calories}</Text>
             <Text style={styles.resultText}>Protein: {foodInfo.protein}</Text>
             <Text style={styles.resultText}>Carbs: {foodInfo.carbs}</Text>
@@ -191,6 +246,7 @@ export default function App() {
               unit="g"
             />
             <Btn onClick={calculateIntake} text='Calculate' style={styles.EnterButton} />
+            <Btn onClick={updateDailyIntake} text='Enter' style={styles.EnterButton} />
             {intakeInfo && (
               <View>
                 <Text style={styles.resultText}>Calories consumed: {intakeInfo.calories.toFixed(2)}</Text>
@@ -203,7 +259,8 @@ export default function App() {
         )
       )}
       <Button title={'Scan again?'} onPress={() => setScanned(false)} color="tomato" />
-      <Modal
+    {/* Modal */}
+    <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
@@ -215,46 +272,53 @@ export default function App() {
         <View style={styles.modalBackground}>
           {/* Container for modal content */}
           <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>Barcode not found, add it to the database</Text>
-            <ScrollView style={{ paddingTop: 60, paddingHorizontal: 20 }}>
+          <Text style={styles.modalTitle}>Barcode not found, add it to the database</Text>
+         
                {/* Display scanned barcode ID */}
-              <Text style={styles.barcodeText}>Scanned Barcode: {scannedBarcode}</Text>
+            <Text style={styles.barcodeText}>Scanned Barcode: {scannedBarcode}</Text>
 
-              {/* Input fields for food information */}
-              <AddTextField
-                value={foodName}
-                onChangeText={setFoodName}
-                placeholder="Enter food name"
-                keyboardType="default"
-                unit=""
-              />
-              <AddTextField
-                value={protein}
-                onChangeText={setProtein}
-                placeholder="Enter protein amount"
-                keyboardType="numeric"
-                unit="g"
-              />
-              <AddTextField
-                value={carbs}
-                onChangeText={setCarbs}
-                placeholder="Enter carbs amount"
-                keyboardType="numeric"
-                unit="g"
-              />
-              <AddTextField
-                value={fat}
-                onChangeText={setFat}
-                placeholder="Enter fat amount"
-                keyboardType="numeric"
-                unit="g"
-              />
-              {/* Button container for action buttons */}
-              <View style={styles.buttonContainer}>
-                  <Btn onClick={handleAddNewFood} text='Enter' style={styles.EnterButton} />
-                  <Btn onClick={() => setModalVisible(false)} text='close' style={styles.cancelButton}/>
-              </View>
-            </ScrollView>
+            {/* Input fields for food information */}
+            <AddTextField
+              value={foodName}
+              onChangeText={setFoodName}
+              placeholder="Enter brand name"
+              keyboardType="default"
+              unit=""
+            />
+            <AddTextField
+              value={calories}
+              onChangeText={setCalories}
+              placeholder="Enter calorie amount"
+              keyboardType="numeric"
+              unit="cal"
+            />
+            <AddTextField
+              value={protein}
+              onChangeText={setProtein}
+              placeholder="Enter protein amount"
+              keyboardType="numeric"
+              unit="g"
+            />
+            <AddTextField
+              value={carbs}
+              onChangeText={setCarbs}
+              placeholder="Enter carbs amount"
+              keyboardType="numeric"
+              unit="g"
+            />
+            <AddTextField
+              value={fat}
+              onChangeText={setFat}
+              placeholder="Enter fat amount"
+              keyboardType="numeric"
+              unit="g"
+            />
+            {/* Button container for action buttons */}
+            <View style={styles.buttonContainer}>
+                <Btn onClick={handleAddNewFood} text='Enter' style={styles.EnterButton} />
+                <Btn onClick={() => setModalVisible(false)} text='close' style={styles.cancelButton}/>
+            </View>
+     
           </View>
         </View>
       </Modal>
