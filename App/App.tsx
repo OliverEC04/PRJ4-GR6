@@ -22,10 +22,11 @@ export default function App()
 			<StatusBar/>
 			<View style={styles.appBar}></View>
 			<NavigationContainer>
-				<TabFooter
+				<TabFooter/>
+				{/* <TabFooter
 					// setRenderFooter={setRenderFooter}
 					// setRenderLogin={setRenderLogin}
-				/>
+				/> */}
 				{/* {renderLogin && (
 					<Stack.Navigator initialRouteName="InitialPage">
 						<Stack.Screen
