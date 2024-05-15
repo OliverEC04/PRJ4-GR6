@@ -46,7 +46,7 @@ export default function GoalPage() {
   const [targetWeight, setTargetWeight] = useState("0");
   const [hydration, setHydration] = useState("0");
   const [difficulty, setDiffuclty] = useState("500");
-  const [activity, setActivity] = useState("1.2");
+  const [activity, setActivity] = useState("120");
   const [displayGoalKey, setDisplayGoalKey] = useState(0);
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export default function GoalPage() {
         console.log("userData:", userData); // Log userData to inspect its structure
         currentUser.update(userData);
         const StringTargetWeight = userData.targetWeight.toString();
-
+        setTargetWeight(StringTargetWeight);
         // // Check if userData.dailyWater exists before calling toString()
         // const StringHydration = userData.dailyWater
         //   ? userData.dailyWater.toString()
@@ -64,22 +64,20 @@ export default function GoalPage() {
         // const selectedHydration = Hydration.find(
         //   (item) => item.value === StringHydration
         // );
-
         // if (selectedHydration) {
         //   setHydration(selectedHydration.label && selectedHydration.value);
         // }
-
-        const StringDifficulty = userData.difficultyLevel.toString();
-        const selectedDifficulty = Difficulty.find(
-          (item) => item.value === StringDifficulty
-        );
-        // const StringActivity = userData.activityLevel.toString();
-        setTargetWeight(StringTargetWeight);
         // setHydration(StringHydration); // No need for the additional check here
-        setDiffuclty(
-          (selectedDifficulty.label && selectedDifficulty.value) || "500"
-        );
 
+        // const StringDifficulty = userData.difficultyLevel.toString();
+        // const selectedDifficulty = Difficulty.find(
+        //   (item) => item.value === StringDifficulty
+        // );
+
+        // setDiffuclty(
+        //   (selectedDifficulty.label && selectedDifficulty.value) || "500"
+        // );
+        // const StringActivity = userData.activityLevel.toString();
         // setActivity(StringActivity);
       } catch (error) {
         console.error("fetch failed: ", error); // Log the error
@@ -98,11 +96,7 @@ export default function GoalPage() {
       const response = await fetch(
         `http://rottehjem.duckdns.org:5000/AppUser/me/GoalPage?TargetWeight=${newtargetWeight.toFixed(
           2
-        )}&activityLevel=${newactivity.toFixed(
-          3
-        )}&difficultyLevel=${newdifficulty.toFixed(
-          1
-        )}&DailyWater=${newhydration.toFixed(1)}`,
+        )}&activityLevel=${newactivity}&difficultyLevel=${newdifficulty}&DailyWater=${newhydration}`,
         {
           method: "PUT",
           headers: { Authorization: "Bearer " + currentUser.token },
@@ -180,23 +174,23 @@ export default function GoalPage() {
   );
 
   const Activity = [
-    { label: "Sedentary (little to no exercise)", value: "1.2" },
+    { label: "Sedentary (little to no exercise)", value: "120" },
     {
       label: "Lightly active (light exercise or sports 1-3 days a week)",
-      value: "1.375",
+      value: "138",
     },
     {
       label: "Moderately active (moderate exercise or sports 3-5 days a week)",
-      value: "1.55",
+      value: "155",
     },
     {
       label: "Very active (hard exercise or sports 6-7 days a week)",
-      value: "1.725",
+      value: "173",
     },
     {
       label:
         "Super active (very hard exercise and a physical job or training twice a day)",
-      value: "1.9",
+      value: "190",
     },
   ];
   const renderActivityDropdown = () => (
@@ -250,6 +244,7 @@ export default function GoalPage() {
         value={targetWeight}
         setValue={setTargetWeight}
         units="kg"
+        // key={displayGoalKey}
       />
 
       {renderDifficultyDropdown()}
