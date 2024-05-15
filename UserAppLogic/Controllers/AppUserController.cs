@@ -152,6 +152,7 @@ namespace AppUserBackend.Controllers
                 user.TargetWeight = appUser.TargetWeight;
                 user.activityLevel = appUser.activityLevel;
                 user.difficultyLevel = appUser.difficultyLevel;
+                user.difficultyLevel = appUser.difficultyLevel;
                 user.CurrentCalories += appUser.CurrentCalories;
                 user.DailyCalories = appUser.DailyCalories;
                 user.CurrentProtein += appUser.CurrentProtein;
@@ -166,7 +167,7 @@ namespace AppUserBackend.Controllers
                 user.currentDailyDate = appUser.currentDailyDate;
                 user.DailyWater = appUser.DailyWater;
                 user.Age = appUser.Age;
-            
+                //missing DailyWater!!!!!!
                 await _userManager.UpdateAsync(user);
             
                 return NoContent();

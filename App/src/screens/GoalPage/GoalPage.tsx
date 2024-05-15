@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Image, ScrollView, Alert } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, Image, ScrollView, Alert, TextInput } from "react-native";
 import style from "../../styles/GoalStyle";
 import { Dropdown } from "react-native-element-dropdown";
 import NumericInput from "../../components/NumericInput";
-import { currentUser, User } from "../../models/User";
+import { currentUser } from "../../models/User";
 import Btn from "../../components/Btn";
-import TextField from "../../components/TextField";
+import Server from "../../models/Server";
 
-function displayGoal(user: User) {
-  if (user.currentWeight < user.targetWeight) {
+function displayGoal() {
+  if (currentUser.currentWeight < currentUser.targetWeight) {
     return (
       <>
         <Image
-          source={require("../../../assets/logo.png")}
+          source={require("../../../assets/Bulking.png")}
           style={style.logo}
         />
 
         <Text style={style.goalType}>Goal: Gaining Weight</Text>
       </>
     );
-  } else if (user.currentWeight === user.targetWeight) {
+  } else if (currentUser.currentWeight === currentUser.targetWeight) {
     return (
       <>
         <Image
@@ -43,10 +43,44 @@ function displayGoal(user: User) {
 }
 
 export default function GoalPage() {
-  const [targetWeight, setTargetWeight] = useState("");
-  const [hydration, setHydration] = useState("2");
+  const [targetWeight, setTargetWeight] = useState("0");
+  const [hydration, setHydration] = useState("0");
   const [difficulty, setDiffuclty] = useState("500");
   const [activity, setActivity] = useState("1.2");
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userData = await Server.getUserInfo();
+        console.log("userData:", userData); // Log userData to inspect its structure
+        currentUser.update(userData);
+        const StringTargetWeight = userData.targetWeight.toString();
+
+        // // Check if userData.dailyWater exists before calling toString()
+        const StringHydration = userData.dailyWater
+          ? userData.dailyWater.toString()
+          : "0";
+        const selectedHydration = Hydration.find(
+          (item) => item.value === StringHydration
+        );
+
+        if (selectedHydration) {
+          setHydration(selectedHydration.label && selectedHydration.value);
+        }
+        // const StringDifficulty = userData.difficultyLevel.toString();
+        // const StringActivity = userData.activityLevel.toString();
+        setTargetWeight(StringTargetWeight);
+        // setHydration(StringHydration); // No need for the additional check here
+        // setDiffuclty(StringDifficulty);
+
+        // setActivity(StringActivity);
+      } catch (error) {
+        console.error("fetch failed: ", error); // Log the error
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const handleSavePress = async () => {
     const newdifficulty = parseFloat(difficulty);
@@ -162,20 +196,20 @@ export default function GoalPage() {
 
   return (
     <ScrollView style={style.container}>
-      {displayGoal(currentUser)}
+      {displayGoal()}
       <TextInput
         style={style.inputContainer}
         value={"Current streak: " + currentUser.currentStreak.toString()}
         editable={false}
       />
-      
+
       <NumericInput
         label="Target Weight"
         value={targetWeight}
         setValue={setTargetWeight}
         units="kg"
       />
-      
+
       {renderDifficultyDropdown()}
       {renderActivityDropdown()}
       {renderHydrationDropdown()}
