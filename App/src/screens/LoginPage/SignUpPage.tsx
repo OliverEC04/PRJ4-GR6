@@ -33,7 +33,7 @@ export default function SignUpPage() {
     if (!passwordCheck(password)) {
       Alert.alert(
         "Password not allowed",
-        "Password must be 8 characters long and include numbers, one lowercase letter, one uppercase letter, and one special character."
+        "Password must be 8 characters long, include numbers, lowercase, uppercase, and special characters"
       );
       return;
     }

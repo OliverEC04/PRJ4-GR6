@@ -64,6 +64,11 @@ namespace UserBackend.Data.DTO
         [Range(0, int.MaxValue, ErrorMessage = "Current FirstTimeOrNot be a positive number.")]
         public int FirsTimeOrNot { get; set; }
 
+        [Range(0, int.MaxValue, ErrorMessage = "Current streak be a positive number.")]
+        public int CurrentStreak { get; set; }
+
+        public DateTime currentDailyDate { get; set; }
+
 
     }
 }

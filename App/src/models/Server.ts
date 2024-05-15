@@ -65,6 +65,42 @@ class Server {
     }
   }
 
+
+
+  public async PutForm(
+    gender: string,
+    height: number,
+    currentWeight: number,
+    age: number,
+    targetWeight: number,
+    activityLevel : number,
+    difficultyLevel : number,
+    dailyWater :number 
+  ): Promise<void> {
+    const url = `${this.url}AppUser/FillOutForm?Gender=${gender}&Height=${height}&TargetWeight=${targetWeight}&Weight=${currentWeight}&activityLevel=${activityLevel}&difficultyLevel=${difficultyLevel}&DailyWater=${dailyWater}&age=${age}`;
+    try {
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + currentUser.token,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to update profile with status: ${response.status}`
+        );
+      }
+      console.log("Success", "Profile updated successfully");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      console.log("Error", `Failed to update profile`);
+    }
+  }
+
+
+
   public async getUserInfo(): Promise<User> {
     const response = await fetch(`${this.url}AppUser/me`, {
       // TJEK URL
@@ -102,17 +138,17 @@ class Server {
         targetWeight: user.targetWeight,
         activityLevel: user.activityLevel,
         difficultyLevel: user.difficultyLevel,
-        currentCalories: user.currentCalories,
+        currentCalories: 0,
         dailyCalories: user.dailyCalories,
         dailyProtein: user.dailyProtein,
-        currentProtein: user.currentProtein,
+        currentProtein: 0,
         dailyCarbs: user.dailyCarbs,
-        currentCarbs: user.currentCarbs,
+        currentCarbs: 0,
         dailyFat: user.dailyFat,
-        currentFat: user.currentFat,
+        currentFat: 0,
         age: user.age,
         dailyWater: user.dailyWater,
-        currentWater: user.currentWater,
+        currentWater: 0,
       }),
     })
       .then((r) => {

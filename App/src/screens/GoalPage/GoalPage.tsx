@@ -5,6 +5,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import NumericInput from "../../components/NumericInput";
 import { currentUser } from "../../models/User";
 import Btn from "../../components/Btn";
+import TextField from "../../components/TextField";
 import Server from "../../models/Server";
 
 function displayGoal() {
@@ -196,7 +197,13 @@ export default function GoalPage() {
 
   return (
     <ScrollView style={style.container}>
-      {displayGoal()}
+      {displayGoal(currentUser)}
+      <TextInput
+        style={style.inputContainer}
+        value={"Current streak: " + currentUser.currentStreak.toString()}
+        editable={false}
+      />
+
       <NumericInput
         label="Target Weight"
         value={targetWeight}
