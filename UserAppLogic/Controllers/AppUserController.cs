@@ -7,6 +7,7 @@ using System.Security.Claims;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
 using UserBackend.Data.DTO;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AppUserBackend.Controllers
 {
@@ -48,12 +49,14 @@ namespace AppUserBackend.Controllers
 
                 var appUser = await _userManager.FindByNameAsync(userName);
 
-                DateTime now = DateTime.UtcNow;
+                DateTime now = DateTime.Now;
+               
 
                 if(appUser.CurrentStreak == 0)
                 {
                     appUser.currentDailyDate = now;
                     appUser.StreakIncremented = false;
+                    appUser.currentResetDate = now.Date;
                 }
 
                 if (appUser.StreakIncremented == false)
@@ -76,6 +79,17 @@ namespace AppUserBackend.Controllers
                     appUser.StreakIncremented = true;
                 }
 
+
+                if (now.Date != appUser.currentResetDate.Date)
+                {
+                    appUser.CurrentCalories = 0;
+                    appUser.CurrentProtein = 0;
+                    appUser.CurrentCarbs = 0;
+                    appUser.CurrentFat = 0;
+                    appUser.CurrentWater = 0;
+                    appUser.currentResetDate = now.Date;
+                    
+                }
 
 
 
@@ -116,6 +130,7 @@ namespace AppUserBackend.Controllers
                     appUser.Age,
                     appUser.DailyWater,
                     appUser.Id,
+                    appUser.currentResetDate,
                 };
 
                 return result;

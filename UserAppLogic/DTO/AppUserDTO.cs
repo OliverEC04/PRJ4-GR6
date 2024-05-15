@@ -71,6 +71,8 @@ namespace UserBackend.Data.DTO
 
         public DateTime currentDailyDate { get; set; }
 
+        public DateTime currentResetDate { get; set; }
+
 
     }
 }
