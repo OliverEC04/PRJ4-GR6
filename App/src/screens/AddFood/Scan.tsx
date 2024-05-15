@@ -33,7 +33,7 @@ export default function App() {
   
   const updateDailyIntake = async () => {
     try {
-        const url = `https://brief-oriole-causal.ngrok-free.app/AppUser/updateDailyIntake?calories=${intakeInfo.calories.toFixed(2)}&protein=${intakeInfo.protein.toFixed(2)}&carbs=${intakeInfo.carbs.toFixed(2)}&fat=${intakeInfo.fat.toFixed(2)}&water=0`;
+        const url = `http://rottehjem.duckdns.org:5000/AppUser/updateDailyIntake?calories=${intakeInfo.calories.toFixed(2)}&protein=${intakeInfo.protein.toFixed(2)}&carbs=${intakeInfo.carbs.toFixed(2)}&fat=${intakeInfo.fat.toFixed(2)}&water=0`;
         const response = await fetch(url, {
             method: 'PUT',
             headers: {
@@ -120,7 +120,7 @@ export default function App() {
       if (!result || !result.product) {
         console.log("Barcode not found in external API, trying local API");
         const headers = { 'Authorization': 'Bearer ' + currentUser.token };
-        const localResponse = await fetch(`https://brief-oriole-causal.ngrok-free.app/api/Barcode/GetBarcodeInfo/${barcode}`, { headers });
+        const localResponse = await fetch(`http://rottehjem.duckdns.org:5000/api/Barcode/GetBarcodeInfo/${barcode}`, { headers });
         result = await localResponse.json();
         console.log(response.status)
         
@@ -178,7 +178,7 @@ export default function App() {
 
   const handleAddNewFood = async () => {
     try {
-        const response = await fetch(`https://brief-oriole-causal.ngrok-free.app/api/Barcode/AddMealWithBarcode?BarcodeId=${scannedBarcode}&mealName=${foodName}&calories=${calories}&protein=${protein}&carbs=${carbs}&fat=${fat}`, {
+        const response = await fetch(`http://rottehjem.duckdns.org:5000/api/Barcode/AddMealWithBarcode?BarcodeId=${scannedBarcode}&mealName=${foodName}&calories=${calories}&protein=${protein}&carbs=${carbs}&fat=${fat}`, {
             method: 'POST',
             headers: { 'Authorization': 'Bearer ' + currentUser.token}
         });

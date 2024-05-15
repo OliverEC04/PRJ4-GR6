@@ -21,8 +21,8 @@ export default function InfoPage() {
   const placeholder = 'https://toppng.com/public/uploads/preview/instagram-default-profile-picture-11562973083brycehrmyv.png';
 
   const allGenders = [
-    { label: "Male", value: "male" },
-    { label: "Female", value: "female" },
+    { label: "Male", value: "Male" },
+    { label: "Female", value: "Female" },
   ];
 
     useEffect(() => {
