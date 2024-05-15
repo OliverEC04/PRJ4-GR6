@@ -67,7 +67,7 @@ export default function AddFoodPage() {
 
       const handleAddNewFood = async () => {
         try {
-            const response = await fetch(`https://brief-oriole-causal.ngrok-free.app/api/Barcode/AddMealWithNoBarcode?mealName=${foodName}&calories=${calories}&protein=${protein}&carbs=${carbs}&fat=${fat}`, {
+            const response = await fetch(`http://rottehjem.duckdns.org:5000/api/Barcode/AddMealWithNoBarcode?mealName=${foodName}&calories=${calories}&protein=${protein}&carbs=${carbs}&fat=${fat}`, {
                 method: 'POST',
                 headers: { 'Authorization': 'Bearer ' + currentUser.token}
             });
@@ -94,7 +94,7 @@ export default function AddFoodPage() {
       
       const updateDailyIntake = async () => {
         try {
-            const url = `https://brief-oriole-causal.ngrok-free.app/AppUser/updateDailyIntake?calories=${calories}&protein=${protein}&carbs=${carbs}&fat=${fat}&water=0`;
+            const url = `http://rottehjem.duckdns.org:5000/AppUser/updateDailyIntake?calories=${calories}&protein=${protein}&carbs=${carbs}&fat=${fat}&water=0`;
             const response = await fetch(url, {
                 method: 'PUT',
                 headers: {
@@ -123,7 +123,7 @@ export default function AddFoodPage() {
     const handleDeleteNewFood = async () => {
         try {
             const headers = { 'Authorization': 'Bearer ' + currentUser.token};
-            const response = await fetch(`https://brief-oriole-causal.ngrok-free.app/api/Barcode/RemoveBarcode/${id}`, {
+            const response = await fetch(`http://rottehjem.duckdns.org:5000/api/Barcode/RemoveBarcode/${id}`, {
                 method: 'DELETE',
                 headers: headers
             });
