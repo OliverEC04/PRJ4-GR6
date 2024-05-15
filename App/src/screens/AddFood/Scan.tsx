@@ -221,12 +221,12 @@ export default function App() {
   return (
     <View style={styles.container}> 
       {!scanned && isFocused && hasPermission && (
-        <View style={styles.cameraContainer}>
+        
           <Camera
             onBarCodeScanned={handleBarCodeScanned}
             style={styles.camera}
           />
-        </View>
+ 
       )}
       {loading ? (
         <Text>Loading...</Text>
@@ -258,7 +258,7 @@ export default function App() {
           </View>
         )
       )}
-      <Button title={'Scan again?'} onPress={() => setScanned(false)} color="tomato" />
+      <Btn onClick={() => setScanned(false)} text='Scan Again?' style={styles.buttons}/>
     {/* Modal */}
     <Modal
         animationType="slide"

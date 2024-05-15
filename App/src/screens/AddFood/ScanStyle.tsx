@@ -10,15 +10,15 @@ const styles = StyleSheet.create({
     cameraContainer: {
       alignItems: 'center',
       justifyContent: 'center',
-      height: 300,
-      width: 300,
+      height: '100%',
+      width: '100%',
       overflow: 'hidden',
       borderRadius: 30,
       backgroundColor: 'tomato',
-      marginBottom: 20,
+    
     },
     camera: {
-      height: '100%',
+      height: '50%',
       width: '100%',
     },
     resultContainer: {
@@ -66,9 +66,8 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
       borderRadius: 10,
       width: '90%', 
-      maxHeight: '85%', 
-      paddingBottom: 10,  
-      paddingTop: 10,
+      height: '85%', 
+     
       borderWidth: 1,
       borderColor: "black",
   
@@ -79,6 +78,13 @@ const styles = StyleSheet.create({
       includeFontPadding: false,
       textDecorationLine: 'underline',
       textAlign: 'center',
+    },
+    buttons:{
+      alignSelf: "center",
+      width: '100%',
+      marginBottom: 50,
+      backgroundColor: "black",
+      height: 70,
     }
   });
 

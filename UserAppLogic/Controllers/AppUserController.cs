@@ -183,7 +183,7 @@ namespace AppUserBackend.Controllers
          // PUT: api/AppUser/5
         [HttpPut("me/GoalPage")]
         [Authorize("User")]
-        public async Task<IActionResult> PutAppUserGoalPage( int TargetWeight, int activityLevel, int difficultyLevel, int DailyWater)
+        public async Task<IActionResult> PutAppUserGoalPage( float TargetWeight, int activityLevel, int difficultyLevel, int DailyWater)
         {
             try
             {
