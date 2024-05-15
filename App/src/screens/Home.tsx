@@ -12,9 +12,9 @@ import Welcome from './Welcome';
 function getCalGoal(user: User) {
 	let bmr;
 
-	if (user.gender === 'male') {
+	if (user.gender === 'Male') {
 		bmr = 10 * user.currentWeight + 6.25 * user.height - 5 * user.age + 5;
-	} else if (user.gender === 'female') {
+	} else if (user.gender === 'Female') {
 		bmr = 10 * user.currentWeight + 6.25 * user.height - 5 * user.age - 161;
 	} else {
 		console.warn('Received gender does not exist, cannot calculate BMR.');
@@ -208,7 +208,7 @@ export default function Home() {
 
 	return (
 		<View style={HomeStyle.container}>
-			<Welcome />
+			{/* <Welcome /> */}
 			{logo}
 			{text}
 			{calBar}

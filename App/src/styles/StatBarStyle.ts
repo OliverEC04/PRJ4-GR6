@@ -25,4 +25,6 @@ export default StyleSheet.create({
         position: "absolute",
         zIndex: 1
     },
+    barEnd: {
+    }
 });
