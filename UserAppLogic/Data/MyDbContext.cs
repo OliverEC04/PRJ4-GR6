@@ -12,6 +12,7 @@ namespace UserBackend.Data
         }
 
         public DbSet<Barcode> Barcode { get; set; }
+        public DbSet<ImageEntity> Images { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -33,7 +34,12 @@ namespace UserBackend.Data
                .WithOne(e => e.AppUser)
                .HasForeignKey(e => e.AppUserId)
                .IsRequired(false);
- 
+
+            modelBuilder.Entity<AppUser>()
+                .HasOne(e => e.Image)
+                .WithOne(e => e.AppUser)
+                .HasForeignKey<ImageEntity>(e => e.AppUserId)
+                .IsRequired(false);
         }
     }
 }

@@ -12,8 +12,8 @@ using UserBackend.Data;
 namespace UserAppLogic.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20240509112320_Update")]
-    partial class Update
+    [Migration("20240514202358_Image2")]
+    partial class Image2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,6 +60,38 @@ namespace UserAppLogic.Migrations
                     b.HasIndex("AppUserId");
 
                     b.ToTable("Barcode");
+                });
+
+            modelBuilder.Entity("BarcodeAPI.Data.Models.ImageEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Data")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId")
+                        .IsUnique()
+                        .HasFilter("[AppUserId] IS NOT NULL");
+
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -203,24 +235,24 @@ namespace UserAppLogic.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Age")
+                    b.Property<int>("Age")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CurrentCalories")
-                        .HasColumnType("int");
+                    b.Property<float>("CurrentCalories")
+                        .HasColumnType("real");
 
-                    b.Property<int?>("CurrentCarbs")
-                        .HasColumnType("int");
+                    b.Property<float>("CurrentCarbs")
+                        .HasColumnType("real");
 
-                    b.Property<int?>("CurrentFat")
-                        .HasColumnType("int");
+                    b.Property<float>("CurrentFat")
+                        .HasColumnType("real");
 
-                    b.Property<int?>("CurrentProtein")
-                        .HasColumnType("int");
+                    b.Property<float>("CurrentProtein")
+                        .HasColumnType("real");
 
                     b.Property<double?>("CurrentWater")
                         .HasColumnType("float");
@@ -228,17 +260,17 @@ namespace UserAppLogic.Migrations
                     b.Property<double?>("CurrentWeight")
                         .HasColumnType("float");
 
-                    b.Property<int?>("DailyCalories")
-                        .HasColumnType("int");
+                    b.Property<float>("DailyCalories")
+                        .HasColumnType("real");
 
-                    b.Property<int?>("DailyCarbs")
-                        .HasColumnType("int");
+                    b.Property<float>("DailyCarbs")
+                        .HasColumnType("real");
 
-                    b.Property<int?>("DailyFat")
-                        .HasColumnType("int");
+                    b.Property<float>("DailyFat")
+                        .HasColumnType("real");
 
-                    b.Property<int?>("DailyProtein")
-                        .HasColumnType("int");
+                    b.Property<float>("DailyProtein")
+                        .HasColumnType("real");
 
                     b.Property<double?>("DailyWater")
                         .HasColumnType("float");
@@ -324,6 +356,15 @@ namespace UserAppLogic.Migrations
                     b.Navigation("AppUser");
                 });
 
+            modelBuilder.Entity("BarcodeAPI.Data.Models.ImageEntity", b =>
+                {
+                    b.HasOne("UserBackend.Data.Models.AppUser", "AppUser")
+                        .WithOne("Image")
+                        .HasForeignKey("BarcodeAPI.Data.Models.ImageEntity", "AppUserId");
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -378,6 +419,9 @@ namespace UserAppLogic.Migrations
             modelBuilder.Entity("UserBackend.Data.Models.AppUser", b =>
                 {
                     b.Navigation("Barcodes");
+
+                    b.Navigation("Image")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -4,7 +4,7 @@ import { User, currentUser } from "./User";
 class Server {
   private url: string;
 
-  constructor(url: string = "https://brief-oriole-causal.ngrok-free.app/") {
+  constructor(url: string = "http://127.0.0.1:5000/") {
     this.url = url;
   }
   // api/me
@@ -100,31 +100,52 @@ class Server {
 			});
 	}
 
-  public async loginUser(nameArg: string, passwordArg: string) {
+	public async fetchImage(id: string): Promise<string | null> {
     try {
-      console.log("logging in with url: ", this.url + "Account/Login");
-      const response = await fetch(this.url + "Account/Login", {
-        method: "POST",
-        headers: {
-          Accept: "*/*",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userName: nameArg,
-          password: passwordArg,
-        }),
+      const imageUrl = `${this.url}/Image/${id}`;
+      if (!imageUrl) {
+        console.log("Image URL is null");
+        return null;
+      }
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
       });
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      currentUser.token = await response.text();
-      if (currentUser.token === "") {
-        throw new Error("No token received");
-      }
     } catch (error) {
-      console.error("Error logging in:", error);
+      console.error("Error fetching image:", error);
+      return null;
     }
   }
+
+  	public async loginUser(nameArg: string, passwordArg: string) {
+		try {
+		console.log("logging in with url: ", this.url + "Account/Login");
+		const response = await fetch(this.url + "Account/Login", {
+			method: "POST",
+			headers: {
+			Accept: "*/*",
+			"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+			userName: nameArg,
+			password: passwordArg,
+			}),
+		});
+		if (!response.ok) {
+			throw new Error(`HTTP error! Status: ${response.status}`);
+		}
+		currentUser.token = await response.text();
+		if (currentUser.token === "") {
+			throw new Error("No token received");
+		}
+		} catch (error) {
+		console.error("Error logging in:", error);
+		}
+	}
 }
 
 export default new Server();

@@ -19,6 +19,8 @@ export class User {
     public currentWater: number = 0;
     public dailyWater: number = 0;
     public token: string = "";
+    public profilePicture: string = "";
+    public id: string = "";
 
     constructor(email: string, fullName: string) {
         this.email = email;

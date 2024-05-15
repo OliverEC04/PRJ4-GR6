@@ -72,7 +72,9 @@ namespace AppUserBackend.Controllers
                     appUser.CurrentFat,
                     appUser.DailyFat,
                     appUser.CurrentWater,
-                    appUser.Age
+                    appUser.Age,
+                    appUser.DailyWater,
+                    appUser.Id
                 };
 
                 return result;

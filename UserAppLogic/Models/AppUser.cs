@@ -62,5 +62,6 @@ namespace UserBackend.Data.Models
         public double? CurrentWater { get; set; }
 
         public ICollection<Barcode> Barcodes { get; set;} = new List<Barcode>();
+        public ImageEntity Image { get; set; }
     }
 }

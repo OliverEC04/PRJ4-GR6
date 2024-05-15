@@ -7,6 +7,7 @@ import Btn from "../../components/Btn";
 import { textStyles } from "../../styles/textStyles";
 import Server from "../../models/Server";
 import { currentUser } from "../../models/User";
+import Avatar from "../../components/Avatar";
 
 export default function InfoPage() {
   const [isEditing, setIsEditing] = useState(false); // edit stuff
@@ -14,30 +15,32 @@ export default function InfoPage() {
   const [currentWeight, setCurrentWeight] = useState(79);
   const [age, setAge] = useState(22);
   const [gender, setGender] = useState("null");
+  const [profilePicture, setProfilePicture] = useState<string | null>("");  const [id, getUserid] = useState("");
+  
+  const placeholder = 'https://toppng.com/public/uploads/preview/instagram-default-profile-picture-11562973083brycehrmyv.png';
 
   const allGenders = [
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
   ];
 
-  // just mock data
-  const profilePicture =
-    "https://hips.hearstapps.com/hmg-prod/images/albert-einstein-sticks-out-his-tongue-when-asked-by-news-photo-1681316749.jpg";
-
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const userData = await Server.getUserInfo();
         currentUser.update(userData);
+        setProfilePicture(userData.profilePicture);
         setHeight(userData.height);
         setCurrentWeight(userData.currentWeight);
         setAge(userData.age);
         setGender(userData.gender.toLocaleLowerCase());
+        getUserid(userData.id);
+        const temp = await Server.fetchImage(userData.id);
+        setProfilePicture(temp);
       } catch (error) {
         console.error("fetch failed: ", error);
       }
     };
-
     fetchUser();
   }, []);
 
@@ -80,10 +83,17 @@ export default function InfoPage() {
       />
     </View>
   );
+  
+
+
 
   return (
     <ScrollView style={style.container}>
-      <Image source={{ uri: profilePicture }} style={style.profilePic} />
+      <Avatar
+        imageUrl={profilePicture ? profilePicture : placeholder}
+        altText={"Profile Picture"}
+        isEditing={isEditing}
+      />
       <Text style={textStyles.userName}>{currentUser.fullName}</Text>
       <Text style={textStyles.goalType}>Goal: {findGoal()}</Text>
 
