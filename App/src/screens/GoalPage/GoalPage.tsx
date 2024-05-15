@@ -239,11 +239,11 @@ export default function GoalPage() {
   return (
     <ScrollView style={style.container}>
       {displayGoal()}
-      {/* <TextInput
+      { <TextInput
         style={style.inputContainer}
         value={"Current streak: " + currentUser.currentStreak.toString()}
         editable={false}
-      /> */}
+      /> }
 
       <NumericInput
         label="Target Weight"
