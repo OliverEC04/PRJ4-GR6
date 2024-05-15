@@ -21,9 +21,9 @@ function getCalGoal(user: User) {
 	}
 
 	if (user.currentWeight < user.targetWeight) {
-		return bmr * user.activityLevel + user.difficultyLevel;
+		return bmr * (user.activityLevel / 100) + user.difficultyLevel;
 	} else {
-		return bmr * user.activityLevel - user.difficultyLevel;
+		return bmr * (user.activityLevel / 100) - user.difficultyLevel;
 	}
 }
 
