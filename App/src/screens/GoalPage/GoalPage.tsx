@@ -55,6 +55,7 @@ export default function GoalPage() {
         const userData = await Server.getUserInfo();
         console.log("userData:", userData); // Log userData to inspect its structure
         currentUser.update(userData);
+        console.log("currentUser:", userData.currentStreak); // Log currentUser to inspect its structure
         const StringTargetWeight = userData.targetWeight.toString();
         setTargetWeight(StringTargetWeight);
         // // Check if userData.dailyWater exists before calling toString()
@@ -233,11 +234,11 @@ export default function GoalPage() {
   return (
     <ScrollView style={style.container}>
       {displayGoal()}
-      {/* <TextInput
+      { <TextInput
         style={style.inputContainer}
         value={"Current streak: " + currentUser.currentStreak.toString()}
         editable={false}
-      /> */}
+      /> }
 
       <NumericInput
         label="Target Weight"

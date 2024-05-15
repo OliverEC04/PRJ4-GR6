@@ -64,12 +64,12 @@ namespace AppUserBackend.Controllers
 
                 }
 
-                if(now > appUser.currentDailyDate.AddMinutes(5) && now < appUser.currentDailyDate.AddMinutes(10))
+                if(now > appUser.currentDailyDate.AddSeconds(15) && now < appUser.currentDailyDate.AddMinutes(30))
                 {
                     appUser.StreakIncremented = false;
                 }
                 
-                if(now > appUser.currentDailyDate.AddMinutes(10))
+                if(now > appUser.currentDailyDate.AddSeconds(30))
                 {
                     appUser.CurrentStreak = 1;
                     appUser.currentDailyDate = now;

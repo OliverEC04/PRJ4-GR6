@@ -17,8 +17,8 @@ export default function InfoPage() {
   const [username, setUsername] = useState("");
 
   const allGenders = [
-    { label: "Male", value: "male" },
-    { label: "Female", value: "female" },
+    { label: "Male", value: "Male" },
+    { label: "Female", value: "Female" },
   ];
 
   // just mock data
