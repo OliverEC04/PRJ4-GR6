@@ -59,7 +59,6 @@ const style = StyleSheet.create({
     width: "95%",
   },
 
-
   placeholderText: {
     color: "gray",
     fontSize: 18,

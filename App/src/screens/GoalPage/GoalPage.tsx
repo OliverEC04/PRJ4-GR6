@@ -7,46 +7,47 @@ import { currentUser } from "../../models/User";
 import Btn from "../../components/Btn";
 import Server from "../../models/Server";
 
-function displayGoal() {
-  if (currentUser.currentWeight < currentUser.targetWeight) {
-    return (
-      <>
-        <Image
-          source={require("../../../assets/Bulking.png")}
-          style={style.logo}
-        />
+// function displayGoal() {
+//   if (currentUser.currentWeight < currentUser.targetWeight) {
+//     return (
+//       <>
+//         <Image
+//           source={require("../../../assets/Bulking.png")}
+//           style={style.logo}
+//         />
 
-        <Text style={style.goalType}>Goal: Gaining Weight</Text>
-      </>
-    );
-  } else if (currentUser.currentWeight === currentUser.targetWeight) {
-    return (
-      <>
-        <Image
-          source={require("../../../assets/logo.png")}
-          style={style.logo}
-        />
-        <Text style={style.goalType}>Goal: Maintaining Weight</Text>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <Image
-          source={require("../../../assets/Cutting.png")}
-          style={style.logo}
-        />
-        <Text style={style.goalType}>Goal: Loosing Weight</Text>
-      </>
-    );
-  }
-}
+//         <Text style={style.goalType}>Goal: Gaining Weight</Text>
+//       </>
+//     );
+//   } else if (currentUser.currentWeight === currentUser.targetWeight) {
+//     return (
+//       <>
+//         <Image
+//           source={require("../../../assets/logo.png")}
+//           style={style.logo}
+//         />
+//         <Text style={style.goalType}>Goal: Maintaining Weight</Text>
+//       </>
+//     );
+//   } else {
+//     return (
+//       <>
+//         <Image
+//           source={require("../../../assets/Cutting.png")}
+//           style={style.logo}
+//         />
+//         <Text style={style.goalType}>Goal: Loosing Weight</Text>
+//       </>
+//     );
+//   }
+// }
 
 export default function GoalPage() {
   const [targetWeight, setTargetWeight] = useState("0");
   const [hydration, setHydration] = useState("0");
   const [difficulty, setDiffuclty] = useState("500");
   const [activity, setActivity] = useState("1.2");
+  const [displayGoalKey, setDisplayGoalKey] = useState(0);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -57,21 +58,27 @@ export default function GoalPage() {
         const StringTargetWeight = userData.targetWeight.toString();
 
         // // Check if userData.dailyWater exists before calling toString()
-        const StringHydration = userData.dailyWater
-          ? userData.dailyWater.toString()
-          : "0";
-        const selectedHydration = Hydration.find(
-          (item) => item.value === StringHydration
-        );
+        // const StringHydration = userData.dailyWater
+        //   ? userData.dailyWater.toString()
+        //   : "0";
+        // const selectedHydration = Hydration.find(
+        //   (item) => item.value === StringHydration
+        // );
 
-        if (selectedHydration) {
-          setHydration(selectedHydration.label && selectedHydration.value);
-        }
-        // const StringDifficulty = userData.difficultyLevel.toString();
+        // if (selectedHydration) {
+        //   setHydration(selectedHydration.label && selectedHydration.value);
+        // }
+
+        const StringDifficulty = userData.difficultyLevel.toString();
+        const selectedDifficulty = Difficulty.find(
+          (item) => item.value === StringDifficulty
+        );
         // const StringActivity = userData.activityLevel.toString();
         setTargetWeight(StringTargetWeight);
         // setHydration(StringHydration); // No need for the additional check here
-        // setDiffuclty(StringDifficulty);
+        setDiffuclty(
+          (selectedDifficulty.label && selectedDifficulty.value) || "500"
+        );
 
         // setActivity(StringActivity);
       } catch (error) {
@@ -80,12 +87,12 @@ export default function GoalPage() {
     };
 
     fetchUser();
-  }, []);
+  }, [displayGoalKey]);
 
   const handleSavePress = async () => {
-    const newdifficulty = parseFloat(difficulty);
-    const newactivity = parseFloat(activity);
-    const newhydration = parseFloat(hydration);
+    const newdifficulty = parseInt(difficulty);
+    const newactivity = parseInt(activity);
+    const newhydration = parseInt(hydration);
     const newtargetWeight = parseFloat(targetWeight);
     try {
       const response = await fetch(
@@ -103,6 +110,7 @@ export default function GoalPage() {
       );
       console.log(response);
       if (response.ok) {
+        setDisplayGoalKey(displayGoalKey + 1);
         Alert.alert("Success", "Your Goals have been updated.");
       } else {
         Alert.alert("Error", "Failed to update your goals. Please try again.");
@@ -111,6 +119,40 @@ export default function GoalPage() {
       Alert.alert(
         "Error",
         "Failed to update your goals. Please check your network connection and try again."
+      );
+    }
+  };
+
+  const displayGoal = () => {
+    if (currentUser.currentWeight < currentUser.targetWeight) {
+      return (
+        <>
+          <Image
+            source={require("../../../assets/Bulking.png")}
+            style={style.logo}
+          />
+          <Text style={style.goalType}>Goal: Gaining Weight</Text>
+        </>
+      );
+    } else if (currentUser.currentWeight === currentUser.targetWeight) {
+      return (
+        <>
+          <Image
+            source={require("../../../assets/logo.png")}
+            style={style.logo}
+          />
+          <Text style={style.goalType}>Goal: Maintaining Weight</Text>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Image
+            source={require("../../../assets/Cutting.png")}
+            style={style.logo}
+          />
+          <Text style={style.goalType}>Goal: Losing Weight</Text>
+        </>
       );
     }
   };
@@ -197,11 +239,11 @@ export default function GoalPage() {
   return (
     <ScrollView style={style.container}>
       {displayGoal()}
-      <TextInput
+      {/* <TextInput
         style={style.inputContainer}
         value={"Current streak: " + currentUser.currentStreak.toString()}
         editable={false}
-      />
+      /> */}
 
       <NumericInput
         label="Target Weight"
