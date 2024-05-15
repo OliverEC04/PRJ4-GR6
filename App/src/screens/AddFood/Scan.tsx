@@ -176,6 +176,13 @@ export default function App() {
     }
   };
 
+
+  const setscanendfalsemethod = () => {
+    setScanned(false);
+    setScannedBarcode(null);
+    setFoodInfo(null);
+
+  }
   const handleAddNewFood = async () => {
     try {
         const response = await fetch(`http://rottehjem.duckdns.org:5000/api/Barcode/AddMealWithBarcode?BarcodeId=${scannedBarcode}&mealName=${foodName}&calories=${calories}&protein=${protein}&carbs=${carbs}&fat=${fat}`, {
@@ -258,7 +265,7 @@ export default function App() {
           </View>
         )
       )}
-      <Btn onClick={() => setScanned(false)} text='Scan Again?' style={styles.buttons}/>
+      <Btn onClick={setscanendfalsemethod} text='Scan Again?' style={styles.buttons}/>
     {/* Modal */}
     <Modal
         animationType="slide"
