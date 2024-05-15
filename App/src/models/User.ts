@@ -22,6 +22,8 @@ export class User {
     public token: string = "";
     public currentDailyDate: Date = new Date();
     public currentStreak: number = 0;
+    public profilePicture: string = "";
+    public id: string = "";
 
     constructor(email: string, fullName: string) {
         this.email = email;

@@ -6,13 +6,6 @@ const style = StyleSheet.create({
     padding: 20,
     backgroundColor: "white",
   },
-  profilePic: {
-    width: 150,
-    height: 150,
-    borderRadius: 100,
-    alignSelf: "center",
-    marginBottom: 10,
-  },
   dropdown: {
     borderColor: "darkgray",
     borderWidth: 1,

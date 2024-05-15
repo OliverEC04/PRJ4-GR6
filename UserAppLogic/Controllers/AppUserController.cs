@@ -114,6 +114,8 @@ namespace AppUserBackend.Controllers
                     appUser.StreakIncremented,
                     appUser.CurrentStreak,
                     appUser.Age,
+                    appUser.DailyWater,
+                    appUser.Id,
                 };
 
                 return result;
