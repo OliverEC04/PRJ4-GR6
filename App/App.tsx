@@ -8,25 +8,47 @@ import { AppRegistry } from 'react-native';
 import HomeScreen from './src/screens/Home';
 import LoginPage from './src/screens/LoginPage/LoginPage';
 import InitialPage from './src/screens/InitialPage';
+import { useState } from 'react';
 
 AppRegistry.registerComponent('main', () => App);
 const Stack = createNativeStackNavigator();
 
+
 export default function App()
 {
+	
 	return (
 		<>
 			<StatusBar/>
 			<View style={styles.appBar}></View>
 			<NavigationContainer>
-				<TabFooter/>
-				{/* <Stack.Navigator>
-					<Stack.Screen name="Home" component={HomeScreen} />
-					<Stack.Screen name="LoginPage" component={LoginPage} />
-					<Stack.Screen name="InitialPage" component={InitialPage} />
-				</Stack.Navigator> */}
+				<TabFooter
+					// setRenderFooter={setRenderFooter}
+					// setRenderLogin={setRenderLogin}
+				/>
+				{/* {renderLogin && (
+					<Stack.Navigator initialRouteName="InitialPage">
+						<Stack.Screen
+							name="LoginPage"
+							component={LoginPage}
+							initialParams={{
+								setRenderFooter: setRenderFooter,
+								setRenderLogin: setRenderLogin
+							}}
+						/>
+						<Stack.Screen
+							name="LoginPage"
+							component={() => (
+								<LoginPage
+									setRenderFooter={setRenderFooter}
+									setRenderLogin={setRenderLogin}
+								/>
+							)}
+						/>
+						<Stack.Screen name="InitialPage" component={InitialPage}/>
+					</Stack.Navigator>
+				)} */}
 			</NavigationContainer>
-			
 		</>
 	);
 }
@@ -39,3 +61,20 @@ const styles = StyleSheet.create({
 
 	},
 });
+
+// export function setRenderStates(isLoggedIn: boolean) {
+// 	setRenderFooter(isLoggedIn);
+// 	setRenderLogin(!isLoggedIn);
+//   }
+
+// function userLoggedIn(setRenderFooter: React.Dispatch<React.SetStateAction<boolean>>, setRenderLogin: React.Dispatch<React.SetStateAction<boolean>>){
+// 	setRenderFooter(true);
+// 	setRenderLogin(false);
+// }
+
+// function userNotLoggedIn(setRenderFooter: React.Dispatch<React.SetStateAction<boolean>>, setRenderLogin: React.Dispatch<React.SetStateAction<boolean>>){
+// 	setRenderFooter(false);
+// 	setRenderLogin(true);
+// }
+
+// export {userLoggedIn, userNotLoggedIn};

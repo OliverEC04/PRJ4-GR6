@@ -1,17 +1,41 @@
 import { View, Text, TextInput, Image } from "react-native";
 import { textStyles } from "../../styles/textStyles";
-import { useState } from "react";
+import { SetStateAction, useState, Dispatch } from "react";
 import { currentUser } from "../../models/User";
 import Server from "../../models/Server";
 import Btn from "../../components/Btn";
 import TextBox from "../../components/TextBox";
-// import { useNavigation } from "@react-navigation/native";
-// import { NavigationProp, ParamListBase } from '@react-navigation/native';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
+// import { Dispatch } from "redux";
+// import { userLoggedIn, userNotLoggedIn } from "../../../App"
 
+type LoginPageProps = {
+  // setRenderFooter: Dispatch<SetStateAction<boolean>>,
+  // setRenderLogin: Dispatch<SetStateAction<boolean>>,
+  navigation: any,
+  setRenderFooter: any,
+  setRenderLogin: any,
+};
 
-export default function LoginPage({ navigation }: any) {
+// export default function LoginPage({navigation} : any,{
+  export default function LoginPage({
+  navigation,
+  setRenderFooter,
+  setRenderLogin,
+}: LoginPageProps
+) {
+
+  function callSetRenderFooter() {
+    console.log("Rendering footer");
+    setRenderFooter(true);
+    setRenderLogin(false);
+  }
+
+  function callSetRenderLogin() {
+    console.log("Rendering loginpage");
+    setRenderFooter(false);
+    setRenderLogin(true);
+  }
+
 
   // const navigation = useNavigation();
   
@@ -28,26 +52,35 @@ export default function LoginPage({ navigation }: any) {
 
   const handleLogin = async () => {
     await Server.loginUser(email, password)
-    .then(() => {
-      if (currentUser.token) {
-        console.log("Login successful");
-        navigation.navigate('Home');
-        // ChangePage();
-        // route
-      }
-      else {
-        console.log("Login failed");
-        // navigation.navigate('InitialPage');
-        // console.log("Login failed, banishing user to the shadow realm");
-      }
-    })
+      .then(() => {
+        if (currentUser.token) {
+          console.log("Login successful");
+          navigation.navigate('Home');
+          callSetRenderFooter();
+          // ChangePage();
+          // route
+        }
+        else {
+          console.log("Login failed");
+          alert("Login failed");
+          // navigation.navigate('InitialPage');
+          // console.log("Login failed, banishing user to the shadow realm");
+        }
+      })
     // when finished:
     // navigate til "Home";
     // skal den bare kalde en ny functon?
   };
 
+  function testNavigation(){
+    // navigation.navigate('Home');
+  }
+
+
   function onHandleLogout() : void {
     Server.logoutUser();
+
+    callSetRenderLogin();
     // navigate til "LoginPage";
   }
 
@@ -55,6 +88,7 @@ export default function LoginPage({ navigation }: any) {
     console.log("token: ");
     console.log(currentUser.token);
   };
+
 
   return (
     <View>
