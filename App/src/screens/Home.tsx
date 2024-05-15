@@ -11,9 +11,9 @@ import { useFocusEffect } from '@react-navigation/native';
 function getCalGoal(user: User) {
 	let bmr;
 
-	if (user.gender === 'Male') {
+	if (user.gender === 'male') {
 		bmr = 10 * user.currentWeight + 6.25 * user.height - 5 * user.age + 5;
-	} else if (user.gender === 'Female') {
+	} else if (user.gender === 'female') {
 		bmr = 10 * user.currentWeight + 6.25 * user.height - 5 * user.age - 161;
 	} else {
 		console.warn('Received gender does not exist, cannot calculate BMR.');
@@ -60,6 +60,7 @@ export default function Home() {
 
 	useFocusEffect(
 		React.useCallback(() => {
+			// If not logged in, ask user to log in and dont get user
 			if (!currentUser.token) {
 				setName('please log in');
 				return;
