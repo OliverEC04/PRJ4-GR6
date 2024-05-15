@@ -19,8 +19,8 @@ namespace UserBackend.Data.Models
         [Range(0, double.MaxValue, ErrorMessage = "Current weight must be a positive number.")]
         public double? CurrentWeight { get; set; }
         
-        [Range(0, double.MaxValue, ErrorMessage = "Target weight must be a positive number.")]
-        public double? TargetWeight { get; set; }
+        [Range(0, float.MaxValue, ErrorMessage = "Target weight must be a positive number.")]
+        public float? TargetWeight { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage = "Activity level must be between 1 and 1,9.")]
         public int activityLevel { get; set; }

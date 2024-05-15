@@ -64,12 +64,12 @@ namespace AppUserBackend.Controllers
 
                 }
 
-                if(now > appUser.currentDailyDate.AddSeconds(15) && now < appUser.currentDailyDate.AddMinutes(30))
+                if(now > appUser.currentDailyDate.AddMinutes(15) && now < appUser.currentDailyDate.AddMinutes(30))
                 {
                     appUser.StreakIncremented = false;
                 }
                 
-                if(now > appUser.currentDailyDate.AddSeconds(30))
+                if(now > appUser.currentDailyDate.AddMinutes(30))
                 {
                     appUser.CurrentStreak = 1;
                     appUser.currentDailyDate = now;
@@ -356,7 +356,7 @@ namespace AppUserBackend.Controllers
         //fill out form 
         [HttpPut("FillOutForm")]
         [Authorize("User")]
-        public async Task<IActionResult> FillOutForm(string Gender, double Height, double TargetWeight, double Weight, int avtivityLevel, int difficultyLevel, int DailyWater, int age)
+        public async Task<IActionResult> FillOutForm(string Gender, double Height, float  TargetWeight, double Weight, int avtivityLevel, int difficultyLevel, int DailyWater, int age)
         {
             try
             {
