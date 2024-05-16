@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     camera: {
-      marginBottom: -5,
       height: '100%',
       width: '100%',
     },
@@ -23,8 +22,19 @@ const styles = StyleSheet.create({
       maxHeight: 400,
     },
     resultText: {
-      fontSize: 14,
-      fontFamily: 'monospace',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      borderColor: 'gray',
+      alignSelf: 'center',
+      width: '87%',
+      height: 45,
+      backgroundColor: 'white',
+      borderWidth: 1,
+      borderRadius: 5,
+      paddingVertical: 5,
+      paddingHorizontal: 15,
+      marginBottom: 10,
     },
     buttonContainer: {
       flexDirection: 'row',
@@ -32,10 +42,19 @@ const styles = StyleSheet.create({
       alignItems: 'center',
   },
     EnterButton: {
-      backgroundColor: '#61AFEF', 
-      width: "45%",
       borderRadius: 20,
+      marginBottom: 50,
+      backgroundColor: "black",
+      width: "45%",
+      height: 50,
   }, 
+  calculatebutton: {
+    borderRadius: 20,
+    marginBottom: 50,
+    backgroundColor: "#61AFEF",
+    width: "45%",
+    height: 50,
+}, 
   
   barcodeText: {
     fontSize: 18,
@@ -43,7 +62,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
    container2: {
-    marginBottom: -5,
+    flex: 1,
     height: '100%',
     width: '100%',
     },
@@ -81,10 +100,11 @@ const styles = StyleSheet.create({
       textAlign: 'center',
     },
     buttons:{
-      alignSelf: "center",
+      alignSelf: "flex-end",
       width: '100%',
+      marginRight: 0,
+      marginBottom: 0,
       borderRadius: 0,
-      marginBottom: 50,
       backgroundColor: "black",
       height: 70,
     }
