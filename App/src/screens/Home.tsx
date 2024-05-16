@@ -60,7 +60,7 @@ export default function Home() {
 
 	useFocusEffect(
 		React.useCallback(() => {
-			// If not logged in, ask user to log in and dont get user
+			// If not logged in, ask user to log in and dont get user.
 			if (!currentUser.token) {
 				setName('please log in');
 				return;
