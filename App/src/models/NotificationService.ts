@@ -30,11 +30,11 @@ const generateNotification = async () => {
   }
 };
 
-export const startNotificationService = () => {
+export const startNotification = () => {
   requestPermissions();
   const interval = setInterval(() => {
     generateNotification();
-  }, 60000); // 60000 ms = 1 min
+  }, 30000); // 60000 ms = 1 min
 
   return () => clearInterval(interval); 
 };

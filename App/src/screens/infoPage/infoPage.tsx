@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, Image, ScrollView, Alert } from "react-native";
+import { View, Text, Image, ScrollView } from "react-native";
 import style from "../../styles/infoStyle";
 import { Dropdown } from "react-native-element-dropdown";
 import TextField from "../../components/TextField";
@@ -33,7 +33,7 @@ export default function InfoPage() {
           setHeight(userData.height || 0);
           setCurrentWeight(userData.currentWeight || 0);
           setAge(userData.age || 0);
-          setGender((userData.gender && userData.gender.toLocaleLowerCase()) || "------");
+          setGender((userData.gender) || "------");
           setUsername(currentUser.fullName);
           getUserid(userData.id);
           const temp = await Server.fetchImage(userData.id);
@@ -78,9 +78,6 @@ export default function InfoPage() {
       />
     </View>
   );
-  
-
-
 
   return (
     <ScrollView style={style.container}>

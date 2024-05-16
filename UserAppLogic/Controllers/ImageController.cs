@@ -7,6 +7,7 @@ using System.IO;
 using BarcodeAPI.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace AppUserBackend.Controllers
@@ -43,7 +44,7 @@ namespace AppUserBackend.Controllers
                         return NotFound("Username not found in claims.");
                     }
         
-                    var appUser = await _userManager.FindByNameAsync(userName);
+                    var appUser = await _userManager.Users.Include(u => u.Image).SingleOrDefaultAsync(u => u.UserName == userName);
         
                     if (appUser == null)
                     {
@@ -76,6 +77,9 @@ namespace AppUserBackend.Controllers
                         appUser.Image = imageEntity;
                         db.Images.Add(imageEntity);
                     }
+        
+                    // Update the AppUser entity
+                    db.Users.Update(appUser);
         
                     // Save the changes in your DbContext
                     await db.SaveChangesAsync();
