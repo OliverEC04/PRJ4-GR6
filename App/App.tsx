@@ -8,7 +8,7 @@ import { AppRegistry } from 'react-native';
 import Server from './src/models/Server';
 import { startNotification } from './src/models/NotificationService';
 
-//LogBox.ignoreAllLogs(); // Removes all in-app warnings, disable when debugging
+LogBox.ignoreAllLogs(); // Removes all in-app warnings, disable when debugging
 
 AppRegistry.registerComponent('main', () => App);
 const Stack = createNativeStackNavigator();
