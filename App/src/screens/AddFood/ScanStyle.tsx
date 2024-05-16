@@ -7,17 +7,8 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
-    cameraContainer: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: 300,
-      width: 300,
-      overflow: 'hidden',
-      borderRadius: 30,
-      backgroundColor: 'tomato',
-      marginBottom: 20,
-    },
     camera: {
+      marginBottom: -5,
       height: '100%',
       width: '100%',
     },
@@ -51,6 +42,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignSelf: 'center',
   },
+   container2: {
+    marginBottom: -5,
+    height: '100%',
+    width: '100%',
+    },
+    horizontal: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        padding: 10,
+    },
   cancelButton: {
       backgroundColor: '#E06C75', 
       width: "45%",
@@ -66,9 +67,8 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
       borderRadius: 10,
       width: '90%', 
-      maxHeight: '85%', 
-      paddingBottom: 10,  
-      paddingTop: 10,
+      height: '85%', 
+     
       borderWidth: 1,
       borderColor: "black",
   
@@ -79,6 +79,14 @@ const styles = StyleSheet.create({
       includeFontPadding: false,
       textDecorationLine: 'underline',
       textAlign: 'center',
+    },
+    buttons:{
+      alignSelf: "center",
+      width: '100%',
+      borderRadius: 0,
+      marginBottom: 50,
+      backgroundColor: "black",
+      height: 70,
     }
   });
 

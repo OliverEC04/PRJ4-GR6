@@ -7,7 +7,6 @@ import server from '../models/Server';
 import { currentUser, User } from '../models/User';
 import PopupField from '../components/PopupField';
 import { useFocusEffect } from '@react-navigation/native';
-import Welcome from './Welcome';
 
 function getCalGoal(user: User) {
 	let bmr;
@@ -22,9 +21,9 @@ function getCalGoal(user: User) {
 	}
 
 	if (user.currentWeight < user.targetWeight) {
-		return bmr * user.activityLevel + user.difficultyLevel;
+		return bmr * (user.activityLevel / 100) + user.difficultyLevel;
 	} else {
-		return bmr * user.activityLevel - user.difficultyLevel;
+		return bmr * (user.activityLevel / 100) - user.difficultyLevel;
 	}
 }
 
@@ -208,7 +207,6 @@ export default function Home() {
 
 	return (
 		<View style={HomeStyle.container}>
-			{/* <Welcome /> */}
 			{logo}
 			{text}
 			{calBar}

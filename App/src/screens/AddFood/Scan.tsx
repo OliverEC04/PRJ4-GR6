@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button, Modal, ScrollView, Alert } from 'react-native';
+import { Text, View, StyleSheet, Button, Modal, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import { currentUser } from '../../models/User';
 import { useIsFocused } from '@react-navigation/native';
@@ -176,6 +176,13 @@ export default function App() {
     }
   };
 
+
+  const setscanendfalsemethod = () => {
+    setScanned(false);
+    setScannedBarcode(null);
+    setFoodInfo(null);
+
+  }
   const handleAddNewFood = async () => {
     try {
         const response = await fetch(`http://rottehjem.duckdns.org:5000/api/Barcode/AddMealWithBarcode?BarcodeId=${scannedBarcode}&mealName=${foodName}&calories=${calories}&protein=${protein}&carbs=${carbs}&fat=${fat}`, {
@@ -221,15 +228,17 @@ export default function App() {
   return (
     <View style={styles.container}> 
       {!scanned && isFocused && hasPermission && (
-        <View style={styles.cameraContainer}>
+        
           <Camera
             onBarCodeScanned={handleBarCodeScanned}
             style={styles.camera}
           />
-        </View>
+ 
       )}
       {loading ? (
-        <Text>Loading...</Text>
+        <View style={[styles.container2, styles.horizontal]}>
+        <ActivityIndicator size="large" color="blue" />
+        </View>
       ) : (
         foodInfo && (
           <View style={styles.resultContainer}>
@@ -258,7 +267,7 @@ export default function App() {
           </View>
         )
       )}
-      <Button title={'Scan again?'} onPress={() => setScanned(false)} color="tomato" />
+      <Btn onClick={setscanendfalsemethod} text='Scan Again?' style={styles.buttons}/>
     {/* Modal */}
     <Modal
         animationType="slide"
