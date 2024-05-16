@@ -106,7 +106,7 @@ export default function SignUpPage({
 				password={true}
 			/>
 			<Btn
-				style={textStyles.button}
+				style={textStyles.button2}
 				text='Sign up'
 				onClick={createNewUser}
 			/>
