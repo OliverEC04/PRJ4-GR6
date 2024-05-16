@@ -34,7 +34,7 @@ export const startNotification = () => {
   requestPermissions();
   const interval = setInterval(() => {
     generateNotification();
-  }, 60000); // 60000 ms = 1 min
+  }, 21600000); // 60000 ms = 1 min, 21600000 ms = 6 h
 
   return () => {
     console.log('Clearing notification interval');
