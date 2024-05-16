@@ -75,6 +75,7 @@ namespace UserBackend.Data.Models
         public DateTime currentResetDate { get; set; }
 
         public ICollection<Barcode> Barcodes { get; set;} = new List<Barcode>();
-        public ImageEntity Image { get; set; }
+        public int ImageId { get; set; }
+        public ImageEntity? Image { get; set; }
     }
 }

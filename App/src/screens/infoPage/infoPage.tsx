@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, Image, ScrollView, Alert } from "react-native";
+import { View, Text, TextInput, Image, ScrollView, Alert, ActivityIndicator } from "react-native";
 import style from "../../styles/infoStyle";
 import { Dropdown } from "react-native-element-dropdown";
 import TextField from "../../components/TextField";
@@ -17,7 +17,8 @@ export default function InfoPage() {
   const [gender, setGender] = useState("------");
   const [username, setUsername] = useState("");
   const [profilePicture, setProfilePicture] = useState<string | null>("");  const [id, getUserid] = useState("");
-  
+  const [isLoading, setIsLoading] = useState(true);
+
   const placeholder = 'https://toppng.com/public/uploads/preview/instagram-default-profile-picture-11562973083brycehrmyv.png';
 
   const allGenders = [
@@ -28,6 +29,7 @@ export default function InfoPage() {
     useEffect(() => {
       const fetchUser = async () => {
         try {
+          setIsLoading(true);
           const userData = await Server.getUserInfo();
           currentUser.update(userData);
           setHeight(userData.height || 0);
@@ -36,8 +38,8 @@ export default function InfoPage() {
           setGender((userData.gender && userData.gender.toLocaleLowerCase()) || "------");
           setUsername(currentUser.fullName);
           getUserid(userData.id);
-          const temp = await Server.fetchImage(userData.id);
-          setProfilePicture(temp);
+            await Server.fetchImage(userData.id).then((image) => setProfilePicture(image || placeholder));
+          setIsLoading(false);
       } catch (error) {
           console.error("fetch failed: ", error);
         }
@@ -83,44 +85,52 @@ export default function InfoPage() {
 
 
   return (
-    <ScrollView style={style.container}>
-      <Avatar
-        imageUrl={profilePicture ? profilePicture : placeholder}
-        altText={"Profile Picture"}
-        isEditing={isEditing}
-      />
-      <Text style={textStyles.userName}>{currentUser.fullName}</Text>
-      <Text style={textStyles.goalType}>Goal: {findGoal()}</Text>
+  <ScrollView style={style.container}>
+    {isLoading ? (
+      <ActivityIndicator size="large" color="#0000ff" className="load"/> 
+    ) : (
+      <>
+        {profilePicture && (
+          <Avatar
+            imageUrl={profilePicture}
+            altText={"Profile Picture"}
+            isEditing={isEditing}
+          />
+        )}
+        <Text style={textStyles.userName}>{currentUser.fullName}</Text>
+        <Text style={textStyles.goalType}>Goal: {findGoal()}</Text>
 
-      <TextField
-        label="Height"
-        value={(height || '').toString()}
-        setValue={setHeight}
-        units="cm"
-        isEditing={isEditing}
-      />
-      <TextField
-        label="Current Weight"
-        value={(currentWeight || '').toString()}
-        setValue={setCurrentWeight}
-        units="kg"
-        isEditing={isEditing}
-      />
-      <TextField
-        label="Age"
-        value={(age || '').toString()}
-        setValue={setAge}
-        units="years"
-        isEditing={isEditing}
-      />
-      {renderGenderDropdown()}
-      <View style={[{ alignItems: "center" }]}>
-        <Btn
-          text={isEditing ? "Save" : "Edit Profile"}
-          onClick={handleSavePress}
-          style={style.button}
+        <TextField
+          label="Height"
+          value={(height || '').toString()}
+          setValue={setHeight}
+          units="cm"
+          isEditing={isEditing}
         />
-      </View>
-    </ScrollView>
-  );
+        <TextField
+          label="Current Weight"
+          value={(currentWeight || '').toString()}
+          setValue={setCurrentWeight}
+          units="kg"
+          isEditing={isEditing}
+        />
+        <TextField
+          label="Age"
+          value={(age || '').toString()}
+          setValue={setAge}
+          units="years"
+          isEditing={isEditing}
+        />
+        {renderGenderDropdown()}
+        <View style={[{ alignItems: "center" }]}>
+          <Btn
+            text={isEditing ? "Save" : "Edit Profile"}
+            onClick={handleSavePress}
+            style={style.button}
+          />
+        </View>
+      </>
+    )}
+  </ScrollView>
+);
 }

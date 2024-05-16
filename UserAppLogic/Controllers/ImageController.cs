@@ -75,6 +75,7 @@ namespace AppUserBackend.Controllers
         
                         // Add the new Image entity in your DbContext
                         appUser.Image = imageEntity;
+                        appUser.ImageId = imageEntity.Id;
                         db.Images.Add(imageEntity);
                     }
         
@@ -101,7 +102,9 @@ namespace AppUserBackend.Controllers
             Console.WriteLine($"User ID: {id}");
         
             // Retrieve the Image entity from the database
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.Users
+                .Include(u => u.Image) 
+                .SingleOrDefaultAsync(u => u.Id == id);
         
             // Log the result of FindByIdAsync
             Console.WriteLine($"FindByIdAsync result: {user}");
@@ -151,30 +154,30 @@ namespace AppUserBackend.Controllers
         public async Task<IActionResult> DeleteImage()
         {
             var userName = User.FindFirstValue(ClaimTypes.Name);
-
+        
             if (userName == null)
             {
                 return NotFound();
             }
-
+        
             var appUser = await _userManager.FindByNameAsync(userName);
-
+        
             if (appUser == null)
             {
                 return NotFound();
             }
-
-            ImageEntity? imageEntity = appUser.Image;
-
+        
+            // Retrieve the image directly from the Images table using the AppUserId
+            var imageEntity = await db.Images.FirstOrDefaultAsync(i => i.AppUserId == appUser.Id);
+        
             if (imageEntity == null)
             {
                 return NotFound();
             }
-
-            appUser.Image = null;
+        
             db.Images.Remove(imageEntity);
             await db.SaveChangesAsync();
-
+        
             return Ok();
         }
     }

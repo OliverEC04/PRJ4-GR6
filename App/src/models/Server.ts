@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 class Server {
   private url: string;
 
-	constructor(url: string = "http://rottehjem.duckdns.org:5000/") {
+	constructor(url: string = "https://lab-gorgeous-blowfish.ngrok-free.app/") {
 		this.url = url;
 	}
 	// api/me
@@ -248,7 +248,6 @@ class Server {
         return null;
       }
       const blob = await response.blob();
-      console.log(`Blob size: ${blob.size}`);
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onerror = (error) => {
@@ -285,9 +284,6 @@ class Server {
           Authorization: 'Bearer ' + currentUser.token,
         },
       });
-      console.log('Response:', response);
-      console.log('Response status:', response.status);
-      console.log('Response text:', await response.text());
       if (!response.ok) {
         throw new Error(`Failed to upload image with status: ${response.status}`);
       }
@@ -296,6 +292,24 @@ class Server {
       } catch (error) {
         console.error('Error uploading image:', error);
         console.log('Error', `Failed to upload image`);
+      }
+    }
+
+    public async removeImage() {
+      try {
+        const response = await fetch(`${this.url}Image`, {
+          method: 'DELETE',
+          headers: {
+            Authorization: 'Bearer ' + currentUser.token,
+          }
+        });
+        if (!response.ok) {
+          throw new Error(`Failed to remove image with status: ${response.status}`);
+        }
+        console.log('Success', 'Image removed successfully');
+      } catch (error) {
+        console.error('Error removing image:', error);
+        console.log('Error', `Failed to remove image`);
       }
     }
 

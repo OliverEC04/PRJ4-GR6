@@ -39,7 +39,7 @@ namespace UserBackend.Data
                 .HasOne(e => e.Image)
                 .WithOne(e => e.AppUser)
                 .HasForeignKey<ImageEntity>(e => e.AppUserId)
-                .IsRequired(false);
+                .IsRequired();
         }
     }
 }
