@@ -54,7 +54,11 @@ export default function LoginPage({
 			if (currentUser.token) {
 				console.log('Login successful');
 
-				Server.getUserInfo();
+				async (data: any) => {	
+
+					Server.getUserInfo();
+
+				};
 
 				if (currentUser.firsTimeOrNot === 0) {
 					setShowWelcome(true);

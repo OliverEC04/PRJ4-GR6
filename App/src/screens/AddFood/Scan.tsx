@@ -241,7 +241,7 @@ export default function App() {
         </View>
       ) : (
         foodInfo && (
-          <View style={styles.resultContainer}>
+          <View style={[styles.container2]}>
             <Text style={styles.resultText}>Meal Name: {branName}</Text>
             <Text style={styles.resultText}>Calories: {foodInfo.calories}</Text>
             <Text style={styles.resultText}>Protein: {foodInfo.protein}</Text>
@@ -254,8 +254,10 @@ export default function App() {
               keyboardType="numeric"
               unit="g"
             />
-            <Btn onClick={calculateIntake} text='Calculate' style={styles.EnterButton} />
+            <View style={styles.buttonContainer}>
+            <Btn onClick={calculateIntake} text='Calculate' style={styles.calculatebutton} />
             <Btn onClick={updateDailyIntake} text='Enter' style={styles.EnterButton} />
+            </View>
             {intakeInfo && (
               <View>
                 <Text style={styles.resultText}>Calories consumed: {intakeInfo.calories.toFixed(2)}</Text>
