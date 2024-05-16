@@ -70,16 +70,16 @@ export default function GoalPage() {
         // }
         // setHydration(StringHydration); // No need for the additional check here
 
-        // const StringDifficulty = userData.difficultyLevel.toString();
-        // const selectedDifficulty = Difficulty.find(
-        //   (item) => item.value === StringDifficulty
-        // );
+        const StringDifficulty = userData.difficultyLevel.toString();
+        const selectedDifficulty = Difficulty.find(
+          (item) => item.value === StringDifficulty
+        );
 
-        // setDiffuclty(
-        //   (selectedDifficulty.label && selectedDifficulty.value) || "500"
-        // );
-        // const StringActivity = userData.activityLevel.toString();
-        // setActivity(StringActivity);
+        setDiffuclty(
+          (selectedDifficulty.label && selectedDifficulty.value) || "500"
+        );
+        const StringActivity = userData.activityLevel.toString();
+        setActivity(StringActivity);
       } catch (error) {
         console.error("fetch failed: ", error); // Log the error
       }
@@ -234,11 +234,13 @@ export default function GoalPage() {
   return (
     <ScrollView style={style.container}>
       {displayGoal()}
-      { <TextInput
-        style={style.inputContainer}
-        value={"Current streak: " + currentUser.currentStreak.toString()}
-        editable={false}
-      /> }
+      {
+        <TextInput
+          style={style.inputContainer}
+          value={"Current streak: " + currentUser.currentStreak.toString()}
+          editable={false}
+        />
+      }
 
       <NumericInput
         label="Target Weight"

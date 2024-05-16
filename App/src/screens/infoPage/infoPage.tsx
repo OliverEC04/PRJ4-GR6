@@ -35,7 +35,7 @@ export default function InfoPage() {
           setHeight(userData.height || 0);
           setCurrentWeight(userData.currentWeight || 0);
           setAge(userData.age || 0);
-          setGender((userData.gender && userData.gender.toLocaleLowerCase()) || "------");
+          setGender((userData.gender) || "------");
           setUsername(currentUser.fullName);
           getUserid(userData.id);
             await Server.fetchImage(userData.id).then((image) => setProfilePicture(image || placeholder));
@@ -80,9 +80,6 @@ export default function InfoPage() {
       />
     </View>
   );
-  
-
-
 
   return (
   <ScrollView style={style.container}>
