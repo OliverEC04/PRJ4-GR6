@@ -1,5 +1,5 @@
 import React from "react";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, View, Text } from "react-native";
 import { StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import Server from "../models/Server";
@@ -12,6 +12,7 @@ type InitialPageProps = {
     navigation: any,
     setRenderFooter: any,
     setRenderLogin: any,
+    setRenderInitial: any,
 };
 
 export default function InitialPage(
@@ -19,6 +20,7 @@ export default function InitialPage(
     navigation,
     setRenderFooter,
     setRenderLogin,
+    setRenderInitial,
   }: InitialPageProps
 ): React.ReactNode {
 
@@ -33,7 +35,7 @@ export default function InitialPage(
           const result = await Server.checkUserToken().then (result => {
             currentUser.token = result;
             setToken(result);
-            console.log("Awaited token: " + token);
+            console.log("[InitialPage]Awaited token: " + token);
             return result
           });
         };
@@ -54,16 +56,37 @@ export default function InitialPage(
       }
 
     async function loadNextPage(){
-        if (await checkLoggedIn()) // Added parentheses after checkLoggedIn
-        {
-                navigation.navigate('Home');
-                console.log("user logged in, going to homepage")
-        }
-        else
-        {
-                navigation.navigate('LoginPage');
-                console.log("user not logged in, going to loginpage")
-        }
+      console.log("[InitialPage]loadNextPage called");
+        const loggedIn = await checkLoggedIn().then(result => {
+          console.log("[InitialPage]result: " + result + " new token: " + currentUser.token);
+          if (result){
+            navigation.navigate("Home");
+            setRenderFooter(true);
+            setRenderInitial(false);
+            setRenderLogin(false);
+          }
+          
+          else{
+            navigation.navigate("LoginPage");
+            setRenderFooter(false);
+            setRenderInitial(false);
+            setRenderLogin(true);
+          }
+          return result;
+          });
+        // if (loggedIn) // Added parentheses after checkLoggedIn
+        // {
+        //         navigation.navigate('Home');
+        //         setRenderInitial(false);
+        //         console.log("user logged in, going to homepage")
+        // }
+        // else
+        // {
+        //         navigation.navigate('LoginPage');
+        //         setRenderInitial(false);
+        //         // kun render loginpage
+        //         console.log("user not logged in, going to loginpage")
+        // }
     }
 
     function logoutUser(){
@@ -74,8 +97,7 @@ export default function InitialPage(
     }
     
     const debugShowToken = () => {
-      console.log("token: ");
-      console.log(currentUser.token);
+      console.log("[InitialPage]stored token: " + currentUser.token);
     };
   
     return (
@@ -83,20 +105,8 @@ export default function InitialPage(
             {/* <ActivityIndicator />
             <ActivityIndicator size="large" />
             <ActivityIndicator size="small" color="#0000ff" /> */}
+            {/* <Text>Loading...</Text> */}
             <ActivityIndicator size="large" color="blue" />
-            <Btn
-                          style={textStyles.button}
-                          text="Log out"
-                          onClick={() => logoutUser()}
-            >
-            </Btn>
-            <Btn
-                          style={textStyles.button}
-                          text="Debug"
-                          onClick={() => debugShowToken()}
-            >
-
-            </Btn>
         </View>);
 
 }
