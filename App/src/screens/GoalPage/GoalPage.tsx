@@ -58,17 +58,17 @@ export default function GoalPage() {
         console.log("currentUser:", userData.currentStreak); // Log currentUser to inspect its structure
         const StringTargetWeight = userData.targetWeight.toString();
         setTargetWeight(StringTargetWeight);
-        // // Check if userData.dailyWater exists before calling toString()
-        // const StringHydration = userData.dailyWater
-        //   ? userData.dailyWater.toString()
-        //   : "0";
-        // const selectedHydration = Hydration.find(
-        //   (item) => item.value === StringHydration
-        // );
-        // if (selectedHydration) {
-        //   setHydration(selectedHydration.label && selectedHydration.value);
-        // }
-        // setHydration(StringHydration); // No need for the additional check here
+        // Check if userData.dailyWater exists before calling toString()
+        const StringHydration = userData.dailyWater
+          ? userData.dailyWater.toString()
+          : "0";
+        const selectedHydration = Hydration.find(
+          (item) => item.value === StringHydration
+        );
+        if (selectedHydration) {
+          setHydration(selectedHydration.label && selectedHydration.value);
+        }
+        setHydration(StringHydration); // No need for the additional check here
 
         const StringDifficulty = userData.difficultyLevel.toString();
         const selectedDifficulty = Difficulty.find(
@@ -80,6 +80,7 @@ export default function GoalPage() {
         );
         const StringActivity = userData.activityLevel.toString();
         setActivity(StringActivity);
+
       } catch (error) {
         console.error("fetch failed: ", error); // Log the error
       }
