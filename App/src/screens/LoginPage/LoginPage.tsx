@@ -55,17 +55,17 @@ export default function LoginPage({
 		await Server.loginUser(email, password).then(() => {
 			if (currentUser.token) {
 				console.log('Login successful');
-				Server.getUserInfo();
-				setRenderInitial(false);
-				if (currentUser.firsTimeOrNot === 0) {
-					setShowWelcome(true);
-					navigation.navigate('Welcome');
-				} else navigation.navigate('Home');
-
-				callSetRenderFooter();
-				// ChangePage();
-				// route
-			} else {
+				Server.getUserInfo().then((response) => {
+					setRenderInitial(false);
+					if (currentUser.firsTimeOrNot === 0) {
+						setShowWelcome(true);
+						navigation.navigate('Welcome');
+					} else navigation.navigate('Home');
+	
+					callSetRenderFooter();
+				});
+			} 
+			else {
 				console.log('Login failed');
 				alert('Login failed');
 				// navigation.navigate('InitialPage');
