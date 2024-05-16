@@ -64,10 +64,7 @@ export default function LoginPage({
 
 				Server.getUserInfo().then((response) => {
 					setRenderInitial(false);
-					if (currentUser.firsTimeOrNot === 0) {
-						setShowWelcome(true);
-						navigation.navigate('Welcome');
-					} else navigation.navigate('Home');
+				 navigation.navigate('Home');
 	
 					callSetRenderFooter();
 				});
