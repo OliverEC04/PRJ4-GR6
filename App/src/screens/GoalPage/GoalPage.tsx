@@ -7,47 +7,45 @@ import { currentUser } from "../../models/User";
 import Btn from "../../components/Btn";
 import Server from "../../models/Server";
 
-// function displayGoal() {
-//   if (currentUser.currentWeight < currentUser.targetWeight) {
-//     return (
-//       <>
-//         <Image
-//           source={require("../../../assets/Bulking.png")}
-//           style={style.logo}
-//         />
-
-//         <Text style={style.goalType}>Goal: Gaining Weight</Text>
-//       </>
-//     );
-//   } else if (currentUser.currentWeight === currentUser.targetWeight) {
-//     return (
-//       <>
-//         <Image
-//           source={require("../../../assets/logo.png")}
-//           style={style.logo}
-//         />
-//         <Text style={style.goalType}>Goal: Maintaining Weight</Text>
-//       </>
-//     );
-//   } else {
-//     return (
-//       <>
-//         <Image
-//           source={require("../../../assets/Cutting.png")}
-//           style={style.logo}
-//         />
-//         <Text style={style.goalType}>Goal: Loosing Weight</Text>
-//       </>
-//     );
-//   }
-// }
-
 export default function GoalPage() {
   const [targetWeight, setTargetWeight] = useState("0");
   const [hydration, setHydration] = useState("0");
   const [difficulty, setDiffuclty] = useState("500");
   const [activity, setActivity] = useState("120");
   const [displayGoalKey, setDisplayGoalKey] = useState(0);
+
+  const Difficulty = [
+    { label: "Easy", value: "250" },
+    { label: "Normal", value: "500" },
+    { label: "Hard", value: "750" },
+  ];
+
+  const Activity = [
+    { label: "Sedentary (little to no exercise)", value: "120" },
+    {
+      label: "Lightly active (light exercise or sports 1-3 days a week)",
+      value: "138",
+    },
+    {
+      label: "Moderately active (moderate exercise or sports 3-5 days a week)",
+      value: "155",
+    },
+    {
+      label: "Very active (hard exercise or sports 6-7 days a week)",
+      value: "173",
+    },
+    {
+      label:
+        "Super active (very hard exercise and a physical job or training twice a day)",
+      value: "190",
+    },
+  ];
+
+  const Hydration = [
+    { label: "1 Litre", value: "1" },
+    { label: "2 Litre", value: "2" },
+    { label: "3 Litre", value: "3" },
+  ];
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -57,30 +55,24 @@ export default function GoalPage() {
         currentUser.update(userData);
         console.log("currentUser:", userData.currentStreak); // Log currentUser to inspect its structure
         const StringTargetWeight = userData.targetWeight.toString();
-        setTargetWeight(StringTargetWeight);
-        // Check if userData.dailyWater exists before calling toString()
-        const StringHydration = userData.dailyWater
-          ? userData.dailyWater.toString()
-          : "0";
+        const StringActivity = userData.activityLevel.toString();
+        const StringHydration = userData.dailyWater.toString();
+
         const selectedHydration = Hydration.find(
           (item) => item.value === StringHydration
         );
         if (selectedHydration) {
           setHydration(selectedHydration.label && selectedHydration.value);
         }
-        setHydration(StringHydration); // No need for the additional check here
-
         const StringDifficulty = userData.difficultyLevel.toString();
         const selectedDifficulty = Difficulty.find(
           (item) => item.value === StringDifficulty
         );
-
+        setTargetWeight(StringTargetWeight);
         setDiffuclty(
           (selectedDifficulty.label && selectedDifficulty.value) || "500"
         );
-        const StringActivity = userData.activityLevel.toString();
         setActivity(StringActivity);
-
       } catch (error) {
         console.error("fetch failed: ", error); // Log the error
       }
@@ -153,12 +145,6 @@ export default function GoalPage() {
     }
   };
 
-  const Difficulty = [
-    { label: "Easy", value: "250" },
-    { label: "Normal", value: "500" },
-    { label: "Hard", value: "750" },
-  ];
-
   const renderDifficultyDropdown = () => (
     <View style={style.entry}>
       <Dropdown
@@ -175,26 +161,6 @@ export default function GoalPage() {
     </View>
   );
 
-  const Activity = [
-    { label: "Sedentary (little to no exercise)", value: "120" },
-    {
-      label: "Lightly active (light exercise or sports 1-3 days a week)",
-      value: "138",
-    },
-    {
-      label: "Moderately active (moderate exercise or sports 3-5 days a week)",
-      value: "155",
-    },
-    {
-      label: "Very active (hard exercise or sports 6-7 days a week)",
-      value: "173",
-    },
-    {
-      label:
-        "Super active (very hard exercise and a physical job or training twice a day)",
-      value: "190",
-    },
-  ];
   const renderActivityDropdown = () => (
     <View style={style.entry}>
       <Dropdown
@@ -210,11 +176,6 @@ export default function GoalPage() {
       />
     </View>
   );
-  const Hydration = [
-    { label: "1 Litre", value: "1" },
-    { label: "2 Litre", value: "2" },
-    { label: "3 Litre", value: "3" },
-  ];
 
   const renderHydrationDropdown = () => (
     <View style={style.entry}>
@@ -248,7 +209,6 @@ export default function GoalPage() {
         value={targetWeight}
         setValue={setTargetWeight}
         units="kg"
-        // key={displayGoalKey}
       />
 
       {renderDifficultyDropdown()}
