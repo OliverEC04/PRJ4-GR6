@@ -87,7 +87,13 @@ export default function TabFooter() {
 				<Tab.Screen
 					name='Welcome'
 					component={() => (
-						<Welcome setShowWelcome={setShowWelcome} navigation={navigation} setRenderFooter={setRenderFooter} setRenderLogin={setRenderLogin} />
+						<Welcome
+							showWelcome={showWelcome}
+							setShowWelcome={setShowWelcome}
+							navigation={navigation}
+							setRenderFooter={setRenderFooter}
+							setRenderLogin={setRenderLogin}
+						/>
 					)}
 					options={{
 						tabBarLabel: 'Welcome',

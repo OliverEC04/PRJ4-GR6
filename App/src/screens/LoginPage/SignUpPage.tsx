@@ -60,10 +60,11 @@ export default function SignUpPage({
 		Server.registerUser(username, password, email).then(() => {
 			Server.loginUser(email, password).then(() => {
 				setShowWelcome(true);
-				navigation.navigate('Welcome');
+				setTimeout(() => {
+					navigation.navigate('Welcome');
+				}, 1000);
 				//setRenderFooter(true);
-				setRenderLogin(false);
-				
+				//setRenderLogin(false);
 			});
 		});
 	}
