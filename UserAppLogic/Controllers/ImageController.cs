@@ -77,6 +77,9 @@ namespace AppUserBackend.Controllers
                         db.Images.Add(imageEntity);
                     }
         
+                    // Update the AppUser entity
+                    db.Users.Update(appUser);
+        
                     // Save the changes in your DbContext
                     await db.SaveChangesAsync();
                     return StatusCode(201, $"Image has been uploaded.");
