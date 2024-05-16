@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     camera: {
-      height: '100%',
+      height: '90%',
       width: '100%',
     },
     resultContainer: {
@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       borderColor: 'gray',
       alignSelf: 'center',
+      fontSize: 20,
       width: '87%',
       height: 45,
       backgroundColor: 'white',
@@ -36,6 +37,20 @@ const styles = StyleSheet.create({
       paddingHorizontal: 15,
       marginBottom: 10,
     },
+    modalText: {
+      fontSize: 20,
+      color: "black",
+      marginTop: 0,
+      marginBottom: 50,
+      textAlign: "center",
+  },
+  modalText2: {
+    fontSize: 20,
+    color: "black",
+    marginTop: 0,
+    marginBottom: 100,
+    textAlign: "center",
+},
     buttonContainer: {
       flexDirection: 'row',
       justifyContent: 'center',
@@ -51,11 +66,18 @@ const styles = StyleSheet.create({
   calculatebutton: {
     borderRadius: 20,
     marginBottom: 50,
-    backgroundColor: "#61AFEF",
-    width: "45%",
-    height: 50,
+    backgroundColor: "red",
+    width: "100%",
+    height: 50
 }, 
   
+backbutton: {
+  borderRadius: 20,
+  marginBottom: 50,
+  backgroundColor: "#61AFEF",
+  width: "45%",
+  height: 50,
+},
   barcodeText: {
     fontSize: 18,
     fontWeight: 'bold',
@@ -103,6 +125,7 @@ const styles = StyleSheet.create({
       alignSelf: "flex-end",
       width: '100%',
       marginRight: 0,
+      marginTop: 0,
       marginBottom: 0,
       borderRadius: 0,
       backgroundColor: "black",
