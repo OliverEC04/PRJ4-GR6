@@ -43,8 +43,7 @@ export default function TabFooter() {
 
 		if (firstLoad) {
 			firstLogin();
-		}
-		else{
+		} else {
 			setRenderInitial(false);
 		}
 
@@ -161,7 +160,7 @@ export default function TabFooter() {
 						}}
 					/>
 					<Tab.Screen
-						name="Logout"
+						name='Logout'
 						component={() => (
 							<LogoutPage
 								navigation={navigation}
@@ -171,9 +170,10 @@ export default function TabFooter() {
 							/>
 						)}
 						options={{
-							tabBarLabel: "Logout",
+							tabBarLabel: 'Logout',
 							tabBarIcon: ({ color }) => (
-								<MaterialCommunityIcons name="logout"
+								<MaterialCommunityIcons
+									name='logout'
 									color={color}
 									size={24}
 								/>
@@ -181,7 +181,6 @@ export default function TabFooter() {
 						}}
 					/>
 				</>
-
 			)}
 			{renderInitial && (
 				<Tab.Screen
@@ -231,16 +230,26 @@ export default function TabFooter() {
 						}}
 					/>
 					<Tab.Screen
-						name="SignupPage"
-						component={SignUpPage}
+						name='SignupPage'
+						component={() => (
+							<SignUpPage
+								navigation={navigation}
+								setShowWelcome={setShowWelcome}
+								setRenderFooter={setRenderFooter}
+								setRenderLogin={setRenderLogin}
+							/>
+						)}
 						options={{
-							tabBarLabel: "Sign Up",
+							tabBarLabel: 'Sign Up',
 							tabBarIcon: ({ color }) => (
-								<MaterialCommunityIcons name="account-plus" color={color} size={24} />
+								<MaterialCommunityIcons
+									name='account-plus'
+									color={color}
+									size={24}
+								/>
 							),
 						}}
 					/>
-
 				</>
 			)}
 		</Tab.Navigator>

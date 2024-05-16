@@ -68,6 +68,7 @@ namespace UserAppLogic.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AppUserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ContentType")
@@ -85,8 +86,7 @@ namespace UserAppLogic.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId")
-                        .IsUnique()
-                        .HasFilter("[AppUserId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Images");
                 });
@@ -251,8 +251,11 @@ namespace UserAppLogic.Migrations
                     b.Property<float>("CurrentProtein")
                         .HasColumnType("real");
 
-                    b.Property<double>("CurrentWater")
-                        .HasColumnType("float");
+                    b.Property<int>("CurrentStreak")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CurrentWater")
+                        .HasColumnType("int");
 
                     b.Property<double?>("CurrentWeight")
                         .HasColumnType("float");
@@ -269,8 +272,8 @@ namespace UserAppLogic.Migrations
                     b.Property<float>("DailyProtein")
                         .HasColumnType("real");
 
-                    b.Property<double?>("DailyWater")
-                        .HasColumnType("float");
+                    b.Property<int>("DailyWater")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -291,6 +294,9 @@ namespace UserAppLogic.Migrations
 
                     b.Property<double?>("Height")
                         .HasColumnType("float");
+
+                    b.Property<int>("ImageId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -318,8 +324,11 @@ namespace UserAppLogic.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("TargetWeight")
-                        .HasColumnType("float");
+                    b.Property<bool>("StreakIncremented")
+                        .HasColumnType("bit");
+
+                    b.Property<float?>("TargetWeight")
+                        .HasColumnType("real");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -328,11 +337,17 @@ namespace UserAppLogic.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<double?>("activityLevel")
-                        .HasColumnType("float");
+                    b.Property<int>("activityLevel")
+                        .HasColumnType("int");
 
-                    b.Property<float?>("difficultyLevel")
-                        .HasColumnType("real");
+                    b.Property<DateTime>("currentDailyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("currentResetDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("difficultyLevel")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -360,7 +375,9 @@ namespace UserAppLogic.Migrations
                 {
                     b.HasOne("UserBackend.Data.Models.AppUser", "AppUser")
                         .WithOne("Image")
-                        .HasForeignKey("BarcodeAPI.Data.Models.ImageEntity", "AppUserId");
+                        .HasForeignKey("BarcodeAPI.Data.Models.ImageEntity", "AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AppUser");
                 });
@@ -420,8 +437,7 @@ namespace UserAppLogic.Migrations
                 {
                     b.Navigation("Barcodes");
 
-                    b.Navigation("Image")
-                        .IsRequired();
+                    b.Navigation("Image");
                 });
 #pragma warning restore 612, 618
         }

@@ -6,11 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace UserAppLogic.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:UserAppLogic/Migrations/20240513131224_Images.cs
-    public partial class Images : Migration
-========
-    public partial class InitialCreate : Migration
->>>>>>>> fda7c24dbfb3294d1d00aa03323c2bf4ba70d19a:UserAppLogic/Migrations/20240513131847_InitialCreate.cs
+    public partial class diiiiiiiib : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,9 +34,9 @@ namespace UserAppLogic.Migrations
                     Height = table.Column<double>(type: "float", nullable: true),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CurrentWeight = table.Column<double>(type: "float", nullable: true),
-                    TargetWeight = table.Column<double>(type: "float", nullable: true),
-                    activityLevel = table.Column<double>(type: "float", nullable: true),
-                    difficultyLevel = table.Column<float>(type: "real", nullable: true),
+                    TargetWeight = table.Column<float>(type: "real", nullable: true),
+                    activityLevel = table.Column<int>(type: "int", nullable: false),
+                    difficultyLevel = table.Column<int>(type: "int", nullable: false),
                     CurrentCalories = table.Column<float>(type: "real", nullable: false),
                     DailyCalories = table.Column<float>(type: "real", nullable: false),
                     DailyProtein = table.Column<float>(type: "real", nullable: false),
@@ -50,8 +46,14 @@ namespace UserAppLogic.Migrations
                     DailyFat = table.Column<float>(type: "real", nullable: false),
                     CurrentFat = table.Column<float>(type: "real", nullable: false),
                     Age = table.Column<int>(type: "int", nullable: false),
-                    DailyWater = table.Column<double>(type: "float", nullable: true),
-                    CurrentWater = table.Column<double>(type: "float", nullable: true),
+                    DailyWater = table.Column<int>(type: "int", nullable: false),
+                    CurrentWater = table.Column<int>(type: "int", nullable: false),
+                    FirsTimeOrNot = table.Column<int>(type: "int", nullable: false),
+                    CurrentStreak = table.Column<int>(type: "int", nullable: false),
+                    currentDailyDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StreakIncremented = table.Column<bool>(type: "bit", nullable: false),
+                    currentResetDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ImageId = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -271,7 +273,8 @@ namespace UserAppLogic.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Images_AppUserId",
                 table: "Images",
-                column: "AppUserId");
+                column: "AppUserId",
+                unique: true);
         }
 
         /// <inheritdoc />

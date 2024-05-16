@@ -5,6 +5,7 @@ import { currentUser } from '../../models/User';
 import Server from '../../models/Server';
 import Btn from '../../components/Btn';
 import TextBox from '../../components/TextBox';
+import { startNotification } from '../../models/NotificationService'; // for notification
 // import { Dispatch } from "redux";
 // import { userLoggedIn, userNotLoggedIn } from "../../../App"
 
@@ -43,6 +44,8 @@ export default function LoginPage({
 	const [password, setPassword] = useState('');
 	const [email, setEmail] = useState('');
 
+	const [notificationCleanup, setNotificationCleanup] = useState<() => void>(() => {}); // for notification
+
 	function handleChangePassword(e: string) {
 		setPassword(e);
 	}
@@ -55,6 +58,10 @@ export default function LoginPage({
 		await Server.loginUser(email, password).then(() => {
 			if (currentUser.token) {
 				console.log('Login successful');
+
+				const cleanup = startNotification();
+        setNotificationCleanup(() => cleanup); // for notification
+
 				Server.getUserInfo().then((response) => {
 					setRenderInitial(false);
 					if (currentUser.firsTimeOrNot === 0) {
@@ -86,6 +93,11 @@ export default function LoginPage({
 
 		callSetRenderLogin();
 		// navigate til "LoginPage";
+
+		if (notificationCleanup) { // clean up notification
+			notificationCleanup();
+			console.log('Notification service stopped');
+		  }
 	}
 
 	const debugShowToken = () => {
