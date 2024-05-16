@@ -265,6 +265,11 @@ class Server {
       return null;
     }
   }
+  // see if user is logged in
+  public async UserLoggedIn(): Promise<boolean> {
+    const token = await AsyncStorage.getItem("token");
+    return token !== null;
+  }
 
   public async saveImage(imageUri: string) {
     const photo = {
