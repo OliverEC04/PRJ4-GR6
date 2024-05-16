@@ -299,31 +299,6 @@ class Server {
       }
     }
 
-  	public async loginUser(nameArg: string, passwordArg: string) {
-		try {
-		console.log("logging in with url: ", this.url + "Account/Login");
-		const response = await fetch(this.url + "Account/Login", {
-			method: "POST",
-			headers: {
-			Accept: "*/*",
-			"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-			userName: nameArg,
-			password: passwordArg,
-			}),
-		});
-		if (!response.ok) {
-			throw new Error(`HTTP error! Status: ${response.status}`);
-		}
-		currentUser.token = await response.text();
-		if (currentUser.token === "") {
-			throw new Error("No token received");
-		}
-		} catch (error) {
-		console.error("Error logging in:", error);
-		}
-	}
 }
 
 export default new Server();

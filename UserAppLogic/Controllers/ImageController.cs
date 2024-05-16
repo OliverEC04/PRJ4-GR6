@@ -68,7 +68,8 @@ namespace AppUserBackend.Controllers
                             Data = imageData,
                             ContentType = image.ContentType,
                             Name = image.FileName,
-                            AppUserId = appUser.Id
+                            AppUserId = appUser.Id,
+                            AppUser = appUser
                         };
         
                         // Add the new Image entity in your DbContext
