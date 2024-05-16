@@ -1,4 +1,5 @@
 import { User, currentUser } from "./User";
+import FormData from 'form-data';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class Server {
@@ -180,24 +181,67 @@ class Server {
 
 	public async fetchImage(id: string): Promise<string | null> {
     try {
-      const imageUrl = `${this.url}/Image/${id}`;
-      if (!imageUrl) {
-        console.log("Image URL is null");
+      const imageUrl = `${this.url}Image/${id}`;
+      const response = await fetch(imageUrl, {
+        headers: {
+          Authorization: 'Bearer ' + currentUser.token,
+        }
+      });
+      if (!response.ok) {
+        console.error(`Error fetching image. Status: ${response.status} ${response.statusText}`);
         return null;
       }
-      const response = await fetch(imageUrl);
       const blob = await response.blob();
+      console.log(`Blob size: ${blob.size}`);
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
+        reader.onerror = (error) => {
+          console.error("Error reading blob:", error);
+          reject(error);
+        };
         reader.onloadend = () => resolve(reader.result as string);
         reader.onerror = reject;
         reader.readAsDataURL(blob);
       });
     } catch (error) {
-      console.error("Error fetching image:", error);
+      console.error("Error fetching image:", (error as Error).message);
+      console.error((error as Error).stack);
       return null;
     }
   }
+
+  public async saveImage(imageUri: string) {
+    const photo = {
+      uri: imageUri,
+      type: 'image/jpeg',
+      name: 'photo.jpg',
+    };
+
+    const formData = new FormData();
+    formData.append('image', photo);
+
+    try {
+      const response = await fetch(`${this.url}Image`, {
+        method: 'POST',
+        body: formData as any,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: 'Bearer ' + currentUser.token,
+        },
+      });
+      console.log('Response:', response);
+      console.log('Response status:', response.status);
+      console.log('Response text:', await response.text());
+      if (!response.ok) {
+        throw new Error(`Failed to upload image with status: ${response.status}`);
+      }
+    
+        console.log('Success', 'Image uploaded successfully');
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        console.log('Error', `Failed to upload image`);
+      }
+    }
 
   	public async loginUser(nameArg: string, passwordArg: string) {
 		try {

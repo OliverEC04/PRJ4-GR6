@@ -40,9 +40,9 @@ const Avatar: React.FC<AvatarProps> = ({ imageUrl, size = 150, isEditing = false
                 </TouchableOpacity>
             )}
             {!isEditing && imageComponent(image)}
-            <PopupWindow modalVisible={modalVisible} setModalVisible={setModalVisible} />
+            <PopupWindow modalVisible={modalVisible} setModalVisible={setModalVisible} onImageUpdate={setImage} />        
         </View>
     );
-}
+    }
 
 export default Avatar;

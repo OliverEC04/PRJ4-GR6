@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { Modal, View, Button, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import RoundBtn from './RoundBtn';
 import * as ImagePicker from 'expo-image-picker';
+import Server from '../models/Server';
 
 interface PopupWindowProps {
-  modalVisible: boolean;
-  setModalVisible: (visible: boolean) => void;
-}
+    modalVisible: boolean;
+    setModalVisible: (visible: boolean) => void;
+    onImageUpdate: (image: string) => void;
+  }
 
-const PopupWindow: React.FC<PopupWindowProps> = ({ modalVisible, setModalVisible }) => {
-    const [image, setImage] = useState("");
+const PopupWindow: React.FC<PopupWindowProps> = ({ modalVisible, setModalVisible, onImageUpdate }) => {
 
 
     const uploadImage = async () => {
@@ -34,9 +35,9 @@ const PopupWindow: React.FC<PopupWindowProps> = ({ modalVisible, setModalVisible
 
     const saveImage = async (image: string) => {
         try {
-            // Handle image save here
-            setImage(image);
             setModalVisible(false);
+            onImageUpdate(image);
+            Server.saveImage(image);
         } catch (error) {
             console.log(error);
             throw error;

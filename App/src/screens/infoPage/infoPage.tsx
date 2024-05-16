@@ -30,15 +30,14 @@ export default function InfoPage() {
         try {
           const userData = await Server.getUserInfo();
           currentUser.update(userData);
-          setProfilePicture(userData.profilePicture);
-        setHeight(userData.height || 0);
+          setHeight(userData.height || 0);
           setCurrentWeight(userData.currentWeight || 0);
           setAge(userData.age || 0);
           setGender((userData.gender && userData.gender.toLocaleLowerCase()) || "------");
           setUsername(currentUser.fullName);
           getUserid(userData.id);
-        const temp = await Server.fetchImage(userData.id);
-        setProfilePicture(temp);
+          const temp = await Server.fetchImage(userData.id);
+          setProfilePicture(temp);
       } catch (error) {
           console.error("fetch failed: ", error);
         }
