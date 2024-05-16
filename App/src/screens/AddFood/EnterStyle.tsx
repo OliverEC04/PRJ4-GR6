@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1,
         alignSelf: 'center',
-        width: '85%',
+        width: '88%',
     },
     item: {
         padding: 17,

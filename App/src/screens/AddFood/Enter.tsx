@@ -31,7 +31,7 @@ export default function AddFoodPage() {
     const fetchMeals = async () => {
         try {
             const headers = { 'Authorization': 'Bearer ' + currentUser.token};
-            const response = await fetch('http://rottehjem.duckdns.org:5000/ sapi/Barcode/ListOfBarcodesForUser', { headers });
+            const response = await fetch('http://rottehjem.duckdns.org:5000/api/Barcode/ListOfBarcodesForUser', { headers });
             const data = await response.json();
             setMeals(data);
         } catch (error) {
@@ -207,7 +207,7 @@ export default function AddFoodPage() {
                 <Btn onClick={updateDailyIntake} text='Enter' style={styles.submitButton}/> 
             </View>
             <View style={styles.buttonContainer}>
-                <Btn onClick={handleAddNewFood} text='Add New Food' style={styles.addButton}/>
+                <Btn onClick={handleAddNewFood} text='Add' style={styles.addButton}/>
                 <Btn onClick={handleDeleteNewFood} text='Delete Food' style={styles.deleteButton}/>
             </View>
         </ScrollView>

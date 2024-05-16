@@ -50,12 +50,13 @@ export default function LogoutPage(
     //     return result;
     //   }
 
-    function logoutUser(){
-        Server.logoutUser();
+    useEffect(() => {
+        Server.logoutUser()
         navigation.navigate("Login");
         setRenderFooter(false);
         setRenderLogin(true);
-    }
+        
+     })
     
     const debugShowToken = () => {
       console.log("[LogoutPage]token: ");

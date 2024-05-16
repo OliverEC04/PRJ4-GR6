@@ -120,11 +120,7 @@ export default function LoginPage({
 					text='Log In'
 					onClick={handleLogin}
 				/>
-				<Btn
-					style={textStyles.button}
-					text='Show token'
-					onClick={debugShowToken}
-				/>
+				
 				<Btn
 					style={textStyles.button}
 					text='Log out'

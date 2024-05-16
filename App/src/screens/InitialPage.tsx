@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import Server from "../models/Server";
 import { currentUser } from "../models/User";
+import Screen  from "../components/TabFooter";
 import Btn from "../components/Btn";
 import { textStyles } from "../styles/textStyles";
 // import styles from "../styles/AddTextFieldStyle";
@@ -60,10 +61,11 @@ export default function InitialPage(
         const loggedIn = await checkLoggedIn().then(result => {
           console.log("[InitialPage]result: " + result + " new token: " + currentUser.token);
           if (result){
-            navigation.navigate("Home");
-            setRenderFooter(true);
-            setRenderInitial(false);
-            setRenderLogin(false);
+              navigation.navigate("Home");
+              setRenderFooter(true)
+              setRenderInitial(false);
+              setRenderLogin(false);
+             
           }
           
           else{
@@ -102,10 +104,7 @@ export default function InitialPage(
   
     return (
         <View style={[styles.container, styles.horizontal]}>
-            {/* <ActivityIndicator />
-            <ActivityIndicator size="large" />
-            <ActivityIndicator size="small" color="#0000ff" /> */}
-            {/* <Text>Loading...</Text> */}
+         
             <ActivityIndicator size="large" color="blue" />
         </View>);
 
