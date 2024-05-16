@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 class Server {
   private url: string;
 
-	constructor(url: string = "https://lab-gorgeous-blowfish.ngrok-free.app/") {
+	constructor(url: string = "http://rottehjem.duckdns.org:5000/") {
 		this.url = url;
 	}
 	// api/me
