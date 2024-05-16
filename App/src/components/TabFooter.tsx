@@ -14,6 +14,7 @@ import { TouchableOpacity } from 'react-native';
 import { currentUser } from '../models/User';
 import InitialPage from '../screens/InitialPage';
 import Welcome from '../screens/Welcome';
+import LogoutPage from '../screens/LogoutPage';
 
 type TabFooterProps = {
 	// setRenderFooter: any,
@@ -30,29 +31,38 @@ export default function TabFooter() {
 	const [renderFooter, setRenderFooter] = useState(false); // true når brugeren er logget ind, false når brugeren ikke er logget ind
 	const [renderLogin, setRenderLogin] = useState(true); // true når brugeren ikke er logget ind, false når brugeren er logget ind
 	const [showWelcome, setShowWelcome] = useState(false);
+	const [renderInitial, setRenderInitial] = useState(true);
 	const navigation = useNavigation();
+	var firstLoad = true;
 
 	useEffect(() => {
 		// console.log("STATE RENDER SETTER: " + setRenderFooter + " TYPE " + setRenderFooter.type);
 		// console.log("STATE RENDER LOGIN: " + setRenderLogin + " TYPY " + setRenderLogin.type);
-		console.log('STATE for RENDERFOOTER: ' + renderFooter);
-		console.log('STATE for RENDERLOGIN: ' + renderLogin);
+		console.log('[TabFooter]STATE for RENDERFOOTER: ' + renderFooter);
+		console.log('[TabFooter]STATE for RENDERLOGIN: ' + renderLogin);
+
+		if (firstLoad) {
+			firstLogin();
+		}
+		else{
+			setRenderInitial(false);
+		}
 
 		const fetchToken = async () => {
 			const result = await Server.checkUserToken().then(result => {
 				currentUser.token = result;
 				setToken(result);
-				console.log('Awaited token: ' + token);
+				console.log('[TabFooter]Awaited token : ' + token);
 				return result;
 			});
 			// currentUser.token = result;
 			// setToken(result); // returner en token eller ""
-			console.log('result: ' + result);
-			console.log('token : ' + token);
+			console.log('[TabFooter]result: ' + result);
+			console.log('[TabFooter]token : ' + token);
 		};
 
 		fetchToken();
-	}, [renderFooter, renderLogin]);
+	}, []);
 
 	async function checkLoggedIn() {
 		const result = await Server.checkUserToken();
@@ -60,6 +70,13 @@ export default function TabFooter() {
 			// basically, en "if (response.ok)"
 			return true;
 		return false;
+	}
+
+	function firstLogin() {
+		if (firstLoad) {
+			setRenderInitial(true);
+			firstLoad = false;
+		}
 	}
 
 	return (
@@ -144,19 +161,19 @@ export default function TabFooter() {
 						}}
 					/>
 					<Tab.Screen
-						name='InitialPage'
+						name="Logout"
 						component={() => (
-							<InitialPage
+							<LogoutPage
+								navigation={navigation}
 								setRenderFooter={setRenderFooter}
 								setRenderLogin={setRenderLogin}
-								navigation={navigation}
+								setRenderInitial={setRenderInitial}
 							/>
 						)}
 						options={{
-							tabBarLabel: 'Logout',
+							tabBarLabel: "Logout",
 							tabBarIcon: ({ color }) => (
-								<MaterialCommunityIcons
-									name='login'
+								<MaterialCommunityIcons name="logout"
 									color={color}
 									size={24}
 								/>
@@ -164,6 +181,30 @@ export default function TabFooter() {
 						}}
 					/>
 				</>
+
+			)}
+			{renderInitial && (
+				<Tab.Screen
+					name='InitialPage'
+					component={() => (
+						<InitialPage
+							setRenderFooter={setRenderFooter}
+							setRenderLogin={setRenderLogin}
+							setRenderInitial={setRenderInitial}
+							navigation={navigation}
+						/>
+					)}
+					options={{
+						tabBarLabel: 'Initial',
+						tabBarIcon: ({ color }) => (
+							<MaterialCommunityIcons
+								name='login'
+								color={color}
+								size={24}
+							/>
+						),
+					}}
+				/>
 			)}
 			{renderLogin && (
 				<>
@@ -174,6 +215,7 @@ export default function TabFooter() {
 								setRenderFooter={setRenderFooter}
 								setRenderLogin={setRenderLogin}
 								setShowWelcome={setShowWelcome}
+								setRenderInitial={setRenderInitial}
 								navigation={navigation}
 							/>
 						)}
@@ -188,16 +230,16 @@ export default function TabFooter() {
 							),
 						}}
 					/>
-          <Tab.Screen
-          name="SignupPage"
-          component={SignUpPage}
-          options={{
-            tabBarLabel: "Sign Up",
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="account-plus" color={color} size={24} />
-            ),
-          }}
-        />
+					<Tab.Screen
+						name="SignupPage"
+						component={SignUpPage}
+						options={{
+							tabBarLabel: "Sign Up",
+							tabBarIcon: ({ color }) => (
+								<MaterialCommunityIcons name="account-plus" color={color} size={24} />
+							),
+						}}
+					/>
 
 				</>
 			)}

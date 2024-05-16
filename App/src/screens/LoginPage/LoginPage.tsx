@@ -14,6 +14,7 @@ type LoginPageProps = {
 	navigation: any;
 	setRenderFooter: any;
 	setRenderLogin: any;
+	setRenderInitial: any;
 	setShowWelcome: any;
 };
 
@@ -22,6 +23,7 @@ export default function LoginPage({
 	navigation,
 	setRenderFooter,
 	setRenderLogin,
+	setRenderInitial,
 	setShowWelcome,
 }: LoginPageProps) {
 	function callSetRenderFooter() {
@@ -53,22 +55,17 @@ export default function LoginPage({
 		await Server.loginUser(email, password).then(() => {
 			if (currentUser.token) {
 				console.log('Login successful');
-
-				async (data: any) => {	
-
-					Server.getUserInfo();
-
-				};
-
-				if (currentUser.firsTimeOrNot === 0) {
-					setShowWelcome(true);
-					navigation.navigate('Welcome');
-				} else navigation.navigate('Home');
-
-				callSetRenderFooter();
-				// ChangePage();
-				// route
-			} else {
+				Server.getUserInfo().then((response) => {
+					setRenderInitial(false);
+					if (currentUser.firsTimeOrNot === 0) {
+						setShowWelcome(true);
+						navigation.navigate('Welcome');
+					} else navigation.navigate('Home');
+	
+					callSetRenderFooter();
+				});
+			} 
+			else {
 				console.log('Login failed');
 				alert('Login failed');
 				// navigation.navigate('InitialPage');
@@ -92,7 +89,7 @@ export default function LoginPage({
 	}
 
 	const debugShowToken = () => {
-		console.log('token: ');
+		console.log('[LoginPage]stored token debug: ');
 		console.log(currentUser.token);
 	};
 
