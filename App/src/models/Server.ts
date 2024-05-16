@@ -191,7 +191,7 @@ class Server {
         fullName: user.fullName,
         height: user.height,
         gender: user.gender,
-        currentWeight: user.height,
+        currentWeight: user.currentWeight,
         targetWeight: user.targetWeight,
         activityLevel: user.activityLevel,
         difficultyLevel: user.difficultyLevel,

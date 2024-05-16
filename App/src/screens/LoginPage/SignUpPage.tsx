@@ -61,8 +61,9 @@ export default function SignUpPage({
 			Server.loginUser(email, password).then(() => {
 				setShowWelcome(true);
 				navigation.navigate('Welcome');
-				setRenderFooter(true);
+				//setRenderFooter(true);
 				setRenderLogin(false);
+				
 			});
 		});
 	}

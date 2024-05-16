@@ -19,9 +19,12 @@ import { useFocusEffect } from "@react-navigation/native";
 
 type welcomeProps = {
   setShowWelcome: any;
+  navigation: any;
+  setRenderFooter: any;
+  setRenderLogin: any;
 };
 
-export default function Welcome({ setShowWelcome }: welcomeProps) {
+export default function Welcome({ setShowWelcome, navigation, setRenderFooter, setRenderLogin }: welcomeProps) {
   const [showModal, setShowModal] = useState(false);
   const [weight, setWeight] = useState(null);
   const [height, setHeight] = useState(null);
@@ -132,8 +135,10 @@ export default function Welcome({ setShowWelcome }: welcomeProps) {
       hydration
     );
 
-    setShowModal(false);
-    setShowWelcome(false);
+	setShowWelcome(false);
+	navigation.navigate('Home');
+	setRenderFooter(true);
+	setRenderLogin(false);
   };
 
   return (
