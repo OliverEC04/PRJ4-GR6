@@ -128,15 +128,9 @@ export default function LoginPage({
 			/>
 			<View style={textStyles.buttonContainer}>
 				<Btn
-					style={textStyles.button}
+					style={textStyles.button2}
 					text='Log In'
 					onClick={handleLogin}
-				/>
-				
-				<Btn
-					style={textStyles.button}
-					text='Log out'
-					onClick={onHandleLogout}
 				/>
 			</View>
 		</View>

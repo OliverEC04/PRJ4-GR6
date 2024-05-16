@@ -16,6 +16,14 @@ const textStyles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
   },
+  button2: {
+    fontSize: 20,
+    color: "black",
+    marginTop: 0,
+    marginBottom: 100,
+    textAlign: "center",
+    width: "100%",
+  },
   logo: {
     width: "100%",
     height: 200,
