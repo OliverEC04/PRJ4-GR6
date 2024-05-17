@@ -55,11 +55,11 @@ namespace UserBackend.Data.Models
         [Range(0, int.MaxValue, ErrorMessage = "Age must be a positive number.")]
         public int Age { get; set; }
 
-        [Range(0, int.MaxValue, ErrorMessage = "Daily water must be a positive number.")]
-        public int DailyWater { get; set; }
+        [Range(0, float.MaxValue, ErrorMessage = "Daily water must be a positive number.")]
+        public float DailyWater { get; set; }
 
-        [Range(0, int.MaxValue, ErrorMessage = "Current water must be a positive number.")]
-        public int CurrentWater {
+        [Range(0, float.MaxValue, ErrorMessage = "Current water must be a positive number.")]
+        public float CurrentWater {
             get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage = "Current FirstTimeOrNot be a positive number.")]
