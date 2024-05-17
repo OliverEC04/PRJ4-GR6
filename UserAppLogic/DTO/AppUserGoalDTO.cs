@@ -13,7 +13,7 @@ namespace UserBackend.Data.DTO
         [Range(200, 800, ErrorMessage = "Choose a difficulty level between Easy, Medium, or Hard.")]
         public float? difficultyLevel { get; set; }
 
-        [Range(0, double.MaxValue, ErrorMessage = "Daily water must be a positive number.")]
+        [Range(0, float.MaxValue, ErrorMessage = "Daily water must be a positive number.")]
         public float? DailyWater { get; set; }
     }
 }
