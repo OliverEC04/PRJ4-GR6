@@ -12,7 +12,6 @@ export default function GoalPage() {
   const [hydration, setHydration] = useState("0");
   const [difficulty, setDiffuclty] = useState("500");
   const [activity, setActivity] = useState("120");
-  const [displayGoalKey, setDisplayGoalKey] = useState(0);
 
   const Difficulty = [
     { label: "Easy", value: "250" },
@@ -47,6 +46,41 @@ export default function GoalPage() {
     { label: "3 Litre", value: "3" },
   ];
 
+  const displayGoal = () => {
+    const newTargetWeight = parseFloat(targetWeight);
+    if (currentUser.currentWeight < newTargetWeight) {
+      return (
+        <>
+          <Image
+            source={require("../../../assets/Bulking.png")}
+            style={style.logo}
+          />
+          <Text style={style.goalType}>Goal: Gaining Weight</Text>
+        </>
+      );
+    } else if (currentUser.currentWeight === newTargetWeight) {
+      return (
+        <>
+          <Image
+            source={require("../../../assets/logo.png")}
+            style={style.logo}
+          />
+          <Text style={style.goalType}>Goal: Maintaining Weight</Text>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Image
+            source={require("../../../assets/Cutting.png")}
+            style={style.logo}
+          />
+          <Text style={style.goalType}>Goal: Losing Weight</Text>
+        </>
+      );
+    }
+  };
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -79,7 +113,7 @@ export default function GoalPage() {
     };
 
     fetchUser();
-  }, [displayGoalKey]);
+  }, []);
 
   const handleSavePress = async () => {
     const newdifficulty = parseInt(difficulty);
@@ -98,7 +132,6 @@ export default function GoalPage() {
       );
       console.log(response);
       if (response.ok) {
-        setDisplayGoalKey(displayGoalKey + 1);
         Alert.alert("Success", "Your Goals have been updated.");
       } else {
         Alert.alert("Error", "Failed to update your goals. Please try again.");
@@ -107,40 +140,6 @@ export default function GoalPage() {
       Alert.alert(
         "Error",
         "Failed to update your goals. Please check your network connection and try again."
-      );
-    }
-  };
-
-  const displayGoal = () => {
-    if (currentUser.currentWeight < currentUser.targetWeight) {
-      return (
-        <>
-          <Image
-            source={require("../../../assets/Bulking.png")}
-            style={style.logo}
-          />
-          <Text style={style.goalType}>Goal: Gaining Weight</Text>
-        </>
-      );
-    } else if (currentUser.currentWeight === currentUser.targetWeight) {
-      return (
-        <>
-          <Image
-            source={require("../../../assets/logo.png")}
-            style={style.logo}
-          />
-          <Text style={style.goalType}>Goal: Maintaining Weight</Text>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <Image
-            source={require("../../../assets/Cutting.png")}
-            style={style.logo}
-          />
-          <Text style={style.goalType}>Goal: Losing Weight</Text>
-        </>
       );
     }
   };
