@@ -15,7 +15,7 @@ using UserBackend.Data.Models;
 
 namespace UnitTestingWebApi
 {
-    public class Tests
+    public class BarcodeAPITest
     {
         private MyDbContext _context;
         private Mock<UserManager<AppUser>> _mockUserManager;
