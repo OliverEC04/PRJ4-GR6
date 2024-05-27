@@ -11,10 +11,10 @@ import {
 } from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import { currentUser } from "../../models/User";
+import { useIsFocused } from "@react-navigation/native";
 import AddTextField from "../../components/AddTextField";
 import Btn from "../../components/Btn";
 import styles from "./ScanStyle";
-import { useIsFocused } from "@react-navigation/native";
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -32,7 +32,7 @@ export default function App() {
   const [carbs, setCarbs] = useState("");
   const [fat, setFat] = useState("");
   const [isInFoodInfoScreen, setIsInFoodInfoScreen] = useState(true);
-  const IsFocused = useIsFocused();
+  const isFocused = useIsFocused();
 
   const handleBackButtonPress = () => {
     setIsInFoodInfoScreen(true);
@@ -163,7 +163,7 @@ export default function App() {
         }
       }
 
-      if (result && IsFocused && result.product) {
+      if (result && result.product) {
         const { brand, nutrition_facts } = result.product;
         const nutrition = parseNutritionFacts(nutrition_facts);
         setFoodInfo({
@@ -254,7 +254,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {!scanned && hasPermission && (
+      {!scanned && isFocused && hasPermission && (
         <Camera onBarCodeScanned={handleBarCodeScanned} style={styles.camera} />
       )}
       {loading ? (
