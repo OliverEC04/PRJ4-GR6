@@ -14,6 +14,7 @@ import { currentUser } from "../../models/User";
 import AddTextField from "../../components/AddTextField";
 import Btn from "../../components/Btn";
 import styles from "./ScanStyle";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -31,6 +32,7 @@ export default function App() {
   const [carbs, setCarbs] = useState("");
   const [fat, setFat] = useState("");
   const [isInFoodInfoScreen, setIsInFoodInfoScreen] = useState(true);
+  const IsFocused = useIsFocused();
 
   const handleBackButtonPress = () => {
     setIsInFoodInfoScreen(true);
@@ -161,7 +163,7 @@ export default function App() {
         }
       }
 
-      if (result && result.product) {
+      if (result && IsFocused && result.product) {
         const { brand, nutrition_facts } = result.product;
         const nutrition = parseNutritionFacts(nutrition_facts);
         setFoodInfo({
