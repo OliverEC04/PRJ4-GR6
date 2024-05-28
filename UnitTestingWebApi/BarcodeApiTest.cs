@@ -32,7 +32,7 @@ namespace UnitTestingWebApi
 
             _context = new MyDbContext(options);
 
-            // Seed data if necessary
+            // Make sure it's a new database
             _context.Database.EnsureDeleted();
             _context.Database.EnsureCreated();
 
