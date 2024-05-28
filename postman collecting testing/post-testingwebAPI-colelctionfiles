@@ -1,0 +1,306 @@
+{
+	"info": {
+		"_postman_id": "3e92c9fd-785f-4647-9bdd-0724b77d5800",
+		"name": "Testing web api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "9245038"
+	},
+	"item": [
+		{
+			"name": "Login as User",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.sendRequest({\r",
+							"    url: 'http://rottehjem.duckdns.org:5000/Account/Login',\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'raw',\r",
+							"        raw: JSON.stringify({\r",
+							"            userName: \"hudayfa@hotmail.com\",\r",
+							"            password: \"Amran1a1!\"\r",
+							"        })\r",
+							"    }\r",
+							"}, function (err, res) {\r",
+							"    pm.test('Login successful', function () {\r",
+							"        pm.expect(res).to.have.status(200);\r",
+							"\r",
+							"        // Assuming the token is in the response body as a plain text JWT\r",
+							"        var authToken = res.text(); // Use res.text() to get the response as a raw string\r",
+							"\r",
+							"        pm.globals.set('authToken', authToken);\r",
+							"    });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": ""
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"url": "http://rottehjem.duckdns.org:5000/Account/Login"
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Info",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{authToken}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://rottehjem.duckdns.org:5000/AppUser/me"
+			},
+			"response": []
+		},
+		{
+			"name": "Fill out welcome form",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{authToken}}"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://rottehjem.duckdns.org:5000/AppUser/FillOutForm?Gender=12&Height=12&TargetWeight=12&Weight=12&avtivityLevel=12&difficultyLevel=12&DailyWater=12&age=12",
+					"protocol": "http",
+					"host": [
+						"rottehjem",
+						"duckdns",
+						"org"
+					],
+					"port": "5000",
+					"path": [
+						"AppUser",
+						"FillOutForm"
+					],
+					"query": [
+						{
+							"key": "Gender",
+							"value": "12"
+						},
+						{
+							"key": "Height",
+							"value": "12"
+						},
+						{
+							"key": "TargetWeight",
+							"value": "12"
+						},
+						{
+							"key": "Weight",
+							"value": "12"
+						},
+						{
+							"key": "avtivityLevel",
+							"value": "12"
+						},
+						{
+							"key": "difficultyLevel",
+							"value": "12"
+						},
+						{
+							"key": "DailyWater",
+							"value": "12"
+						},
+						{
+							"key": "age",
+							"value": "12"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add a barcode to database",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{authToken}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://rottehjem.duckdns.org:5000/api/Barcode/AddMealWithBarcode?barcodeId=123433321213&mealName=cakes&calories=32&protein=323&carbs=322&fat=32",
+					"protocol": "http",
+					"host": [
+						"rottehjem",
+						"duckdns",
+						"org"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"Barcode",
+						"AddMealWithBarcode"
+					],
+					"query": [
+						{
+							"key": "barcodeId",
+							"value": "123433321213"
+						},
+						{
+							"key": "mealName",
+							"value": "cakes"
+						},
+						{
+							"key": "calories",
+							"value": "32"
+						},
+						{
+							"key": "protein",
+							"value": "323"
+						},
+						{
+							"key": "carbs",
+							"value": "322"
+						},
+						{
+							"key": "fat",
+							"value": "32"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Barcode from Database",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{authToken}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://rottehjem.duckdns.org:5000/api/Barcode/GetBarcodeInfo/123433321213"
+			},
+			"response": []
+		},
+		{
+			"name": "Non-user cant get Barcode",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401, Unauthorized\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://rottehjem.duckdns.org:5000/api/Barcode/GetBarcodeInfo/123433321213"
+			},
+			"response": []
+		}
+	]
+}
