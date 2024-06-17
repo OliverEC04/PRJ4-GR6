@@ -8,7 +8,7 @@
         }
       ]
     ],
-    "name": "GymRat",
+    "name": "GymRat Inc",
     "slug": "App",
     "version": "1.0.69",
     "orientation": "portrait",
@@ -16,7 +16,7 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/logo.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#000000"
     },
     "assetBundlePatterns": ["**/*"],

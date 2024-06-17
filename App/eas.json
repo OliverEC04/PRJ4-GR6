@@ -16,7 +16,11 @@
         "EXPO_USE_NPM": "true"
       }
     },
-    "production": {}
+    "production": {
+      "env": {
+        "EXPO_USE_NPM": "true"
+      }
+    }
   },
   "submit": {
     "production": {}
