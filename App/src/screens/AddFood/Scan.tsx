@@ -2,30 +2,28 @@ import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
-  StyleSheet,
   Button,
-  Modal,
-  ScrollView,
   Alert,
   ActivityIndicator,
+  Modal,
 } from "react-native";
-import { Camera, CameraType } from "expo-camera";
+import { CameraView, useCameraPermissions } from "expo-camera";
 import { currentUser } from "../../models/User";
 import { useIsFocused } from "@react-navigation/native";
 import AddTextField from "../../components/AddTextField";
 import Btn from "../../components/Btn";
 import styles from "./ScanStyle";
 
-export default function App() {
-  const [hasPermission, setHasPermission] = useState(null);
+const App: React.FC = () => {
   const [scanned, setScanned] = useState(false);
-  const [foodInfo, setFoodInfo] = useState(null);
+  const [permission, requestPermission] = useCameraPermissions();
+  const [foodInfo, setFoodInfo] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [brandName, setBrandName] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [scannedBarcode, setScannedBarcode] = useState("");
   const [consumedGrams, setConsumedGrams] = useState("");
-  const [intakeInfo, setIntakeInfo] = useState(null);
+  const [intakeInfo, setIntakeInfo] = useState<any>(null);
   const [foodName, setFoodName] = useState("");
   const [calories, setCalories] = useState("");
   const [protein, setProtein] = useState("");
@@ -38,89 +36,41 @@ export default function App() {
     setIsInFoodInfoScreen(true);
     setIntakeInfo(null);
   };
-  const askForCameraPermission = async () => {
-    const { status } = await Camera.requestCameraPermissionsAsync();
-    setHasPermission(status === "granted");
+
+  if (!permission) {
+    return (
+      <View style={styles.container}>
+        <Text style={{ margin: 10 }}>No access to camera</Text>
+        <Button title={"Allow Camera"} onPress={() => requestPermission} />
+      </View>
+    );
+  }
+
+  if (!permission.granted) {
+    // Camera permissions are not granted yet.
+    return (
+      <View style={styles.container}>
+        <Text style={{ textAlign: "center" }}>
+          We need your permission to show the camera
+        </Text>
+        <Button onPress={requestPermission} title="grant permission" />
+      </View>
+    );
+  }
+
+  const handleBarCodeScanned = ({
+    type,
+    data,
+  }: {
+    type: string;
+    data: string;
+  }) => {
+    setScanned(true);
+    fetchFoodInfo(data);
+    setScannedBarcode(data);
   };
 
-  const updateDailyIntake = async () => {
-    try {
-      const url = `http://rottehjem.duckdns.org:5000/AppUser/updateDailyIntake?calories=${intakeInfo.calories.toFixed(
-        2
-      )}&protein=${intakeInfo.protein.toFixed(
-        2
-      )}&carbs=${intakeInfo.carbs.toFixed(2)}&fat=${intakeInfo.fat.toFixed(
-        2
-      )}&water=0`;
-      const response = await fetch(url, {
-        method: "PUT",
-        headers: {
-          Authorization: "Bearer " + currentUser.token,
-        },
-      });
-
-      if (response.ok) {
-        Alert.alert("Success", "Daily intake updated successfully!");
-        resetScanner();
-      } else {
-        Alert.alert(
-          "Error",
-          "Failed to update daily intake. Please try again later."
-        );
-        resetScanner();
-      }
-    } catch (error) {
-      Alert.alert(
-        "Error",
-        "Failed to update daily intake. Please check your network connection and try again."
-      );
-      resetScanner();
-    }
-  };
-
-  const resetScanner = () => {
-    setScanned(false);
-    setScannedBarcode("");
-    setFoodInfo(null);
-    setIntakeInfo(null);
-  };
-
-  useEffect(() => {
-    askForCameraPermission();
-  }, []);
-
-  const parseNutritionFacts = (factsString) => {
-    const nutrition = {};
-    const regex = /(\d+\.?\d*)\s*g/; // Regex to find values followed by 'g'
-
-    factsString.split(", ").forEach((fact) => {
-      if (fact.includes("Calories") || fact.includes("Energy")) {
-        const kcalValue = fact.match(/(\d+)\s*kcal/);
-        if (kcalValue) {
-          nutrition["calories"] = parseInt(kcalValue[1], 10);
-        }
-      } else if (fact.includes("Protein")) {
-        const proteinValue = fact.match(regex);
-        if (proteinValue) {
-          nutrition["protein"] = parseFloat(proteinValue[1]);
-        }
-      } else if (fact.includes("Carbohydrates")) {
-        const carbsValue = fact.match(regex);
-        if (carbsValue) {
-          nutrition["carbs"] = parseFloat(carbsValue[1]);
-        }
-      } else if (fact.includes("Fat") && !fact.includes("Saturated Fat")) {
-        const fatValue = fact.match(regex);
-        if (fatValue) {
-          nutrition["fat"] = parseFloat(fatValue[1]);
-        }
-      }
-    });
-
-    return nutrition;
-  };
-
-  const fetchFoodInfo = async (barcode) => {
+  const fetchFoodInfo = async (barcode: string) => {
     setLoading(true);
     const options = {
       method: "GET",
@@ -182,22 +132,35 @@ export default function App() {
     }
   };
 
-  const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    fetchFoodInfo(data);
-    setScannedBarcode(data);
-  };
+  const parseNutritionFacts = (factsString: string) => {
+    const nutrition = {};
+    const regex = /(\d+\.?\d*)\s*g/; // Regex to find values followed by 'g'
 
-  const calculateIntake = () => {
-    if (foodInfo && consumedGrams) {
-      const gramsFactor = parseFloat(consumedGrams) / 100;
-      setIntakeInfo({
-        calories: foodInfo.calories * gramsFactor,
-        protein: foodInfo.protein * gramsFactor,
-        carbs: foodInfo.carbs * gramsFactor,
-        fat: foodInfo.fat * gramsFactor,
-      });
-    }
+    factsString.split(", ").forEach((fact) => {
+      if (fact.includes("Calories") || fact.includes("Energy")) {
+        const kcalValue = fact.match(/(\d+)\s*kcal/);
+        if (kcalValue) {
+          nutrition["calories"] = parseInt(kcalValue[1], 10);
+        }
+      } else if (fact.includes("Protein")) {
+        const proteinValue = fact.match(regex);
+        if (proteinValue) {
+          nutrition["protein"] = parseFloat(proteinValue[1]);
+        }
+      } else if (fact.includes("Carbohydrates")) {
+        const carbsValue = fact.match(regex);
+        if (carbsValue) {
+          nutrition["carbs"] = parseFloat(carbsValue[1]);
+        }
+      } else if (fact.includes("Fat") && !fact.includes("Saturated Fat")) {
+        const fatValue = fact.match(regex);
+        if (fatValue) {
+          nutrition["fat"] = parseFloat(fatValue[1]);
+        }
+      }
+    });
+
+    return nutrition;
   };
 
   const handleAddNewFood = async () => {
@@ -228,34 +191,77 @@ export default function App() {
     }
   };
 
-  const handleBackToFoodInfo = () => {
+  const calculateIntake = (foodInfo: any, consumedGrams: string) => {
+    if (foodInfo && consumedGrams) {
+      const gramsFactor = parseFloat(consumedGrams) / 100;
+      setIntakeInfo({
+        calories: foodInfo.calories * gramsFactor,
+        protein: foodInfo.protein * gramsFactor,
+        carbs: foodInfo.carbs * gramsFactor,
+        fat: foodInfo.fat * gramsFactor,
+      });
+    }
+  };
+
+  const updateDailyIntake = async () => {
+    try {
+      const url = `http://rottehjem.duckdns.org:5000/AppUser/updateDailyIntake?calories=${intakeInfo.calories.toFixed(
+        2
+      )}&protein=${intakeInfo.protein.toFixed(
+        2
+      )}&carbs=${intakeInfo.carbs.toFixed(2)}&fat=${intakeInfo.fat.toFixed(
+        2
+      )}&water=0`;
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + currentUser.token,
+        },
+      });
+
+      if (response.ok) {
+        Alert.alert("Success", "Daily intake updated successfully!");
+        resetScanner();
+      } else {
+        Alert.alert(
+          "Error",
+          "Failed to update daily intake. Please try again later."
+        );
+        resetScanner();
+      }
+    } catch (error) {
+      Alert.alert(
+        "Error",
+        "Failed to update daily intake. Please check your network connection and try again."
+      );
+      resetScanner();
+    }
+  };
+
+  const resetScanner = () => {
+    setScanned(false);
+    setScannedBarcode("");
+    setFoodInfo(null);
     setIntakeInfo(null);
   };
 
-  if (hasPermission === null) {
-    return (
-      <View style={styles.container}>
-        <Text>Requesting for camera permission</Text>
-      </View>
-    );
-  }
-
-  if (hasPermission === false) {
-    return (
-      <View style={styles.container}>
-        <Text style={{ margin: 10 }}>No access to camera</Text>
-        <Button
-          title={"Allow Camera"}
-          onPress={() => askForCameraPermission()}
-        />
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
-      {!scanned && isFocused && hasPermission && (
-        <Camera onBarCodeScanned={handleBarCodeScanned} style={styles.camera} />
+      {!scanned && isFocused && permission && (
+        <CameraView
+          onBarcodeScanned={handleBarCodeScanned}
+          barcodeScannerSettings={{
+            barcodeTypes: [
+              "ean13",
+              "code39",
+              "code128",
+              "upc_a",
+              "upc_e",
+              "qr",
+            ],
+          }}
+          style={styles.camera}
+        />
       )}
       {loading ? (
         <View style={[styles.container2, styles.horizontal]}>
@@ -284,9 +290,9 @@ export default function App() {
               />
               <View style={styles.buttonContainer}>
                 <Btn
-                  onClick={calculateIntake}
+                  onClick={() => calculateIntake(foodInfo, consumedGrams)}
                   text="Calculate"
-                  style={styles.calculatebutton}
+                  style={styles.calculateButton}
                 />
               </View>
             </View>
@@ -312,12 +318,12 @@ export default function App() {
                 <Btn
                   onClick={updateDailyIntake}
                   text="Enter"
-                  style={styles.EnterButton}
+                  style={styles.enterButton}
                 />
                 <Btn
                   onClick={handleBackButtonPress}
-                  text="back?"
-                  style={styles.backbutton}
+                  text="Back"
+                  style={styles.backButton}
                 />
               </View>
             </View>
@@ -327,7 +333,6 @@ export default function App() {
             text="Scan Again?"
             style={styles.buttons}
           />
-          {/* Modal */}
           <Modal
             animationType="slide"
             transparent={true}
@@ -398,4 +403,6 @@ export default function App() {
       )}
     </View>
   );
-}
+};
+
+export default App;
