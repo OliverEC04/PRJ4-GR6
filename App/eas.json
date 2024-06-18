@@ -1,0 +1,28 @@
+{
+  "cli": {
+    "version": ">= 9.1.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "EXPO_USE_NPM": "true"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "env": {
+        "EXPO_USE_NPM": "true"
+      }
+    },
+    "production": {
+      "env": {
+        "EXPO_USE_NPM": "true"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
